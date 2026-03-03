@@ -1,0 +1,36 @@
+.home-heading {
+	font-family:
+		Just Another Hand,
+		cursive;
+	font-size: 4.5rem;
+	font-weight: bold;
+	color: #fefae0;
+	margin-bottom: 1rem;
+}
+
+.home-subheading {
+	margin-top: 5vh;
+	color: #fefae0;
+}
+
+.home-text {
+	font-size: 1.5rem;
+	color: #fefae0;
+	margin-top: 1rem;
+	margin-bottom: 1rem;
+	max-width: 600px;
+}
+
+.home-button {
+	font-size: 16px;
+	color: #fefae0;
+	border-radius: 10px;
+	background-color: #472c1b;
+}
+
+.title_action {
+	font-size: 1.5rem;
+    color: #fefae0;
+    margin-bottom: 1rem;
+    font-weight: bold;
+}

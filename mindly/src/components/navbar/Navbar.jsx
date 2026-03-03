@@ -8,13 +8,15 @@ function Navbar() {
 	return (
 		<Box
 			px={2}
-			py={8}
+			py={10}
 			backgroundImage={`url(${navbarBg})`}
 			backgroundSize="cover"
 			backgroundPosition="center"
 		>
-			<Flex justify="space-between" align="center" maxW="1400px" mx="auto">
-				<Box as="img" src={logoImg} alt="Mindly" h="50px" />
+			<Flex justify="space-between" align="center" maxW="90vw" mx="auto">
+				<Box as={Link} to="/">
+					<Box as="img" src={logoImg} alt="Mindly" h="40px" />
+				</Box>
 
 				<Flex gap={4} align="center">
 					<Button className="nav-button" as={Link} to="/">
@@ -27,7 +29,7 @@ function Navbar() {
 						Forum
 					</Button>
 				</Flex>
-                
+
 				<Flex gap={3}>
 					<Button className="admin-btn" as={Link} to="/admin">
 						Admin

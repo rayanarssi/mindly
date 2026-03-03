@@ -1,12 +1,7 @@
 .nav-button {
 	font-size: 16px;
 	color: #fefae0;
-	background-color: #472c1b;
-}
-
-.nav-button:hover {
-	text-decoration: underline;
-	transition: text-decoration 0.3s ease;
+	background-color: transparent;
 }
 
 .admin-btn {
