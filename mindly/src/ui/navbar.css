@@ -1,0 +1,25 @@
+.nav-button {
+	font-size: 16px;
+	color: #fefae0;
+	background-color: #472c1b;
+}
+
+.nav-button:hover {
+	text-decoration: underline;
+	transition: text-decoration 0.3s ease;
+}
+
+.admin-btn {
+	font-size: 16px;
+	color: #fefae0;
+	border-radius: 10px;
+	border: 2px solid #fefae0;
+	background-color: #472c1b;
+}
+
+.login-btn {
+	font-size: 16px;
+	color: #472c1b;
+	border-radius: 10px;
+	background-color: #fefae0;
+}
