@@ -27,8 +27,8 @@ function Navbar() {
 						Forum
 					</Button>
 				</Flex>
-
-				<Flex gap={4}>
+                
+				<Flex gap={3}>
 					<Button className="admin-btn" as={Link} to="/admin">
 						Admin
 					</Button>
