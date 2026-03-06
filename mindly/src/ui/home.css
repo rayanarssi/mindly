@@ -30,7 +30,60 @@
 
 .title_action {
 	font-size: 1.5rem;
-    color: #fefae0;
-    margin-bottom: 1rem;
-    font-weight: bold;
+	color: #fefae0;
+	margin-bottom: 1rem;
+	font-weight: bold;
+}
+
+.featured-videos-heading {
+	font-family:
+		Just Another Hand,
+		cursive;
+	font-size: 3rem;
+	font-weight: bold;
+	color: #472c1b;
+	margin-bottom: 1rem;
+	text-align: center;
+}
+
+.videos-button {
+	font-size: 16px;
+	color: #fefae0;
+	border-radius: 10px;
+	background-color: #472c1b;
+}
+
+.theme_videos {
+	display: inline-block;
+	color: white;
+	font-weight: normal;
+	border-radius: 20px;
+}
+
+.theme_icon {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.video_thumbnail {
+	height: 28vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: relative;
+}
+
+.video_minute {
+	position: absolute;
+	bottom: 15px; 
+	right: 15px;
+	background-color: white;
+	color: #472c1b;
+	padding: 5px 12px;
+	border-radius: 20px;
+	font-size: 16px;
 }
