@@ -20,23 +20,16 @@ export function useVideos(limit = 3) {
 			}
 
 			const creatorIds = [...new Set(videosData.map(v => v.created_by).filter(Boolean))];
-			console.log("Videos:", videosData);
-			console.log("Creator IDs:", creatorIds);
-			
+	
 			if (creatorIds.length > 0) {
 				const { data: allProfiles } = await supabase
 					.from("profiles")
 					.select("id, display_name");
 
-				console.log("All profiles:", allProfiles);
-
 				const { data: profilesData, error: profilesError } = await supabase
 					.from("profiles")
 					.select("id, display_name")
 					.eq("id", creatorIds[0]);
-
-				console.log("Profiles data:", profilesData);
-				console.log("Profiles error:", profilesError);
 
 				const profileMap = {};
 				profilesData?.forEach(p => {

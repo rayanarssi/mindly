@@ -2,21 +2,21 @@
 	font-family:
 		Just Another Hand,
 		cursive;
-	font-size: 4.5rem;
+	font-size: 5vw;
 	font-weight: bold;
 	color: #fefae0;
 	margin-bottom: 1rem;
 }
 
 .home-subheading {
-	margin-top: 5vh;
+	margin-top: 6.5vh;
 	color: #fefae0;
 }
 
 .home-text {
 	font-size: 1.5rem;
 	color: #fefae0;
-	margin-top: 1rem;
+	margin-top: 1.5vw;
 	margin-bottom: 1rem;
 	max-width: 600px;
 }

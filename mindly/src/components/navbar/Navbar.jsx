@@ -7,7 +7,6 @@ import "../../ui/navbar.css";
 function Navbar() {
 	return (
 		<Box
-			px={2}
 			py={10}
 			backgroundImage={`url(${navbarBg})`}
 			backgroundSize="cover"

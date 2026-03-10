@@ -1,4 +1,5 @@
 import Navbar from "../components/navbar/Navbar";
+import Footer from "../components/footer/footer";
 import {
 	Box,
 	Heading,
@@ -41,7 +42,6 @@ function Home() {
 	return (
 		<Box>
 			<Box
-				minH="100vh"
 				backgroundImage={`url(${bgHome})`}
 				backgroundSize="cover"
 				backgroundPosition="center"
@@ -203,7 +203,13 @@ function Home() {
 											<Box className="theme_icon" zIndex={1}>
 												<Image src={ThemeIcon} alt="Play" w="80px" h="80px" />
 											</Box>
-											<Box className="video_minute" zIndex={2} display="flex" alignItems="center" gap={1}>
+											<Box
+												className="video_minute"
+												zIndex={2}
+												display="flex"
+												alignItems="center"
+												gap={1}
+											>
 												<Image src={ClockHome} alt="Clock" w="18px" h="18px" />
 												{video.video_time} min
 											</Box>
@@ -253,6 +259,7 @@ function Home() {
 					</SimpleGrid>
 				</Container>
 			</Box>
+			<Footer />
 		</Box>
 	);
 }
