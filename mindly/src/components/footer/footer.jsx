@@ -20,8 +20,8 @@ function Footer() {
 				justify="space-between"
 				align="flex-start"
 			>
-				<VStack align="flex-start" spacing={4} maxW="300px">
-					<Box as="img" src={logoImg} alt="Mindly" h="17  0px" />
+				<VStack align="flex-start" spacing={4} maxW="200px">
+					<Box as="img" src={logoImg} alt="Mindly" h="10  0px" />
 				</VStack>
 
 				<VStack>
