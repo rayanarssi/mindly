@@ -1,0 +1,100 @@
+.login-page {
+	min-height: 100vh;
+	background-color: #fefae0;
+}
+
+.login-container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	min-height: 100vh;
+	padding: 20px;
+}
+
+.back-arrow {
+	position: fixed;
+	top: 40px;
+	left: 40px;
+	cursor: pointer;
+	border: none;
+	padding: 0;
+	z-index: 10;
+}
+
+.login-header {
+	margin-bottom: 70px;
+	text-align: center;
+}
+
+.login-title {
+	font-family: "Just Another Hand", cursive;
+	font-size: 3.5rem;
+	color: #472c1b;
+}
+
+.login-subtitle {
+	color: #472c1b;
+		font-weight: bold;
+
+	margin-bottom: 20px;
+	font-size: 1.5rem;
+}
+
+.login-card {
+	background-color: #fefae0;
+	border-radius: 20px;
+	border: solid 3px #472c1b;
+	padding: 40px;
+	width: 100%;
+	max-width: 400px;
+	box-shadow: 0 4px 20px rgba(70, 53, 29, 0.1);
+}
+
+.login-form {
+	text-align: center;
+}
+
+.register-link {
+	color: #472c1b;
+	opacity: 0.7;
+	text-align: center;
+	margin-top: 3px;
+}
+
+.input-label {
+	color: #472c1b;
+	font-weight: 500;
+	margin-bottom: 8px;
+	font-size: 14px;
+}
+
+.login-input {
+	border: 2px solid #472c1b;
+	border-radius: 10px;
+	padding: 12px 16px;
+	font-size: 16px;
+	background-color: #fefae0;
+	color: #472c1b;
+}
+
+.login-input:focus {
+	border-color: #472c1b;
+	outline: none;
+}
+
+.login-input::placeholder {
+	color: #472c1b;
+	opacity: 0.7;
+}
+
+.login-button {
+	width: 100%;
+	padding: 14px;
+	font-size: 16px;
+	color: #fefae0;
+	border-radius: 10px;
+	background-color: #472c1b;
+	margin-top: 8px;
+}
+

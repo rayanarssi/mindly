@@ -33,9 +33,10 @@ function Navbar() {
 					<Button className="admin-btn" as={Link} to="/admin">
 						Admin
 					</Button>
-					<Button className="login-btn" as={Link} to="/login">
-						Login
+					<Button className="nav-button" as={Link} to="/login">
+						Log in
 					</Button>
+					
 				</Flex>
 			</Flex>
 		</Box>
