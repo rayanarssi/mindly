@@ -1,5 +1,4 @@
 import { Box, Flex, Button, Avatar, Text } from "@chakra-ui/react";
-import { Menu } from "@chakra-ui/react/menu";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../library/supabase/AuthContext";
 import logoImg from "../../assets/Nav/Logo.svg";
@@ -9,18 +8,13 @@ import expertAvatarIcon from "../../assets/Login/expert_icon_brown.svg";
 import "../../ui/navbar.css";
 
 function Navbar() {
-	const { user, userProfile, signOut } = useAuth();
-	const navigate = useNavigate();
+	// const { user, userProfile, signOut } = useAuth();
+	// const navigate = useNavigate();
 
-	const handleLogout = async () => {
-		await signOut();
-		navigate("/");
-	};
-
-	const getAvatarIcon = () => {
-		if (!userProfile) return userAvatarIcon;
-		return userProfile.role === "expert" ? expertAvatarIcon : userAvatarIcon;
-	};
+	// const getAvatarIcon = () => {
+	// 	if (!userProfile) return userAvatarIcon;
+	// 	return userProfile.role === "expert" ? expertAvatarIcon : userAvatarIcon;
+	// };
 
 	return (
 		<Box
@@ -61,14 +55,15 @@ function Navbar() {
 						/>
 					</Flex>
 				) : ( */}
-					<Flex gap={3}>
-						<Button className="admin-btn" as={Link} to="/admin">
-							Admin
-						</Button>
-						<Button className="login-btn" as={Link} to="/login">
-							Log in
-						</Button>
-					</Flex>
+
+				<Flex gap={3}>
+					<Button className="admin-btn" as={Link} to="/admin">
+						Admin
+					</Button>
+					<Button className="login-btn" as={Link} to="/login">
+						Log in
+					</Button>
+				</Flex>
 				{/* )} */}
 			</Flex>
 		</Box>
