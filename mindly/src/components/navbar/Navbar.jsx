@@ -61,14 +61,15 @@ function Navbar() {
 						/>
 					</Flex>
 				) : ( */}
-					<Flex gap={3}>
-						<Button className="admin-btn" as={Link} to="/admin">
-							Admin
-						</Button>
-						<Button className="login-btn" as={Link} to="/login">
-							Log in
-						</Button>
-					</Flex>
+
+				<Flex gap={3}>
+					<Button className="admin-btn" as={Link} to="/admin">
+						Admin
+					</Button>
+					<Button className="login-btn" as={Link} to="/login">
+						Log in
+					</Button>
+				</Flex>
 				{/* )} */}
 			</Flex>
 		</Box>
