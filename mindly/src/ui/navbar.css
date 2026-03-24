@@ -18,3 +18,12 @@
 	border-radius: 10px;
 	background-color: #fefae0;
 }
+
+.nav-username {
+	font-weight: 600;
+	font-size: 14px;
+}
+
+.nav-username:hover {
+	text-decoration: underline;
+}
