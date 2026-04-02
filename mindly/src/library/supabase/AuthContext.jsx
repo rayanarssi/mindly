@@ -21,6 +21,7 @@ export function AuthProvider({ children }) {
 		const {
 			data: { subscription },
 		} = supabase.auth.onAuthStateChange(async (_event, session) => {
+			console.log("Auth state changed:", _event, session?.user);
 			setUser(session?.user ?? null);
 			if (session?.user) {
 				await fetchUserProfile(session.user.id);
@@ -104,10 +105,30 @@ export function AuthProvider({ children }) {
 	};
 
 	const signOut = async () => {
-		const { error } = await supabase.auth.signOut();
-		if (error) throw error;
+		console.log("AuthContext signOut called");
+		
+		// Try Supabase signOut with timeout
+		const timeoutPromise = new Promise((_, reject) => 
+			setTimeout(() => reject(new Error("signOut timeout")), 5000)
+		);
+		
+		const signOutPromise = supabase.auth.signOut();
+		
+		try {
+			await Promise.race([signOutPromise, timeoutPromise]);
+		} catch (e) {
+			console.log("Supabase signOut timed out or failed, clearing local session");
+		}
+		
+		// Always clear local session regardless of server result
 		setUser(null);
 		setUserProfile(null);
+		
+		// Clear local storage
+		localStorage.removeItem('supabase-auth-token');
+		localStorage.removeItem('sb-kxyiocvswdwfiupekdjb-auth-token');
+		
+		console.log("Local session cleared");
 	};
 
 	const updateUserProfile = async (updates) => {

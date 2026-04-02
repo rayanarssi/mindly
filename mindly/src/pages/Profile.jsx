@@ -17,8 +17,8 @@ function Profile() {
 	};
 
 	const handleSignOut = async () => {
-		await supabase.auth.signOut();
-		signOut();
+		console.log("Sign out clicked");
+		await signOut();
 		navigate("/");
 	};
 
@@ -79,7 +79,7 @@ function Profile() {
 						textAlign="center"
 						_hover={{ bg: "#a33" }}
 					>
-						Sign Out
+						Log Out
 					</Box>
 				</VStack>
 			</Box>
