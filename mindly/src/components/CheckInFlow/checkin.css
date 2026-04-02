@@ -1,0 +1,250 @@
+.checkin-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.checkin-container {
+  background-color: #fefae0;
+  border-radius: 20px;
+  padding: 40px;
+  max-width: 600px;
+  width: 90%;
+  min-height: 150px;
+  position: relative;
+  background-image: 
+    linear-gradient(90deg, rgba(194, 122, 107, 0.05) 1px, transparent 1px),
+    linear-gradient(rgba(194, 122, 107, 0.05) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+.checkin-intro {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  height: 100%;
+  min-height: 400px;
+}
+
+.checkin-title {
+  font-family: "Just Another Hand", cursive;
+  font-size: 3rem;
+  color: #472c1b;
+  margin-bottom: 1.5rem;
+}
+
+.checkin-description {
+  font-size: 1.4rem;
+  color: #472c1b;
+  font-weight: 600;
+  max-width: 450px;
+  margin-bottom: 0.8rem;
+}
+
+.checkin-time {
+  font-size: 1rem;
+  color: #8b7355;
+  margin-bottom: 2rem;
+}
+
+.checkin-start-button {
+  background-color: #472c1b !important;
+  color: #fefae0 !important;
+  font-size: 1.2rem;
+  padding: 12px 48px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.checkin-start-button:hover {
+  background-color: #5a3a22 !important;
+}
+
+.checkin-questions {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.checkin-progress-container {
+  margin-bottom: 2rem;
+}
+
+.checkin-category-label {
+  font-size: 0.9rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.checkin-progress-bar {
+  flex: 1;
+  height: 8px;
+  background-color: #e8e0c9;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.checkin-progress-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+.checkin-progress-text {
+  font-size: 0.9rem;
+  color: #472c1b;
+  min-width: 50px;
+  text-align: right;
+}
+
+.checkin-question-text {
+  font-size: 1.4rem;
+  color: #472c1b;
+  text-align: center;
+  margin-bottom: 2rem;
+  line-height: 1.5;
+  min-height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.checkin-answers {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.checkin-answer-button {
+  background-color: #fefae0 !important;
+  color: #472c1b !important;
+  border: 2px solid #472c1b !important;
+  font-size: 1rem;
+  padding: 16px 24px;
+  border-radius: 15px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.checkin-answer-button:hover {
+  background-color: #472c1b !important;
+  color: #fefae0 !important;
+}
+
+.checkin-results {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.checkin-results-title {
+  font-family: "Just Another Hand", cursive;
+  font-size: 2.5rem;
+  color: #472c1b;
+  margin-bottom: 0.5rem;
+}
+
+.checkin-results-subtitle {
+  font-size: 1rem;
+  color: #8b7355;
+  margin-bottom: 2rem;
+}
+
+.checkin-tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 2rem;
+}
+
+.checkin-tab {
+  background-color: #e8e0c9 !important;
+  color: #472c1b !important;
+  border: none !important;
+  font-size: 0.95rem;
+  padding: 10px 24px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.checkin-tab.active {
+  background-color: #472c1b !important;
+  color: #fefae0 !important;
+}
+
+.checkin-tab:hover:not(.active) {
+  background-color: #d4c9b5 !important;
+}
+
+.checkin-score-display {
+  margin-bottom: 1.5rem;
+}
+
+.checkin-score-value {
+  font-size: 3rem;
+  font-weight: bold;
+  color: #472c1b;
+  margin-bottom: 0.5rem;
+}
+
+.checkin-score-bar {
+  width: 200px;
+  height: 12px;
+  background-color: #e8e0c9;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.checkin-score-fill {
+  height: 100%;
+  border-radius: 6px;
+  transition: width 0.3s ease;
+}
+
+.checkin-main-issue {
+  background-color: #C27A6B;
+  padding: 12px 20px;
+  border-radius: 15px;
+  margin-bottom: 1.5rem;
+}
+
+.checkin-main-issue-text {
+  color: #fefae0;
+  font-size: 0.95rem;
+}
+
+.checkin-feedback {
+  font-size: 1rem;
+  color: #472c1b;
+  max-width: 450px;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+}
+
+.checkin-cta-button {
+  background-color: #472c1b !important;
+  color: #fefae0 !important;
+  font-size: 1.1rem;
+  padding: 14px 36px;
+  border-radius: 30px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.checkin-cta-button:hover {
+  background-color: #5a3a22 !important;
+}

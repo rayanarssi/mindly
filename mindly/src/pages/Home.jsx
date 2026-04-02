@@ -1,5 +1,6 @@
 import Navbar from "../components/navbar/Navbar";
 import Footer from "../components/footer/footer";
+import CheckInFlow from "../components/CheckInFlow/CheckInFlow";
 import {
 	Box,
 	Heading,
@@ -41,6 +42,7 @@ function Home() {
 	const { videos, loading, error } = useVideos(3);
 	return (
 		<Box>
+			<CheckInFlow />
 			<Box
 				backgroundImage={`url(${bgHome})`}
 				backgroundSize="cover"
