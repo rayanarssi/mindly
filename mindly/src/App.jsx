@@ -4,6 +4,7 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import ExpertVerification from "./pages/ExpertVerification";
+import Profile from "./pages/Profile";
 
 function App() {
 	return (
@@ -13,6 +14,7 @@ function App() {
 				<Route path="/login" element={<Login />} />
 				<Route path="/register" element={<Register />} />
 				<Route path="/expert-verification" element={<ExpertVerification />} />
+				<Route path="/profile" element={<Profile />} />
 			</Routes>
 		</AuthProvider>
 	);

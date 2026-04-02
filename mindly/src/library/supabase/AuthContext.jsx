@@ -1,6 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { supabase } from "./supabaseClient";
-import { useNavigate } from "react-router-dom";
 
 const AuthContext = createContext();
 
@@ -35,6 +34,7 @@ export function AuthProvider({ children }) {
 	}, []);
 
 	const fetchUserProfile = async (userId) => {
+		setLoading(true);
 		try {
 			const { data, error } = await supabase
 				.from("profiles")
@@ -42,10 +42,13 @@ export function AuthProvider({ children }) {
 				.eq("id", userId)
 				.single();
 
-			if (error) throw error;
-			setUserProfile(data);
+			if (error) {
+				setUserProfile(null);
+			} else {
+				setUserProfile(data);
+			}
 		} catch (error) {
-			console.error("Error fetching user profile:", error);
+			setUserProfile(null);
 		} finally {
 			setLoading(false);
 		}
@@ -57,18 +60,25 @@ export function AuthProvider({ children }) {
 			password,
 		});
 
-		if (error) throw error;
+		if (error) {
+			if (error.message === "User already registered") {
+				throw new Error("An account with this email already exists. Please log in instead.");
+			}
+			throw error;
+		}
 
 		if (data.user) {
 			const status = role === "expert" ? 2 : 1;
 
-			const { error: profileError } = await supabase.from("profiles").insert({
-				id: data.user.id,
-				name,
-				email,
-				role,
-				status,
-			});
+			const { error: profileError } = await supabase
+				.from("profiles")
+				.upsert({
+					id: data.user.id,
+					name,
+					email,
+					role,
+					status,
+				}, { onConflict: 'id' });
 
 			if (profileError) throw profileError;
 

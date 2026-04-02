@@ -19,26 +19,30 @@ export function useVideos(limit = 3) {
 				return;
 			}
 
-			const creatorIds = [...new Set(videosData.map(v => v.created_by).filter(Boolean))];
-	
-			if (creatorIds.length > 0) {
-				const { data: allProfiles } = await supabase
-					.from("profiles")
-					.select("id, display_name");
+			const creatorIds = [
+				...new Set(videosData.map((v) => v.created_by).filter(Boolean)),
+			];
 
+			if (creatorIds.length > 0) {
 				const { data: profilesData, error: profilesError } = await supabase
 					.from("profiles")
-					.select("id, display_name")
-					.eq("id", creatorIds[0]);
+					.select("id, name")
+					.in("id", creatorIds);
+
+				if (profilesError) {
+					setError(profilesError);
+					setLoading(false);
+					return;
+				}
 
 				const profileMap = {};
-				profilesData?.forEach(p => {
-					profileMap[p.id] = p.display_name;
+				profilesData?.forEach((p) => {
+					profileMap[p.id] = p.name;
 				});
 
-				const formattedData = videosData.map(video => ({
+				const formattedData = videosData.map((video) => ({
 					...video,
-					creator_name: profileMap[video.created_by] || video.created_by
+					creator_name: profileMap[video.created_by] || "Unknown",
 				}));
 				setVideos(formattedData);
 			} else {

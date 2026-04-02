@@ -57,7 +57,7 @@ function Register() {
 		setLoading(true);
 
 		try {
-			await signUp(formData.email, formData.password, formData.name, selectedRole);
+			const result = await signUp(formData.email, formData.password, formData.name, selectedRole);
 
 			if (selectedRole === "expert") {
 				navigate("/expert-verification");
@@ -65,7 +65,6 @@ function Register() {
 				navigate("/", { state: { registered: true } });
 			}
 		} catch (err) {
-			console.error("Registration error:", err);
 			setError(err.message || "Failed to create account. Please try again.");
 		} finally {
 			setLoading(false);

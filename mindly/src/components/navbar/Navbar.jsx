@@ -8,13 +8,17 @@ import expertAvatarIcon from "../../assets/Login/expert_icon_brown.svg";
 import "../../ui/navbar.css";
 
 function Navbar() {
-	// const { user, userProfile, signOut } = useAuth();
-	// const navigate = useNavigate();
+	const { user, userProfile } = useAuth();
+	const navigate = useNavigate();
 
-	// const getAvatarIcon = () => {
-	// 	if (!userProfile) return userAvatarIcon;
-	// 	return userProfile.role === "expert" ? expertAvatarIcon : userAvatarIcon;
-	// };
+	const getAvatarIcon = () => {
+		if (!userProfile) return userAvatarIcon;
+		return userProfile.role === "expert" ? expertAvatarIcon : userAvatarIcon;
+	};
+
+	const handleProfileClick = () => {
+		navigate("/profile");
+	};
 
 	return (
 		<Box
@@ -40,7 +44,7 @@ function Navbar() {
 					</Button>
 				</Flex>
 
-				{/* {user ? (
+				{user ? (
 					<Flex align="center" gap={3} cursor="pointer">
 						<Box
 							as="img"
@@ -52,19 +56,19 @@ function Navbar() {
 							border="2px solid #fefae0"
 							bg="#fefae0"
 							p={1}
+							onClick={handleProfileClick}
 						/>
 					</Flex>
-				) : ( */}
-
-				<Flex gap={3}>
-					<Button className="admin-btn" as={Link} to="/admin">
-						Admin
-					</Button>
-					<Button className="login-btn" as={Link} to="/login">
-						Log in
-					</Button>
-				</Flex>
-				{/* )} */}
+				) : (
+					<Flex gap={3}>
+						<Button className="admin-btn" as={Link} to="/admin">
+							Admin
+						</Button>
+						<Button className="login-btn" as={Link} to="/login">
+							Log in
+						</Button>
+					</Flex>
+				)}
 			</Flex>
 		</Box>
 	);
