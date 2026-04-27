@@ -33,14 +33,14 @@ function Navbar() {
 				</Box>
 
 				<Flex gap={4} align="center">
-					<Button className="nav-button" as={Link} to="/">
-						Home
-					</Button>
 					<Button className="nav-button" as={Link} to="/videos">
 						Videos
 					</Button>
 					<Button className="nav-button" as={Link} to="/forum">
 						Forum
+					</Button>
+					<Button className="nav-button" as={Link} to="/">
+						Games
 					</Button>
 				</Flex>
 

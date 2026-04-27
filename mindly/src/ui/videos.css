@@ -1,0 +1,246 @@
+.videos-hero {
+	position: relative;
+	min-height: 50vh;
+	background-size: cover;
+	background-position: center;
+}
+
+.videos-hero-flex {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	padding: 1rem;
+	text-align: center;
+	min-height: calc(50vh - 80px);
+}
+
+.videos-heading {
+	font-family: "Just Another Hand", cursive;
+	font-size: 5vw;
+	font-weight: bold;
+	color: #fefae0;
+	margin-bottom: 1rem;
+}
+
+.videos-text {
+	font-size: 1.5rem;
+	color: #fefae0;
+	margin-top: 1.5vw;
+	margin-bottom: 1rem;
+	max-width: 600px;
+}
+
+.videos-section {
+	position: relative;
+	min-height: 100vh;
+	background-size: cover;
+	background-position: center;
+	padding: 4rem 0;
+}
+
+.videos-container {
+	max-width: 90vw;
+	margin: 0 auto;
+}
+
+.videos-section-heading {
+	font-family: "Just Another Hand", cursive;
+	font-size: 48px;
+	font-weight: bold;
+	color: #472c1b;
+	margin-bottom: 3rem;
+}
+
+.videos-controls {
+	display: flex;
+	align-items: center;
+	margin-bottom: 2rem;
+	flex-wrap: wrap;
+	gap: 1rem;
+}
+
+.videos-search {
+	flex: 1;
+	max-width: 400px;
+}
+
+.videos-search input {
+	width: 100%;
+	padding: 10px 16px;
+	border-radius: 10px;
+	border: 2px solid #472c1b;
+	font-size: 16px;
+	background-color: #fefae0;
+}
+
+.videos-search input::placeholder {
+	color: #999;
+}
+
+.videos-search input:focus {
+	outline: none;
+	border-color: #472c1b;
+}
+
+.videos-filters {
+	display: flex;
+	gap: 8px;
+}
+
+.filter-btn {
+	padding: 8px 16px;
+	border-radius: 1cqmax;
+	border: 2px solid #472c1b;
+	background-color: #fefae0;
+	color: #472c1b;
+	font-size: 14px;
+	cursor: pointer;
+	transition: all 0.2s;
+}
+
+.filter-btn.active {
+	background-color: #472c1b;
+	color: #fefae0;
+	border-color: #472c1b;
+}
+
+.filter-btn.active.stress {
+	background-color: #c27a6b;
+	border-color: #c27a6b;
+	color: #fefae0;
+}
+
+.filter-btn.active.focus {
+	background-color: #6e8f85;
+	border-color: #6e8f85;
+	color: #fefae0;
+}
+
+.filter-btn.active.motivation {
+	background-color: #0c4767;
+	border-color: #0c4767;
+	color: #fefae0;
+}
+
+.filter-btn:hover {
+	background-color: #fefae0;
+}
+
+.filter-btn.active {
+	background-color: #472c1b;
+	color: #fefae0;
+}
+
+.videos-loading,
+.videos-error,
+.videos-empty {
+	font-size: 1.2rem;
+	color: #472c1b;
+	text-align: center;
+}
+
+.videos-error {
+	color: #e53e3e;
+}
+
+.videos-grid {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 1.5rem;
+}
+
+@media (max-width: 768px) {
+	.videos-grid {
+		grid-template-columns: 1fr;
+	}
+}
+
+.video-card {
+	background-color: white;
+	border-radius: 1vw;
+	overflow: hidden;
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+	position: relative;
+}
+
+.video-thumbnail {
+	height: 28vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: relative;
+}
+
+.video-thumbnail img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.theme-icon {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.video-minute {
+	position: absolute;
+	bottom: 15px;
+	right: 15px;
+	background-color: white;
+	color: #472c1b;
+	padding: 5px 12px;
+	border-radius: 20px;
+	font-size: 16px;
+	display: flex;
+	align-items: center;
+	gap: 4px;
+}
+
+.white-decoration {
+	position: absolute;
+	bottom: -1rem;
+	left: 0;
+	right: 0;
+	display: flex;
+	justify-content: center;
+	z-index: 1;
+}
+
+.white-decoration img {
+	width: 100%;
+	max-width: 425px;
+	height: 80px;
+	margin-bottom: -55px;
+}
+
+.video-info {
+	padding: 1.25rem;
+	position: relative;
+	z-index: 2;
+}
+
+.theme-tag {
+	display: inline-block;
+	color: white;
+	font-weight: normal;
+	border-radius: 20px;
+	padding: 4px 12px;
+	font-size: 0.875rem;
+	margin-bottom: 8px;
+}
+
+.video-title {
+	color: #472c1b;
+	font-weight: bold;
+	margin-bottom: 4px;
+}
+
+.video-creator {
+	color: #472c1b;
+	font-size: 0.875rem;
+}
