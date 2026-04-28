@@ -52,6 +52,20 @@
 	margin-bottom: 3rem;
 }
 
+.add-video-btn {
+	padding: 8px 16px;
+	border-radius: 1cqmax;
+	border: 2px solid #472c1b;
+	background-color: #472c1b;
+	color: #fefae0;
+	font-size: 14px;
+	font-weight: bold;
+	cursor: pointer;
+	transition: all 0.2s;
+}
+
+
+
 .videos-controls {
 	display: flex;
 	align-items: center;
@@ -60,8 +74,16 @@
 	gap: 1rem;
 }
 
-.videos-search {
+.videos-controls-left {
+	display: flex;
+	align-items: center;
+	gap: 1rem;
+	flex-wrap: wrap;
 	flex: 1;
+}
+
+.videos-search {
+	min-width: 250px;
 	max-width: 400px;
 }
 
@@ -86,6 +108,10 @@
 .videos-filters {
 	display: flex;
 	gap: 8px;
+}
+
+.add-video-btn {
+	margin-left: auto;
 }
 
 .filter-btn {

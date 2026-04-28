@@ -7,9 +7,9 @@ import userAvatarIcon from "../assets/Login/user_icon_brown.svg";
 import expertAvatarIcon from "../assets/Login/expert_icon_brown.svg";
 import backArrow from "../assets/Login/back_arrow.svg";
 
-function Profile() {
+	function Profile() {
 	const navigate = useNavigate();
-	const { user, userProfile, signOut } = useAuth();
+	const { user, userProfile, loading, signOut } = useAuth();
 
 	const getAvatarIcon = () => {
 		if (!userProfile) return userAvatarIcon;
@@ -17,9 +17,13 @@ function Profile() {
 	};
 
 	const handleSignOut = async () => {
-		console.log("Sign out clicked");
-		await signOut();
-		navigate("/");
+		try {
+			console.log("Sign out clicked");
+			await signOut();
+			console.log("Sign out completed");
+		} catch (error) {
+			console.error("Sign out failed:", error);
+		}
 	};
 
 	useEffect(() => {
@@ -60,7 +64,7 @@ function Profile() {
 							{userProfile?.email || user.email}
 						</Text>
 						<Text color="#dda15e" fontSize="sm" textTransform="capitalize">
-							{userProfile?.role || "user"}
+							{userProfile?.role || user?.user_metadata?.role || "user"}
 						</Text>
 					</Box>
 

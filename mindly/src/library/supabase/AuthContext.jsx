@@ -21,7 +21,6 @@ export function AuthProvider({ children }) {
 		const {
 			data: { subscription },
 		} = supabase.auth.onAuthStateChange(async (_event, session) => {
-			console.log("Auth state changed:", _event, session?.user);
 			setUser(session?.user ?? null);
 			if (session?.user) {
 				await fetchUserProfile(session.user.id);
@@ -35,35 +34,39 @@ export function AuthProvider({ children }) {
 	}, []);
 
 	const fetchUserProfile = async (userId) => {
-		setLoading(true);
-		try {
-			const { data, error } = await supabase
-				.from("profiles")
-				.select("*")
-				.eq("id", userId)
-				.single();
-
-			if (error) {
-				setUserProfile(null);
-			} else {
-				setUserProfile(data);
-			}
-		} catch (error) {
-			setUserProfile(null);
-		} finally {
-			setLoading(false);
-		}
+		// Fetch profile in background without blocking
+		supabase
+			.from("profiles")
+			.select("*")
+			.eq("id", userId)
+			.maybeSingle()
+			.then(({ data, error }) => {
+				if (!error && data) {
+					setUserProfile(data);
+				}
+			})
+			.catch((err) => {
+				console.log("Profile fetch failed:", err.message);
+			})
+			.finally(() => {
+				setLoading(false);
+			});
 	};
 
 	const signUp = async (email, password, name, role) => {
 		const { data, error } = await supabase.auth.signUp({
 			email,
 			password,
+			options: {
+				data: { name, role },
+			},
 		});
 
 		if (error) {
 			if (error.message === "User already registered") {
-				throw new Error("An account with this email already exists. Please log in instead.");
+				throw new Error(
+					"An account with this email already exists. Please log in instead.",
+				);
 			}
 			throw error;
 		}
@@ -71,15 +74,16 @@ export function AuthProvider({ children }) {
 		if (data.user) {
 			const status = role === "expert" ? 2 : 1;
 
-			const { error: profileError } = await supabase
-				.from("profiles")
-				.upsert({
+			const { error: profileError } = await supabase.from("profiles").upsert(
+				{
 					id: data.user.id,
 					name,
 					email,
 					role,
 					status,
-				}, { onConflict: 'id' });
+				},
+				{ onConflict: "id" },
+			);
 
 			if (profileError) throw profileError;
 
@@ -105,30 +109,35 @@ export function AuthProvider({ children }) {
 	};
 
 	const signOut = async () => {
-		console.log("AuthContext signOut called");
-		
-		// Try Supabase signOut with timeout
-		const timeoutPromise = new Promise((_, reject) => 
-			setTimeout(() => reject(new Error("signOut timeout")), 5000)
-		);
-		
-		const signOutPromise = supabase.auth.signOut();
-		
+		// Clear all Supabase-related items from localStorage
+		Object.keys(localStorage).forEach((key) => {
+			if (key.startsWith("sb-") || key.includes("supabase")) {
+				localStorage.removeItem(key);
+			}
+		});
+
+		// Clear sessionStorage as well
+		Object.keys(sessionStorage).forEach((key) => {
+			if (key.startsWith("sb-") || key.includes("supabase")) {
+				sessionStorage.removeItem(key);
+			}
+		});
+
+		// Sign out from Supabase
 		try {
-			await Promise.race([signOutPromise, timeoutPromise]);
-		} catch (e) {
-			console.log("Supabase signOut timed out or failed, clearing local session");
+			const { error } = await supabase.auth.signOut();
+			if (error) {
+				console.error("Supabase signOut error:", error);
+			} else {
+				console.log("Supabase signOut successful");
+			}
+		} catch (error) {
+			console.error("Supabase signOut exception:", error);
+		} finally {
+			// Always clear local state
+			setUser(null);
+			setUserProfile(null);
 		}
-		
-		// Always clear local session regardless of server result
-		setUser(null);
-		setUserProfile(null);
-		
-		// Clear local storage
-		localStorage.removeItem('supabase-auth-token');
-		localStorage.removeItem('sb-kxyiocvswdwfiupekdjb-auth-token');
-		
-		console.log("Local session cleared");
 	};
 
 	const updateUserProfile = async (updates) => {
