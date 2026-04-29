@@ -9,7 +9,6 @@ import {
 	Container,
 	Input,
 	Button,
-	VStack,
 	Textarea,
 } from "@chakra-ui/react";
 import { useState } from "react";
@@ -24,7 +23,7 @@ import "../ui/videos.css";
 import { useVideos } from "../hooks/useVideos";
 import { useAuth } from "../library/supabase/AuthContext";
 import { supabase } from "../library/supabase/supabaseClient";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 const themeColors = {
 	stress: "#C27A6B",
@@ -63,8 +62,9 @@ function Videos() {
 		description: "",
 		theme: "stress",
 		video_time: "",
-		video_url: "",
 	});
+	const [selectedFile, setSelectedFile] = useState(null);
+	const [uploadProgress, setUploadProgress] = useState(false);
 	const [submitting, setSubmitting] = useState(false);
 	const [submitError, setSubmitError] = useState("");
 	const [isModalOpen, setIsModalOpen] = useState(false);
@@ -83,17 +83,51 @@ function Videos() {
 		e.preventDefault();
 		setSubmitError("");
 
-		if (!newVideo.title || !newVideo.video_url || !newVideo.video_time) {
-			setSubmitError("Please fill in all required fields");
+		if (!newVideo.title || !selectedFile || !newVideo.video_time) {
+			setSubmitError(
+				"Please fill in all required fields and select a video file",
+			);
 			return;
 		}
 
-		setSubmitting(true);
+		// Validate file type
+		const allowedTypes = ["video/mp4", "video/webm"];
+		if (!allowedTypes.includes(selectedFile.type)) {
+			setSubmitError("Please upload only .mp4 or .webm files");
+			return;
+		}
+
+		// Validate file size (max ~500MB)
+		const maxSize = 500 * 1024 * 1024;
+		if (selectedFile.size > maxSize) {
+			setSubmitError("Video file must be less than 500MB");
+			return;
+		}
+
+		setUploadProgress(true);
 
 		try {
+			// Upload video to Supabase storage
+			const fileExt = selectedFile.name.split(".").pop();
+			const fileName = `${user.id}_${Date.now()}.${fileExt}`;
+
+			const { data: uploadData, error: uploadError } = await supabase.storage
+				.from("videos")
+				.upload(fileName, selectedFile);
+
+			if (uploadError) throw uploadError;
+
+			// Get public URL
+			const { data: urlData } = supabase.storage
+				.from("videos")
+				.getPublicUrl(fileName);
+
+			const videoUrl = urlData.publicUrl;
+
+			// Save video metadata to database
 			const { error: insertError } = await supabase.from("videos").insert({
 				title: newVideo.title,
-				video_url: newVideo.video_url,
+				video_url: videoUrl,
 				video_time: parseInt(newVideo.video_time),
 				theme: newVideo.theme,
 				description: newVideo.description,
@@ -108,12 +142,13 @@ function Videos() {
 				description: "",
 				theme: "stress",
 				video_time: "",
-				video_url: "",
 			});
+			setSelectedFile(null);
 			alert("Video added successfully!");
 		} catch (err) {
 			setSubmitError(err.message || "Failed to add video. Please try again.");
 		} finally {
+			setUploadProgress(false);
 			setSubmitting(false);
 		}
 	};
@@ -174,80 +209,88 @@ function Videos() {
 									themeColors[video.theme] || themeColors.stress;
 								const ThemeIcon = themeIcons[video.theme] || themeIcons.stress;
 								return (
-									<Box
+									<Link
+										to={`/video/${video.id}`}
 										key={video.id}
-										bg="white"
-										borderRadius="1vw"
-										overflow="hidden"
-										boxShadow="lg"
-										position="relative"
+										style={{ textDecoration: "none" }}
 									>
 										<Box
-											className="video_thumbnail"
-											bg={themeColor}
+											bg="white"
+											borderRadius="1vw"
+											overflow="hidden"
+											boxShadow="lg"
 											position="relative"
-											zIndex={0}
+											_hover={{ transform: "scale(1.02)", transition: "0.2s" }}
 										>
-											<Image
-												src={video.video_url}
-												alt={video.title}
-												w="100%"
-												h="100%"
-												objectFit="cover"
-											/>
-											<Box className="theme_icon" zIndex={1}>
-												<Image src={ThemeIcon} alt="Play" w="80px" h="80px" />
-											</Box>
 											<Box
-												className="video_minute"
-												zIndex={2}
+												className="video_thumbnail"
+												bg={themeColor}
+												position="relative"
+												zIndex={0}
+												h="250px"
 												display="flex"
 												alignItems="center"
-												gap={1}
-											>
-												<Image src={ClockHome} alt="Clock" w="18px" h="18px" />
-												{video.video_time} min
-											</Box>
-
-											<Box
-												position="absolute"
-												bottom={-4}
-												left={0}
-												right={0}
-												display="flex"
 												justifyContent="center"
-												zIndex={1}
 											>
-												<Image
-													src={WhiteHome}
-													alt="White Home"
-													w="100%"
-													maxW="425px"
-													h="80px"
-													mb={-55}
-												/>
+												<Box className="theme_icon" zIndex={1}>
+													<Image src={ThemeIcon} alt="Play" w="80px" h="80px" />
+												</Box>
+												<Box
+													className="video_minute"
+													zIndex={2}
+													display="flex"
+													alignItems="center"
+													gap={1}
+												>
+													<Image
+														src={ClockHome}
+														alt="Clock"
+														w="18px"
+														h="18px"
+													/>
+													{video.video_time} min
+												</Box>
+
+												<Box
+													position="absolute"
+													bottom={-4}
+													left={0}
+													right={0}
+													display="flex"
+													justifyContent="center"
+													zIndex={1}
+												>
+													<Image
+														src={WhiteHome}
+														alt="White Home"
+														w="100%"
+														maxW="425px"
+														h="80px"
+														mb={-55}
+													/>
+												</Box>
+											</Box>
+											<Box p={5} position="relative" zIndex={2}>
+												<Box
+													className="theme_videos"
+													bg={themeColor}
+													px={3}
+													py={1}
+													fontSize="sm"
+													mb={2}
+												>
+													{video.theme.charAt(0).toUpperCase() +
+														video.theme.slice(1)}
+												</Box>
+												<Text color="#472c1b" fontWeight="bold" mb={1}>
+													{video.title}
+												</Text>
+												<Text color="#472c1b" fontSize="sm">
+													{video.creator_name}
+												</Text>
 											</Box>
 										</Box>
-										<Box p={5} position="relative" zIndex={2}>
-											<Box
-												className="theme_videos"
-												bg={themeColor}
-												px={3}
-												py={1}
-												fontSize="sm"
-												mb={2}
-											>
-												{video.theme.charAt(0).toUpperCase() +
-													video.theme.slice(1)}
-											</Box>
-											<Text color="#472c1b" fontWeight="bold" mb={1}>
-												{video.title}
-											</Text>
-											<Text color="#472c1b" fontSize="sm">
-												{video.creator_name}
-											</Text>
-										</Box>
-									</Box>
+									</Link>
 								);
 							})}
 						</SimpleGrid>
@@ -377,24 +420,31 @@ function Videos() {
 										</div>
 									</div>
 									<div>
-										<Text className="input-label">Video URL *</Text>
+										<Text className="input-label">
+											Video File * (.mp4 or .webm)
+										</Text>
 										<Input
 											className="input-field"
-											type="url"
-											placeholder="Enter video URL (image link)"
-											value={newVideo.video_url}
-											onChange={(e) =>
-												setNewVideo({ ...newVideo, video_url: e.target.value })
-											}
+											type="file"
+											accept=".mp4,.webm,video/mp4,video/webm"
+											onChange={(e) => setSelectedFile(e.target.files[0])}
 											required
 										/>
+										{selectedFile && (
+											<Text fontSize="sm" color="gray.600" mt={1}>
+												Selected: {selectedFile.name} (
+												{(selectedFile.size / (1024 * 1024)).toFixed(2)} MB)
+											</Text>
+										)}
 									</div>
 									<Button
 										type="submit"
 										className="add-video-btn"
-										disabled={submitting}
+										disabled={submitting || uploadProgress}
 									>
-										{submitting ? "Adding..." : "Add Video"}
+										{submitting || uploadProgress
+											? "Uploading..."
+											: "Add Video"}
 									</Button>
 								</div>
 							</form>

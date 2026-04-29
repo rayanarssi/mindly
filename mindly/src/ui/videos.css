@@ -281,4 +281,35 @@
 	color: #472c1b;
 }
 
+.about-video {
+	background-color: #fefae0;
+	padding: 1.5rem;
+	border: 2px solid #472c1b;
+	border-radius: 10px;
+	height: 400px;
+}
 
+.description-video {
+	font-size: 24px;
+	font-weight: bold;
+	color: #472c1b;
+	margin-bottom: 1rem;
+}
+
+.related-videos {
+	font-size: 24px;
+	font-weight: bold;
+	color: #472c1b;
+	margin-bottom: 1rem;
+}
+
+.videodetail-title {
+	font-size: 22px;
+	font-weight: semi-bold;
+	color: #472c1b;
+}
+
+.video-creator {
+	font-size: 16px;
+	color: #472c1b;
+}

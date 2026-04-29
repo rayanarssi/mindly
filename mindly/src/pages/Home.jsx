@@ -11,7 +11,7 @@ import {
 	Image,
 	Container,
 } from "@chakra-ui/react";
-import { Link } from "react-router";
+import { Link } from "react-router-dom";
 import bgHome from "../assets/Homepage/BG_Home.png";
 import actionBrown from "../assets/Homepage/Action_brown.png";
 import Book from "../assets/Homepage/Book_home.svg";
@@ -181,27 +181,29 @@ function Home() {
 									themeColors[video.theme] || themeColors.stress;
 								const ThemeIcon = themeIcons[video.theme] || themeIcons.stress;
 								return (
-									<Box
+									<Link
+										to={`/video/${video.id}`}
 										key={video.id}
-										bg="white"
-										borderRadius="1vw"
-										overflow="hidden"
-										boxShadow="lg"
-										position="relative"
+										style={{ textDecoration: "none" }}
 									>
+										<Box
+											bg="white"
+											borderRadius="1vw"
+											overflow="hidden"
+											boxShadow="lg"
+											position="relative"
+											_hover={{ transform: "scale(1.02)", transition: "0.2s" }}
+										>
 										<Box
 											className="video_thumbnail"
 											bg={themeColor}
 											position="relative"
 											zIndex={0}
+											h="250px"
+											display="flex"
+											alignItems="center"
+											justifyContent="center"
 										>
-											<Image
-												src={video.video_url}
-												alt={video.title}
-												w="100%"
-												h="100%"
-												objectFit="cover"
-											/>
 											<Box className="theme_icon" zIndex={1}>
 												<Image src={ThemeIcon} alt="Play" w="80px" h="80px" />
 											</Box>
@@ -255,6 +257,7 @@ function Home() {
 											</Text>
 										</Box>
 									</Box>
+									</Link>
 								);
 							})
 						)}
