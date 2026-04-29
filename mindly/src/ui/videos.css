@@ -64,8 +64,6 @@
 	transition: all 0.2s;
 }
 
-
-
 .videos-controls {
 	display: flex;
 	align-items: center;
@@ -176,12 +174,6 @@
 	gap: 1.5rem;
 }
 
-@media (max-width: 768px) {
-	.videos-grid {
-		grid-template-columns: 1fr;
-	}
-}
-
 .video-card {
 	background-color: white;
 	border-radius: 1vw;
@@ -270,3 +262,23 @@
 	color: #472c1b;
 	font-size: 0.875rem;
 }
+
+.input-field {
+	border: 1px solid #472c1b;
+}
+
+.heading-add-video {
+	font-size: 20px;
+	font-weight: bold;
+	color: #472c1b;
+}
+
+.close-panel-btn {
+	border: none;
+	background: none;
+	font-size: 25px;
+	cursor: pointer;
+	color: #472c1b;
+}
+
+

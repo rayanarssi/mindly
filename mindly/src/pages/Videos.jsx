@@ -45,6 +45,12 @@ const filterOptions = [
 	{ value: "motivation", label: "Motivation" },
 ];
 
+const themeOptions = [
+	{ value: "stress", label: "Stress" },
+	{ value: "focus", label: "Focus" },
+	{ value: "motivation", label: "Motivation" },
+];
+
 function Videos() {
 	const { videos, loading, error } = useVideos(50);
 	const { userProfile, user } = useAuth();
@@ -248,7 +254,7 @@ function Videos() {
 					)}
 				</Container>
 
-				{/* Custom Modal for Add Video */}
+				{/* Add Video Panel */}
 				{isModalOpen && (
 					<Box
 						position="fixed"
@@ -263,7 +269,7 @@ function Videos() {
 						zIndex="9999"
 					>
 						<Box
-							bg="white"
+							bg="beige"
 							p={6}
 							borderRadius="md"
 							maxW="500px"
@@ -271,9 +277,20 @@ function Videos() {
 							maxH="90vh"
 							overflowY="auto"
 						>
-							<Box display="flex" justifyContent="space-between" alignItems="center" mb={4}>
-								<Heading size="md">Add New Video</Heading>
-								<Button variant="ghost" size="sm" onClick={() => setIsModalOpen(false)}>
+							<Box
+								display="flex"
+								justifyContent="space-between"
+								alignItems="center"
+								mb={4}
+							>
+								<Heading size="md" className="heading-add-video">
+									Add New Video
+								</Heading>
+								<Button
+									className="close-panel-btn"
+									size="sm"
+									onClick={() => setIsModalOpen(false)}
+								>
 									✕
 								</Button>
 							</Box>
@@ -283,23 +300,38 @@ function Videos() {
 								</Text>
 							)}
 							<form onSubmit={handleAddVideo}>
-								<div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+								<div
+									style={{
+										display: "flex",
+										flexDirection: "column",
+										gap: "16px",
+									}}
+								>
 									<div>
 										<Text className="input-label">Video Title *</Text>
 										<Input
+											className="input-field"
 											type="text"
 											placeholder="Enter video title"
 											value={newVideo.title}
-											onChange={(e) => setNewVideo({ ...newVideo, title: e.target.value })}
+											onChange={(e) =>
+												setNewVideo({ ...newVideo, title: e.target.value })
+											}
 											required
 										/>
 									</div>
 									<div>
 										<Text className="input-label">Description</Text>
 										<Textarea
+											className="input-field"
 											placeholder="Enter video description"
 											value={newVideo.description}
-											onChange={(e) => setNewVideo({ ...newVideo, description: e.target.value })}
+											onChange={(e) =>
+												setNewVideo({
+													...newVideo,
+													description: e.target.value,
+												})
+											}
 											rows={3}
 										/>
 									</div>
@@ -308,8 +340,17 @@ function Videos() {
 											<Text className="input-label">Theme</Text>
 											<select
 												value={newVideo.theme}
-												onChange={(e) => setNewVideo({ ...newVideo, theme: e.target.value })}
-												style={{ width: "100%", padding: "8px", borderRadius: "4px", border: "1px solid #ccc" }}
+												onChange={(e) =>
+													setNewVideo({ ...newVideo, theme: e.target.value })
+												}
+												style={{
+													width: "100%",
+													padding: "8px",
+													borderRadius: "4px",
+													border: "1px solid #472c1b",
+													backgroundColor: "#fefae0",
+													color: "#472c1b",
+												}}
 											>
 												<option value="stress">Stress</option>
 												<option value="focus">Focus</option>
@@ -317,12 +358,20 @@ function Videos() {
 											</select>
 										</div>
 										<div style={{ flex: "1" }}>
-											<Text className="input-label">Video Duration (minutes) *</Text>
+											<Text className="input-label">
+												Video Duration (minutes) *
+											</Text>
 											<Input
+												className="input-field"
 												type="number"
 												placeholder="Enter duration"
 												value={newVideo.video_time}
-												onChange={(e) => setNewVideo({ ...newVideo, video_time: e.target.value })}
+												onChange={(e) =>
+													setNewVideo({
+														...newVideo,
+														video_time: e.target.value,
+													})
+												}
 												required
 											/>
 										</div>
@@ -330,14 +379,21 @@ function Videos() {
 									<div>
 										<Text className="input-label">Video URL *</Text>
 										<Input
+											className="input-field"
 											type="url"
 											placeholder="Enter video URL (image link)"
 											value={newVideo.video_url}
-											onChange={(e) => setNewVideo({ ...newVideo, video_url: e.target.value })}
+											onChange={(e) =>
+												setNewVideo({ ...newVideo, video_url: e.target.value })
+											}
 											required
 										/>
 									</div>
-									<Button type="submit" className="add-video-btn" disabled={submitting}>
+									<Button
+										type="submit"
+										className="add-video-btn"
+										disabled={submitting}
+									>
 										{submitting ? "Adding..." : "Add Video"}
 									</Button>
 								</div>
