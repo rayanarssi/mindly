@@ -1,0 +1,125 @@
+.games-page {
+	min-height: 70vh;
+	background-color: #fefae0;
+}
+
+.games-container {
+	max-width: 90vw;
+	margin: 0 auto;
+	padding: 0 32px;
+}
+
+/* Games Menu */
+.games-content {
+	padding-top: 60px;
+	align-items: flex-start;
+}
+
+.games-title {
+	font-family: "Just Another Hand", cursive;
+	font-size: 48px;
+	font-weight: bold;
+	color: #472c1b;
+	margin-bottom: 1rem;
+}
+
+.games-grid {
+	width: 100%;
+	max-width: 1400px;
+	margin: 0;
+	gap: 40px;
+}
+
+/* Game Cards */
+.game-card {
+	background: white;
+	border-radius: 20px;
+	border: 3px solid transparent;
+	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+	transition: all 0.3s ease;
+	flex: 1;
+	min-width: 320px;
+	max-width: 450px;
+}
+
+.focus-card {
+	border-color: #6e8f85;
+}
+
+.stress-card {
+	border-color: #c27a6b;
+}
+
+.motivation-card {
+	border-color: #472c1b;
+}
+
+.game-icon {
+	width: 100px;
+	height: 100px;
+	margin-bottom: 15px;
+}
+
+.game-theme-badge {
+	font-size: 0.8rem;
+	font-weight: 600;
+	border-radius: 10px;
+	color: #fefae0;
+	padding: 4px 12px;
+}
+
+.focus-badge {
+	background: #6e8f85;
+}
+
+.stress-badge {
+	background: #c27a6b;
+}
+
+.motivation-badge {
+	background: #0c4767;
+}
+
+.game-card-subtitle {
+	font-size: 1.5rem;
+	font-weight: bold;
+	color: #472c1b;
+	margin-top: -5px;
+}
+
+.game-card-desc {
+	font-size: 0.9rem;
+	color: #472c1b;
+	text-align: left;
+	line-height: 1.4;
+}
+
+.game-card-features {
+	gap: 2px;
+}
+
+.game-card-features .chakra-text {
+	line-height: 1.3;
+}
+
+.game-card-btn {
+	width: 100%;
+	padding: 12px;
+	font-size: 1.1rem;
+	font-weight: 600;
+	border-radius: 10px;
+	transition: all 0.3s ease;
+}
+
+.focus-btn {
+	background: #6e8f85;
+	color: #fefae0;
+}
+
+.stress-btn {
+	background: #c27a6b;
+}
+
+.motivation-btn {
+	background: #0c4767;
+}

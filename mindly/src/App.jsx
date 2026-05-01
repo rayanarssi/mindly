@@ -7,6 +7,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import ExpertVerification from "./pages/ExpertVerification";
 import Profile from "./pages/Profile";
+import Games from "./pages/Games";
 
 function App() {
 	return (
@@ -19,6 +20,7 @@ function App() {
 				<Route path="/register" element={<Register />} />
 				<Route path="/expert-verification" element={<ExpertVerification />} />
 				<Route path="/profile" element={<Profile />} />
+				<Route path="/games" element={<Games />} />
 			</Routes>
 		</AuthProvider>
 	);

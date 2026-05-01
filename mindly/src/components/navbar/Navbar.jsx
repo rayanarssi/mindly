@@ -39,7 +39,7 @@ function Navbar() {
 					<Button className="nav-button" as={Link} to="/forum">
 						Forum
 					</Button>
-					<Button className="nav-button" as={Link} to="/">
+					<Button className="nav-button" as={Link} to="/games">
 						Games
 					</Button>
 				</Flex>
