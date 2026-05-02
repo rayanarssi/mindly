@@ -1,6 +1,9 @@
+body {
+	background-color: #fefae0;
+}
+
 .games-page {
 	min-height: 70vh;
-	background-color: #fefae0;
 }
 
 .games-container {
@@ -32,7 +35,7 @@
 
 /* Game Cards */
 .game-card {
-	background: white;
+	background: #fefae0;
 	border-radius: 20px;
 	border: 3px solid transparent;
 	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
@@ -51,7 +54,7 @@
 }
 
 .motivation-card {
-	border-color: #472c1b;
+	border-color: #0c4767;
 }
 
 .game-icon {
@@ -122,4 +125,111 @@
 
 .motivation-btn {
 	background: #0c4767;
+}
+
+.game-card-btn:focus {
+	outline: none;
+	box-shadow: 0 0 0 3px rgba(110, 143, 133, 0.4);
+}
+
+/* Level Selection */
+.level-selection {
+	margin-top: -40px;
+	width: 100%;
+}
+
+.level-cards {
+	width: 100%;
+	max-width: 1200px;
+	margin: 0 auto;
+}
+
+/* Pattern Recall Game */
+.pattern-recall-game {
+	padding-top: 40px;
+	width: 100%;
+	max-width: 800px;
+	margin: 0 auto;
+}
+
+.game-message {
+	background: rgba(110, 143, 133, 0.1);
+	border: 2px solid #6e8f85;
+	transition: all 0.3s ease;
+}
+
+.game-message.correct {
+	background: rgba(46, 204, 113, 0.15);
+	border-color: #2ecc71;
+}
+
+.game-message.wrong {
+	background: rgba(231, 76, 60, 0.15);
+	border-color: #e74c3c;
+}
+
+.game-message.showing {
+	background: rgba(52, 152, 219, 0.1);
+	border-color: #3498db;
+}
+
+.game-button {
+	transition: all 0.2s ease !important;
+}
+
+.game-button.highlighted {
+	animation: pulse 0.3s ease;
+}
+
+.game-button.disabled {
+	pointer-events: none;
+}
+
+.back-arrow {
+	position: fixed;
+	top: 40px;
+	left: 40px;
+	cursor: pointer;
+	border: none;
+	padding: 0;
+	z-index: 10;
+}
+
+@keyframes pulse {
+	0% {
+		transform: scale(1);
+	}
+	50% {
+		transform: scale(1.2);
+	}
+	100% {
+		transform: scale(1.15);
+	}
+}
+
+/* Expert mode subtle movement */
+.expert-mode .game-button {
+	animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+	0%,
+	100% {
+		transform: translateY(0px);
+	}
+	50% {
+		transform: translateY(-3px);
+	}
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+	.pattern-recall-game {
+		padding-top: 20px;
+	}
+
+	.game-button {
+		width: 60px !important;
+		height: 60px !important;
+	}
 }

@@ -13,15 +13,17 @@ import {
 	ToastDescription,
 	ToastCloseTrigger,
 } from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
 import Navbar from "../components/navbar/Navbar";
-import Footer from "../components/footer/Footer";
+import Footer from "../components/footer/footer";
 
 const toaster = createToaster({});
 
 import "../ui/games.css";
 
 function Games() {
-	// Main menu view - show 3 game cards
+	const navigate = useNavigate();
+
 	return (
 		<Box>
 			<Navbar />
@@ -55,7 +57,7 @@ function Games() {
 								<VStack gap={3} align="flex-start" mt={8}>
 									<Text className="game-card-subtitle">Pattern Recall</Text>
 									<Text className="game-card-desc" mb={2}>
-										Train your memory by recalling sequences of shapes, colors,
+										Train your memory by recalling sequences colors,
 										and patterns in the correct order.
 									</Text>
 									<VStack
@@ -89,8 +91,12 @@ function Games() {
 											</Text>
 										</HStack>
 									</VStack>
-									<Button className="game-card-btn focus-btn" size="sm">
-										Play Now
+									<Button
+										className="game-card-btn focus-btn"
+										size="sm"
+										onClick={() => navigate("/games/focus")}
+									>
+										Play
 									</Button>
 								</VStack>
 							</Box>
@@ -138,7 +144,7 @@ function Games() {
 										</HStack>
 									</VStack>
 									<Button className="game-card-btn stress-btn" size="sm">
-										Play Now
+										Play
 									</Button>
 								</VStack>
 							</Box>
@@ -192,7 +198,7 @@ function Games() {
 										</HStack>
 									</VStack>
 									<Button className="game-card-btn motivation-btn" size="sm">
-										Play Now
+										Play
 									</Button>
 								</VStack>
 							</Box>
