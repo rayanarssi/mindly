@@ -107,10 +107,9 @@ function Games() {
 									<Box className="game-theme-badge stress-badge">Stress</Box>
 								</Box>
 								<VStack gap={3} align="flex-start" mt={8}>
-									<Text className="game-card-subtitle">Pressure Balance</Text>
+									<Text className="game-card-subtitle">Breathing Balance</Text>
 									<Text className="game-card-desc" mb={2}>
-										Learn to manage pressure by keeping your stress level within
-										a calm zone.
+										Regain control through rhythm. Learn to stay calm by controlling your breathing.
 									</Text>
 									<VStack
 										gap={1}
@@ -123,7 +122,7 @@ function Games() {
 												•
 											</Text>
 											<Text fontSize="sm" color="#666">
-												Stay in control under pressure
+												Stress regulation through breathing
 											</Text>
 										</HStack>
 										<HStack gap={2}>
@@ -131,7 +130,7 @@ function Games() {
 												•
 											</Text>
 											<Text fontSize="sm" color="#666">
-												React at the right moment
+												Focus and rhythm control
 											</Text>
 										</HStack>
 										<HStack gap={2}>
@@ -139,11 +138,15 @@ function Games() {
 												•
 											</Text>
 											<Text fontSize="sm" color="#666">
-												Handle increasing intensity
+												Staying calm under pressure
 											</Text>
 										</HStack>
 									</VStack>
-									<Button className="game-card-btn stress-btn" size="sm">
+									<Button
+										className="game-card-btn stress-btn"
+										size="sm"
+										onClick={() => navigate("/games/stress")}
+									>
 										Play
 									</Button>
 								</VStack>

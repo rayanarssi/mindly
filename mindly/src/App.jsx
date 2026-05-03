@@ -10,6 +10,7 @@ import Profile from "./pages/Profile";
 import Games from "./pages/Games";
 import GameLevels from "./pages/GameLevels";
 import FocusGame from "./pages/FocusGame";
+import BreathingGame from "./pages/BreathingGame";
 
 function App() {
 	return (
@@ -24,6 +25,7 @@ function App() {
 				<Route path="/profile" element={<Profile />} />
 				<Route path="/games" element={<Games />} />
 				<Route path="/games/:gameId" element={<GameLevels />} />
+				<Route path="/games/stress/play" element={<BreathingGame />} />
 				<Route path="/games/:gameId/play" element={<FocusGame />} />
 			</Routes>
 		</AuthProvider>
