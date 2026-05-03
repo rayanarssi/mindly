@@ -8,6 +8,7 @@ import Register from "./pages/Register";
 import ExpertVerification from "./pages/ExpertVerification";
 import Profile from "./pages/Profile";
 import Games from "./pages/Games";
+import GameLevels from "./pages/GameLevels";
 import FocusGame from "./pages/FocusGame";
 
 function App() {
@@ -22,7 +23,8 @@ function App() {
 				<Route path="/expert-verification" element={<ExpertVerification />} />
 				<Route path="/profile" element={<Profile />} />
 				<Route path="/games" element={<Games />} />
-				<Route path="/games/focus" element={<FocusGame />} />
+				<Route path="/games/:gameId" element={<GameLevels />} />
+				<Route path="/games/:gameId/play" element={<FocusGame />} />
 			</Routes>
 		</AuthProvider>
 	);

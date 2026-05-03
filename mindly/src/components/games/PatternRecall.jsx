@@ -25,7 +25,7 @@ function PatternRecall({ gameState, onBack }) {
 	// Expert mode: subtle distraction animation
 	const isExpert = level === "expert";
 
-	return (
+		return (
 		<Box className="pattern-recall-game">
 			<VStack gap={6} align="center">
 				{/* Header info */}
