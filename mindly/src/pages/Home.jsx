@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import Navbar from "../components/navbar/Navbar";
 import Footer from "../components/footer/footer";
 import CheckInFlow from "../components/CheckInFlow/CheckInFlow";
@@ -24,7 +25,7 @@ import MotivationPlay from "../assets/Homepage/Motivation_play_home.svg";
 import WhiteHome from "../assets/Homepage/White_home.svg";
 import ClockHome from "../assets/Homepage/clock_home.svg";
 import "../ui/home.css";
-import { useVideos } from "../hooks/useVideos";
+import { useVideosByTheme } from "../hooks/useVideos";
 
 const themeColors = {
 	stress: "#C27A6B",
@@ -39,7 +40,7 @@ const themeIcons = {
 };
 
 function Home() {
-	const { videos, loading, error } = useVideos(3);
+	const { videos, loading, error } = useVideosByTheme();
 	return (
 		<Box>
 			<CheckInFlow />

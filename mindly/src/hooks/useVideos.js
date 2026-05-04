@@ -103,6 +103,61 @@ export function useVideo(id) {
 	return { video, loading, error };
 }
 
+export function useVideosByTheme() {
+	const [videos, setVideos] = useState([]);
+	const [loading, setLoading] = useState(true);
+	const [error, setError] = useState(null);
+
+	useEffect(() => {
+		const fetchVideos = async () => {
+			const themes = ["stress", "focus", "motivation"];
+			const results = await Promise.all(
+				themes.map((theme) =>
+					supabase
+						.from("videos")
+						.select("id, title, created_by, video_url, theme, video_time")
+						.eq("theme", theme)
+						.limit(1)
+				)
+			);
+
+			const allVideos = results
+				.filter((r) => !r.error && r.data.length > 0)
+				.map((r) => r.data[0]);
+
+			const creatorIds = [
+				...new Set(allVideos.map((v) => v.created_by).filter(Boolean)),
+			];
+
+			if (creatorIds.length > 0) {
+				const { data: profilesData } = await supabase
+					.from("profiles")
+					.select("id, name")
+					.in("id", creatorIds);
+
+				const profileMap = {};
+				profilesData?.forEach((p) => {
+					profileMap[p.id] = p.name;
+				});
+
+				const formattedData = allVideos.map((video) => ({
+					...video,
+					creator_name: profileMap[video.created_by] || "Unknown",
+				}));
+				setVideos(formattedData);
+			} else {
+				setVideos(allVideos);
+			}
+
+			setLoading(false);
+		};
+
+		fetchVideos();
+	}, []);
+
+	return { videos, loading, error };
+}
+
 export function useRelatedVideos(theme, currentVideoId, limit = 3) {
 	const [videos, setVideos] = useState([]);
 	const [loading, setLoading] = useState(true);
