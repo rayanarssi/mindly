@@ -81,6 +81,14 @@ function Footer() {
 					>
 						Forum
 					</Link>
+					<Link
+						as={RouterLink}
+						to="/games"
+						color="#fefae0"
+						_hover={{ color: "white" }}
+					>
+						Games
+					</Link>
 				</VStack>
 
 				<VStack align="flex-start" spacing={3} maxW="280px">

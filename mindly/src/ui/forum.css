@@ -9,11 +9,41 @@
 .forum-description {
 	font-size: 1.2rem;
 	color: #472c1b;
-	
 }
 
 .community-guidelines-text {
 	font-size: 16px;
-	font-family: "Inter", sans-serif;
 	line-height: 1.6;
+}
+
+.forum-posts-grid {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	gap: 1.5rem;
+}
+
+.forum-card {
+	background-color: #fef0e1;
+	border-radius: 12px;
+	border: 2px solid;
+	position: relative;
+	transition: transform 0.2s;
+}
+
+.forum-card-creator {
+	font-size: 20px;
+	color: #472c1b;
+	font-weight: bold;
+}
+
+.forum-card-footer {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	height: 60px;
+	border-radius: 0 0 10px 10px;
+	padding: 0 16px;
+	display: flex;
+	align-items: center;
 }
