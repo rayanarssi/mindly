@@ -1,0 +1,19 @@
+.forum-heading {
+	font-family: "Just Another Hand", cursive;
+	font-size: 48px;
+	font-weight: bold;
+	color: #472c1b;
+	margin-bottom: 1.5rem;
+}
+
+.forum-description {
+	font-size: 1.2rem;
+	color: #472c1b;
+	
+}
+
+.community-guidelines-text {
+	font-size: 16px;
+	font-family: "Inter", sans-serif;
+	line-height: 1.6;
+}

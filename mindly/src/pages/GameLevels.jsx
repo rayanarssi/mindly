@@ -82,7 +82,7 @@ function GameLevels() {
                   size="sm"
                   onClick={() => handleSelectLevel(level.id)}
                 >
-                  Select {level.label}
+                  Select 
                 </Button>
               </VStack>
             </Box>
