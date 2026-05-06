@@ -18,6 +18,8 @@ import motivationForum from "../assets/Forum/motivation_forum.svg";
 import likeForum from "../assets/Forum/like_forum.svg";
 import commentForum from "../assets/Forum/comment_forum.svg";
 import { useForumPosts } from "../hooks/useForumPosts";
+import { useLikes } from "../hooks/useLikes";
+import { useAuth } from "../library/supabase/AuthContext";
 import "../ui/forum.css";
 
 const themeColors = {
@@ -27,7 +29,10 @@ const themeColors = {
 };
 
 function Forum() {
-	const { posts, loading, error } = useForumPosts();
+	const { posts, loading, error, refetch } = useForumPosts();
+	const { user } = useAuth();
+	const postIds = posts.map((p) => p.id);
+	const { userLikes, toggleLike } = useLikes(postIds);
 
 	return (
 		<Box className="forum-page" bg="#fefae0" minH="100vh">
@@ -152,8 +157,24 @@ function Forum() {
 										alignItems="center"
 									>
 										<Flex justify="space-between" align="center" w="100%">
-											<Flex align="center" gap={2}>
-												<Image src={likeForum} alt="Likes" w="16px" h="16px" />
+											<Flex
+												align="center"
+												gap={2}
+												cursor={user ? "pointer" : "default"}
+												onClick={async () => {
+													if (!user) return;
+													await toggleLike(post.id);
+													refetch();
+												}}
+												_hover={user ? { opacity: 0.8 } : {}}
+											>
+												<Image
+													src={likeForum}
+													alt="Likes"
+													w="16px"
+													h="16px"
+													filter={userLikes.has(post.id) ? "brightness(1.5)" : "none"}
+												/>
 												<Text color="white" fontSize="sm" fontWeight="bold">
 													{post.likes_count || 0} likes
 												</Text>
