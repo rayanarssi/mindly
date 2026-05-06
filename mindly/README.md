@@ -1,16 +1,16 @@
-# React + Vite
+# Mindly
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Mindly is a digital wellbeing platform for students and young adults. Research shows that many students experience problems related to stress, focus, and motivation, especially during busy periods such as exams and deadlines. Many students also mention that it is difficult to find clear and reliable information about these topics.
 
-Currently, two official plugins are available:
+That is why Mindly focuses on three main themes:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+    - stress
+    - focus
+    - motivation
 
-## React Compiler
+The goal of the platform is to help users better understand what they are feeling and experiencing, without giving diagnoses or replacing therapy.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
 
-## Expanding the ESLint configuration
+## Supabase (Backend & Database)
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+[SQL Error Fix - Like and Unlike](https://chatgpt.com/share/69fb6a97-6f74-83eb-b9c5-ca999a51e50b).
