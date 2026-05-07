@@ -20,6 +20,7 @@ import commentForum from "../assets/Forum/comment_forum.svg";
 import { useForumPosts } from "../hooks/useForumPosts";
 import { useLikes } from "../hooks/useLikes";
 import { useAuth } from "../library/supabase/AuthContext";
+import { useState } from "react";
 import "../ui/forum.css";
 
 const themeColors = {
@@ -33,6 +34,17 @@ function Forum() {
 	const { user } = useAuth();
 	const postIds = posts.map((p) => p.id);
 	const { userLikes, toggleLike } = useLikes(postIds);
+
+	const [themeFilter, setThemeFilter] = useState("all");
+	const [sortBy, setSortBy] = useState("most recent");
+
+	const filteredAndSortedPosts = posts
+		.filter((post) => themeFilter === "all" || post.theme === themeFilter)
+		.sort((a, b) => {
+			if (sortBy === "most likes") return (b.likes_count || 0) - (a.likes_count || 0);
+			if (sortBy === "most replies") return (b.replies_count || 0) - (a.replies_count || 0);
+			return new Date(b.created_at) - new Date(a.created_at);
+		});
 
 	return (
 		<Box className="forum-page" bg="#fefae0" minH="100vh">
@@ -78,7 +90,35 @@ function Forum() {
 				</Container>
 			</Box>
 
-			<Container maxW="90vw" py={10}>
+			<Container maxW="90vw" py={6}>
+				<Flex gap={4} mb={6} flexWrap="wrap">
+					<Box className="forum-filter-group">
+						
+						<select
+							className="forum-select"
+							value={themeFilter}
+							onChange={(e) => setThemeFilter(e.target.value)}
+						>
+							<option value="all">All themes</option>
+							<option value="stress">Stress</option>
+							<option value="focus">Focus</option>
+							<option value="motivation">Motivation</option>
+						</select>
+					</Box>
+					<Box className="forum-filter-group">
+						
+						<select
+							className="forum-select"
+							value={sortBy}
+							onChange={(e) => setSortBy(e.target.value)}
+						>
+							<option value="most recent">Most recent</option>
+							<option value="most likes">Most likes</option>
+							<option value="most replies">Most replies</option>
+						</select>
+					</Box>
+				</Flex>
+
 				{loading ? (
 					<Flex justify="center" py={10}>
 						<Spinner size="xl" color="#472c1b" />
@@ -87,13 +127,13 @@ function Forum() {
 					<Text color="red.500" textAlign="center">
 						Error loading posts: {error.message}
 					</Text>
-				) : posts.length === 0 ? (
+				) : filteredAndSortedPosts.length === 0 ? (
 					<Text textAlign="center" color="#472c1b" fontSize="lg" py={10}>
-						No posts yet. Be the first to ask a question!
+						{themeFilter !== "all" ? "No posts match this theme." : "No posts yet. Be the first to ask a question!"}
 					</Text>
 				) : (
 					<SimpleGrid columns={2} gap={6}>
-						{posts.map((post) => {
+						{filteredAndSortedPosts.map((post) => {
 							const themeColor = themeColors[post.theme] || themeColors.stress;
 							const ThemeIcon =
 								post.theme === "stress"

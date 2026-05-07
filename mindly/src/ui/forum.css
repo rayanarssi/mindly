@@ -30,6 +30,31 @@
 	transition: transform 0.2s;
 }
 
+.forum-filter-group {
+	display: flex;
+	align-items: center;
+}
+
+.forum-select {
+	padding: 0.5rem 2rem 0.5rem 0.75rem;
+	font-size: 0.95rem;
+	border: 2px solid #472c1b;
+	border-radius: 8px;
+	background: #fefae0;
+	color: #472c1b;
+	font-weight: 500;
+	cursor: pointer;
+	outline: none;
+	appearance: none;
+	background-image: url("../assets/Forum/arrow_forum_filter.svg");
+	background-repeat: no-repeat;
+	background-position: right 0.6rem center;
+	background-size: 25px;
+	min-width: 140px;
+}
+
+
+
 .forum-card-creator {
 	font-size: 20px;
 	color: #472c1b;
