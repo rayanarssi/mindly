@@ -20,6 +20,8 @@ import focusForum from "../assets/Forum/focus_forum.svg";
 import motivationForum from "../assets/Forum/motivation_forum.svg";
 import likeForum from "../assets/Forum/like_forum.svg";
 import commentForum from "../assets/Forum/comment_forum.svg";
+import userAvatarIcon from "../assets/Login/user_icon_brown.svg";
+import expertAvatarIcon from "../assets/Login/expert_icon_brown.svg";
 import { useForumPosts } from "../hooks/useForumPosts";
 import { useLikes } from "../hooks/useLikes";
 import { useAuth } from "../library/supabase/AuthContext";
@@ -210,9 +212,23 @@ function Forum() {
 								>
 									<Box p={4} position="relative">
 										<Flex justify="space-between" align="flex-start" mb={3}>
-											<Text className="forum-card-creator">
-												{post.creator_name}
-											</Text>
+											<Flex align="center" gap={2}>
+												{post.creator_role && (
+													<Image
+														src={
+															post.creator_role === "expert"
+																? expertAvatarIcon
+																: userAvatarIcon
+														}
+														alt={post.creator_role}
+														w="24px"
+														h="24px"
+													/>
+												)}
+												<Text className="forum-card-creator">
+													{post.creator_name}
+												</Text>
+											</Flex>
 											<Box
 												bg={themeColor}
 												px={3}
