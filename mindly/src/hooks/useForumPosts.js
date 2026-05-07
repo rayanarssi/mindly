@@ -8,14 +8,10 @@ export function useForumPosts() {
 
 	const fetchPosts = async () => {
 		try {
-			console.log("Fetching posts...");
 			const { data: postsData, error: postsError } = await supabase
 				.from("posts")
 				.select("*")
 				.order("created_at", { ascending: false });
-
-			console.log("Posts data:", postsData);
-			console.log("Posts error:", postsError);
 
 			if (postsError) {
 				console.error("Supabase error:", postsError);
@@ -25,21 +21,15 @@ export function useForumPosts() {
 			}
 
 			if (postsData && postsData.length > 0) {
-				console.log("Processing posts:", postsData.length);
 				const creatorIds = [
 					...new Set(postsData.map((p) => p.user_id).filter(Boolean)),
 				];
-
-				console.log("Creator IDs:", creatorIds);
 
 				if (creatorIds.length > 0) {
 					const { data: profilesData, error: profilesError } = await supabase
 						.from("profiles")
 						.select("id, name")
 						.in("id", creatorIds);
-
-					console.log("Profiles data:", profilesData);
-					console.log("Profiles error:", profilesError);
 
 					if (profilesError) {
 						setError(profilesError);
@@ -54,15 +44,17 @@ export function useForumPosts() {
 
 					const formattedData = postsData.map((post) => ({
 						...post,
-						creator_name: post.is_anonymous ? "Anonymous" : (profileMap[post.user_id] || "Anonymous"),
+						creator_name: post.is_anonymous
+							? "Anonymous"
+							: profileMap[post.user_id] || "Anonymous",
 					}));
-					console.log("Formatted data:", formattedData);
 					setPosts(formattedData);
 				} else {
-					setPosts(postsData.map(post => ({ ...post, creator_name: "Anonymous" })));
+					setPosts(
+						postsData.map((post) => ({ ...post, creator_name: "Anonymous" })),
+					);
 				}
 			} else {
-				console.log("No posts found or empty array");
 				setPosts([]);
 			}
 

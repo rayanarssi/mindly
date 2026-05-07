@@ -33,13 +33,14 @@
 .forum-filter-group {
 	display: flex;
 	align-items: center;
+	
 }
 
 .forum-select {
 	padding: 0.5rem 2rem 0.5rem 0.75rem;
 	font-size: 0.95rem;
 	border: 2px solid #472c1b;
-	border-radius: 8px;
+	border-radius: 10px;
 	background: #fefae0;
 	color: #472c1b;
 	font-weight: 500;
@@ -52,8 +53,6 @@
 	background-size: 25px;
 	min-width: 140px;
 }
-
-
 
 .forum-card-creator {
 	font-size: 20px;
@@ -71,4 +70,18 @@
 	padding: 0 16px;
 	display: flex;
 	align-items: center;
+}
+
+.close-panel-btn {
+	border: none;
+	background: none;
+	font-size: 25px;
+	cursor: pointer;
+	color: #472c1b;
+}
+
+.heading-ask-question {
+	font-size: 24px;
+	font-weight: bold;
+	color: #472c1b;
 }

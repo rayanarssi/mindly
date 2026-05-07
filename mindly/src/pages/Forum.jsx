@@ -9,7 +9,10 @@ import {
 	Container,
 	Spinner,
 	SimpleGrid,
+	Button,
+	Textarea,
 } from "@chakra-ui/react";
+import { supabase } from "../library/supabase/supabaseClient";
 import brownForum from "../assets/Forum/brown_forum.svg";
 import communityIcon from "../assets/Forum/community_icon.svg";
 import stressForum from "../assets/Forum/stress_forum.svg";
@@ -37,14 +40,44 @@ function Forum() {
 
 	const [themeFilter, setThemeFilter] = useState("all");
 	const [sortBy, setSortBy] = useState("most recent");
-
+	const [askModalOpen, setAskModalOpen] = useState(false);
+	const [newQuestion, setNewQuestion] = useState({ body: "", theme: "stress" });
+	const [isAnonymous, setIsAnonymous] = useState(false);
+	const [submitting, setSubmitting] = useState(false);
 	const filteredAndSortedPosts = posts
 		.filter((post) => themeFilter === "all" || post.theme === themeFilter)
 		.sort((a, b) => {
-			if (sortBy === "most likes") return (b.likes_count || 0) - (a.likes_count || 0);
-			if (sortBy === "most replies") return (b.replies_count || 0) - (a.replies_count || 0);
+			if (sortBy === "most likes")
+				return (b.likes_count || 0) - (a.likes_count || 0);
+			if (sortBy === "most replies")
+				return (b.replies_count || 0) - (a.replies_count || 0);
 			return new Date(b.created_at) - new Date(a.created_at);
 		});
+
+	const handleAskQuestion = async (e) => {
+		e.preventDefault();
+		if (!newQuestion.body.trim() || !user) return;
+		setSubmitting(true);
+		try {
+			const { error } = await supabase.from("posts").insert({
+				user_id: user.id,
+				body: newQuestion.body,
+				theme: newQuestion.theme,
+				is_anonymous: isAnonymous,
+				likes_count: 0,
+				replies_count: 0,
+			});
+			if (error) throw error;
+			setAskModalOpen(false);
+			setNewQuestion({ body: "", theme: "stress" });
+			setIsAnonymous(false);
+			refetch();
+		} catch (err) {
+			console.error("Error posting question:", err);
+		} finally {
+			setSubmitting(false);
+		}
+	};
 
 	return (
 		<Box className="forum-page" bg="#fefae0" minH="100vh">
@@ -84,39 +117,58 @@ function Forum() {
 							maxW="1000px"
 						>
 							Community guidelines: Be respectful to others. Do not share
-							personal information. Help us keep this space safe and supportive for everyone.
+							personal information. Help us keep this space safe and supportive
+							for everyone.
 						</Text>
 					</Flex>
 				</Container>
 			</Box>
 
 			<Container maxW="90vw" py={6}>
-				<Flex gap={4} mb={6} flexWrap="wrap">
-					<Box className="forum-filter-group">
-						
-						<select
-							className="forum-select"
-							value={themeFilter}
-							onChange={(e) => setThemeFilter(e.target.value)}
-						>
-							<option value="all">All themes</option>
-							<option value="stress">Stress</option>
-							<option value="focus">Focus</option>
-							<option value="motivation">Motivation</option>
-						</select>
-					</Box>
-					<Box className="forum-filter-group">
-						
-						<select
-							className="forum-select"
-							value={sortBy}
-							onChange={(e) => setSortBy(e.target.value)}
-						>
-							<option value="most recent">Most recent</option>
-							<option value="most likes">Most likes</option>
-							<option value="most replies">Most replies</option>
-						</select>
-					</Box>
+				<Flex
+					justify="space-between"
+					align="center"
+					mb={6}
+					flexWrap="wrap"
+					gap={4}
+				>
+					<Flex gap={4} flexWrap="wrap">
+						<Box className="forum-filter-group">
+							<select
+								className="forum-select"
+								value={themeFilter}
+								onChange={(e) => setThemeFilter(e.target.value)}
+							>
+								<option value="all">All themes</option>
+								<option value="stress">Stress</option>
+								<option value="focus">Focus</option>
+								<option value="motivation">Motivation</option>
+							</select>
+						</Box>
+						<Box className="forum-filter-group">
+							<select
+								className="forum-select"
+								value={sortBy}
+								onChange={(e) => setSortBy(e.target.value)}
+							>
+								<option value="most recent">Most recent</option>
+								<option value="most likes">Most likes</option>
+								<option value="most replies">Most replies</option>
+							</select>
+						</Box>
+					</Flex>
+					<Button
+						bg="#472c1b"
+						color="#fefae0"
+						px={4}
+						py={2}
+						borderRadius="10px"
+						fontWeight="bold"
+						fontSize="md"
+						onClick={() => setAskModalOpen(true)}
+					>
+						+ Ask a question
+					</Button>
 				</Flex>
 
 				{loading ? (
@@ -129,7 +181,9 @@ function Forum() {
 					</Text>
 				) : filteredAndSortedPosts.length === 0 ? (
 					<Text textAlign="center" color="#472c1b" fontSize="lg" py={10}>
-						{themeFilter !== "all" ? "No posts match this theme." : "No posts yet. Be the first to ask a question!"}
+						{themeFilter !== "all"
+							? "No posts match this theme."
+							: "No posts yet. Be the first to ask a question!"}
 					</Text>
 				) : (
 					<SimpleGrid columns={2} gap={6}>
@@ -153,10 +207,10 @@ function Forum() {
 									boxShadow="lg"
 									position="relative"
 									minH="210px"
-									>
+								>
 									<Box p={4} position="relative">
 										<Flex justify="space-between" align="flex-start" mb={3}>
-											<Text className="forum-card-creator"  >
+											<Text className="forum-card-creator">
 												{post.creator_name}
 											</Text>
 											<Box
@@ -213,7 +267,9 @@ function Forum() {
 													alt="Likes"
 													w="16px"
 													h="16px"
-													filter={userLikes.has(post.id) ? "brightness(1.5)" : "none"}
+													filter={
+														userLikes.has(post.id) ? "brightness(1.5)" : "none"
+													}
 												/>
 												<Text color="white" fontSize="sm" fontWeight="bold">
 													{post.likes_count || 0} likes
@@ -239,6 +295,144 @@ function Forum() {
 				)}
 			</Container>
 
+			{askModalOpen && (
+				<Box
+					position="fixed"
+					top="0"
+					left="0"
+					right="0"
+					bottom="0"
+					bg="rgba(0,0,0,0.5)"
+					display="flex"
+					alignItems="center"
+					justifyContent="center"
+					zIndex="9999"
+				>
+					<Box
+						bg="#fefae0"
+						p={6}
+						borderRadius="12px"
+						maxW="500px"
+						width="90%"
+						maxH="90vh"
+						overflowY="auto"
+					>
+						<Flex justify="space-between" align="center" mb={4}>
+							<Heading  className="heading-ask-question" color="#472c1b">
+								Ask a question
+							</Heading>
+							<Button
+								className="close-panel-btn"
+								size="sm"
+								onClick={() => setAskModalOpen(false)}
+							>
+								✕
+							</Button>
+						</Flex>
+						<form onSubmit={handleAskQuestion}>
+							<div
+								style={{
+									display: "flex",
+									flexDirection: "column",
+									gap: "16px",
+								}}
+							>
+								<div>
+									<Text color="#472c1b" fontWeight="bold" mb={1}>
+										Theme
+									</Text>
+									<select
+										value={newQuestion.theme}
+										onChange={(e) =>
+											setNewQuestion({ ...newQuestion, theme: e.target.value })
+										}
+										style={{
+											width: "100%",
+											padding: "8px",
+											borderRadius: "8px",
+											border: "2px solid #472c1b",
+											backgroundColor: "#fefae0",
+											color: "#472c1b",
+											fontWeight: "500",
+											outline: "none",
+										}}
+									>
+										<option value="stress">Stress</option>
+										<option value="focus">Focus</option>
+										<option value="motivation">Motivation</option>
+									</select>
+								</div>
+								<div>
+									<Text color="#472c1b" fontWeight="bold" mb={1}>
+										Your question
+									</Text>
+									<Textarea
+										placeholder="Type your question here..."
+										value={newQuestion.body}
+										onChange={(e) =>
+											setNewQuestion({ ...newQuestion, body: e.target.value })
+										}
+										rows={4}
+										border="2px solid #472c1b"
+										borderRadius="8px"
+										_focus={{ borderColor: "#472c1b" }}
+										required
+									/>
+								</div>
+								<Flex align="center" gap={3}>
+									<Box
+										as="button"
+										type="button"
+										w="44px"
+										h="24px"
+										borderRadius="full"
+										bg={isAnonymous ? "#472c1b" : "gray.300"}
+										position="relative"
+										transition="background 0.2s"
+										border="none"
+										cursor="pointer"
+										onClick={() => setIsAnonymous((prev) => !prev)}
+										_focus={{ outline: "none" }}
+										_hover={{ opacity: 0.8 }}
+									>
+										<Box
+											w="20px"
+											h="20px"
+											borderRadius="full"
+											bg="white"
+											position="absolute"
+											top="2px"
+											left={isAnonymous ? "22px" : "2px"}
+											transition="left 0.2s"
+											boxShadow="sm"
+										/>
+									</Box>
+									<Text
+										color="#472c1b"
+										fontWeight="medium"
+										cursor="pointer"
+										onClick={() => setIsAnonymous((prev) => !prev)}
+									>
+										Ask anonymously
+									</Text>
+								</Flex>
+								<Button
+									type="submit"
+									bg="#472c1b"
+									color="#fefae0"
+									fontWeight="bold"
+									py={2}
+									borderRadius="8px"
+									_hover={{ opacity: 0.9 }}
+									disabled={submitting || !newQuestion.body.trim()}
+								>
+									{submitting ? "Posting..." : "Post question"}
+								</Button>
+							</div>
+						</form>
+					</Box>
+				</Box>
+			)}
 			<Footer />
 		</Box>
 	);
