@@ -12,6 +12,7 @@ import {
 	Textarea,
 } from "@chakra-ui/react";
 import { useState } from "react";
+import { FaHeart, FaRegHeart } from "react-icons/fa";
 import Beige from "../assets/Homepage/Beige_home.svg";
 import WhiteHome from "../assets/Homepage/White_home.svg";
 import ClockHome from "../assets/Homepage/clock_home.svg";
@@ -21,6 +22,7 @@ import MotivationPlay from "../assets/Homepage/Motivation_play_home.svg";
 import "../ui/home.css";
 import "../ui/videos.css";
 import { useVideos } from "../hooks/useVideos";
+import { useVideoFavorites } from "../hooks/useVideoFavorites";
 import { useAuth } from "../library/supabase/AuthContext";
 import { supabase } from "../library/supabase/supabaseClient";
 import { useNavigate, Link } from "react-router-dom";
@@ -78,6 +80,10 @@ function Videos() {
 		const matchesFilter = filter === "all" || video.theme === filter;
 		return matchesSearch && matchesFilter;
 	});
+
+	const filteredVideoIds = filteredVideos.map((v) => v.id);
+	const { favoritedVideos, toggleFavorite } =
+		useVideoFavorites(filteredVideoIds);
 
 	const handleAddVideo = async (e) => {
 		e.preventDefault();
@@ -222,19 +228,48 @@ function Videos() {
 											position="relative"
 											_hover={{ transform: "scale(1.02)", transition: "0.2s" }}
 										>
+										<Box
+											className="video_thumbnail"
+											bg={themeColor}
+											position="relative"
+											zIndex={0}
+											h="250px"
+											display="flex"
+											alignItems="center"
+											justifyContent="center"
+										>
 											<Box
-												className="video_thumbnail"
-												bg={themeColor}
-												position="relative"
-												zIndex={0}
-												h="250px"
-												display="flex"
-												alignItems="center"
-												justifyContent="center"
+												position="absolute"
+												top={3}
+												right={3}
+												zIndex={3}
+												cursor="pointer"
+												onClick={(e) => {
+													e.preventDefault();
+													e.stopPropagation();
+													toggleFavorite(video.id);
+												}}
+color={
+	favoritedVideos.has(video.id)
+		? "#fefae0"
+		: "white"
+}
+fontSize="22px"
+filter={
+	favoritedVideos.has(video.id)
+		? "none"
+		: "drop-shadow(0 1px 2px rgba(0,0,0,0.5))"
+}
 											>
-												<Box className="theme_icon" zIndex={1}>
-													<Image src={ThemeIcon} alt="Play" w="80px" h="80px" />
-												</Box>
+												{favoritedVideos.has(video.id) ? (
+													<FaHeart />
+												) : (
+													<FaRegHeart />
+												)}
+											</Box>
+											<Box className="theme_icon" zIndex={1}>
+												<Image src={ThemeIcon} alt="Play" w="80px" h="80px" />
+											</Box>
 												<Box
 													className="video_minute"
 													zIndex={2}

@@ -13,6 +13,7 @@ import {
 	Container,
 } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
+import { FaHeart, FaRegHeart } from "react-icons/fa";
 import bgHome from "../assets/Homepage/BG_Home.png";
 import actionBrown from "../assets/Homepage/Action_brown.png";
 import Book from "../assets/Homepage/Book_home.svg";
@@ -26,6 +27,7 @@ import WhiteHome from "../assets/Homepage/White_home.svg";
 import ClockHome from "../assets/Homepage/clock_home.svg";
 import "../ui/home.css";
 import { useVideosByTheme } from "../hooks/useVideos";
+import { useVideoFavorites } from "../hooks/useVideoFavorites";
 
 const themeColors = {
 	stress: "#C27A6B",
@@ -41,6 +43,8 @@ const themeIcons = {
 
 function Home() {
 	const { videos, loading, error } = useVideosByTheme();
+	const videoIds = videos.map((v) => v.id);
+	const { favoritedVideos, toggleFavorite } = useVideoFavorites(videoIds);
 	return (
 		<Box>
 			<CheckInFlow />
@@ -205,6 +209,35 @@ function Home() {
 											alignItems="center"
 											justifyContent="center"
 										>
+											<Box
+												position="absolute"
+												top={3}
+												right={3}
+												zIndex={3}
+												cursor="pointer"
+												onClick={(e) => {
+													e.preventDefault();
+													e.stopPropagation();
+													toggleFavorite(video.id);
+												}}
+												color={
+													favoritedVideos.has(video.id)
+														? "#fefae0"
+														: "white"
+												}
+												fontSize="22px"
+												filter={
+													favoritedVideos.has(video.id)
+														? "none"
+														: "drop-shadow(0 1px 2px rgba(0,0,0,0.5))"
+												}
+											>
+												{favoritedVideos.has(video.id) ? (
+													<FaHeart />
+												) : (
+													<FaRegHeart />
+												)}
+											</Box>
 											<Box className="theme_icon" zIndex={1}>
 												<Image src={ThemeIcon} alt="Play" w="80px" h="80px" />
 											</Box>

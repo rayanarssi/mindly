@@ -9,7 +9,9 @@ import {
 	Spinner,
 } from "@chakra-ui/react";
 import { useParams, Link, useNavigate } from "react-router-dom";
+import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { useVideo, useRelatedVideos } from "../hooks/useVideos";
+import { useVideoFavorites } from "../hooks/useVideoFavorites";
 import StressPlay from "../assets/Homepage/Stress_play_home.svg";
 import FocusPlay from "../assets/Homepage/Focus_play_home.svg";
 import MotivationPlay from "../assets/Homepage/Motivation_play_home.svg";
@@ -39,6 +41,13 @@ function VideoDetail() {
 		id,
 		3,
 	);
+
+	const allVideoIds = [
+		...(video ? [video.id] : []),
+		...relatedVideos.map((v) => v.id),
+	];
+	const { favoritedVideos, toggleFavorite } =
+		useVideoFavorites(allVideoIds);
 
 	if (loading) {
 		return (
@@ -108,16 +117,39 @@ function VideoDetail() {
 									<Heading className="videodetail-title" color="#472c1b">
 										{video.title}
 									</Heading>
-									<Box
-										className="theme_videos"
-										bg={themeColor}
-										px={3}
-										py={1}
-										fontSize="sm"
-										display="inline-block"
-									>
-										{video.theme.charAt(0).toUpperCase() + video.theme.slice(1)}
-									</Box>
+									<Flex align="center" gap={3}>
+										<Box
+											as="button"
+											onClick={() => toggleFavorite(video.id)}
+color={
+	favoritedVideos.has(video.id)
+		? "#472c1b"
+		: "#472c1b"
+}
+fontSize="22px"
+cursor="pointer"
+display="flex"
+alignItems="center"
+_hover={{ color: "#472c1b" }}
+										>
+											{favoritedVideos.has(video.id) ? (
+												<FaHeart />
+											) : (
+												<FaRegHeart />
+											)}
+										</Box>
+										<Box
+											className="theme_videos"
+											bg={themeColor}
+											px={3}
+											py={1}
+											fontSize="sm"
+											display="inline-block"
+										>
+											{video.theme.charAt(0).toUpperCase() +
+												video.theme.slice(1)}
+										</Box>
+									</Flex>
 								</Flex>
 								<Text className="video-creator" color="#472c1b" mb={2}>
 									{video.creator_name}
@@ -173,6 +205,35 @@ function VideoDetail() {
 													alignItems="center"
 													justifyContent="center"
 												>
+													<Box
+														position="absolute"
+														top={3}
+														right={3}
+														zIndex={3}
+														cursor="pointer"
+														onClick={(e) => {
+															e.preventDefault();
+															e.stopPropagation();
+															toggleFavorite(relVideo.id);
+														}}
+														color={
+															favoritedVideos.has(relVideo.id)
+																? "#fefae0"
+																: "white"
+														}
+														fontSize="22px"
+														filter={
+															favoritedVideos.has(relVideo.id)
+																? "none"
+																: "drop-shadow(0 1px 2px rgba(0,0,0,0.5))"
+														}
+													>
+														{favoritedVideos.has(relVideo.id) ? (
+															<FaHeart />
+														) : (
+															<FaRegHeart />
+														)}
+													</Box>
 													<Box className="theme_icon" zIndex={1}>
 														<Image
 															src={RelThemeIcon}
