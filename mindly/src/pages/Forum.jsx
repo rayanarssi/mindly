@@ -24,6 +24,7 @@ import userAvatarIcon from "../assets/Login/user_icon_brown.svg";
 import expertAvatarIcon from "../assets/Login/expert_icon_brown.svg";
 import { useForumPosts } from "../hooks/useForumPosts";
 import { useLikes } from "../hooks/useLikes";
+import { useReplies } from "../hooks/useReplies";
 import { useAuth } from "../library/supabase/AuthContext";
 import { useState } from "react";
 import "../ui/forum.css";
@@ -46,6 +47,43 @@ function Forum() {
 	const [newQuestion, setNewQuestion] = useState({ body: "", theme: "stress" });
 	const [isAnonymous, setIsAnonymous] = useState(false);
 	const [submitting, setSubmitting] = useState(false);
+	const [selectedPost, setSelectedPost] = useState(null);
+	const [replyModalOpen, setReplyModalOpen] = useState(false);
+	const [replyBody, setReplyBody] = useState("");
+	const [replyAnonymous, setReplyAnonymous] = useState(false);
+	const [replySubmitting, setReplySubmitting] = useState(false);
+	const {
+		replies,
+		loading: repliesLoading,
+		addReply,
+		fetchReplies,
+	} = useReplies(selectedPost?.id);
+
+	const handleOpenReplyModal = (post) => {
+		setSelectedPost(post);
+		setReplyBody("");
+		setReplyAnonymous(false);
+		setReplyModalOpen(true);
+		fetchReplies(post.id);
+	};
+
+	const handleAddReply = async (e) => {
+		e.preventDefault();
+		if (!replyBody.trim() || !user || replySubmitting) return;
+		setReplySubmitting(true);
+		const { error } = await addReply({
+			body: replyBody,
+			is_anonymous: replyAnonymous,
+		});
+		setReplySubmitting(false);
+		if (!error) {
+			setReplyBody("");
+			setReplyAnonymous(false);
+			setReplyModalOpen(false);
+			refetch();
+		}
+	};
+
 	const filteredAndSortedPosts = posts
 		.filter((post) => themeFilter === "all" || post.theme === themeFilter)
 		.sort((a, b) => {
@@ -291,7 +329,13 @@ function Forum() {
 													{post.likes_count || 0} likes
 												</Text>
 											</Flex>
-											<Flex align="center" gap={2}>
+											<Flex
+												align="center"
+												gap={2}
+												cursor={user ? "pointer" : "default"}
+												onClick={() => handleOpenReplyModal(post)}
+												_hover={user ? { opacity: 0.8 } : {}}
+											>
 												<Image
 													src={commentForum}
 													alt="Replies"
@@ -446,6 +490,209 @@ function Forum() {
 								</Button>
 							</div>
 						</form>
+					</Box>
+				</Box>
+			)}
+			{replyModalOpen && selectedPost && (
+				<Box
+					position="fixed"
+					top="0"
+					left="0"
+					right="0"
+					bottom="0"
+					bg="rgba(0,0,0,0.5)"
+					display="flex"
+					alignItems="center"
+					justifyContent="center"
+					zIndex="9999"
+				>
+					<Box
+						bg="#fefae0"
+						borderRadius="12px"
+						maxW="600px"
+						width="90%"
+						maxH="85vh"
+						overflowY="auto"
+					>
+						<Box p={6}>
+							<Flex justify="space-between" align="center" mb={4}>
+								<Heading fontSize="24px" color="#472c1b" fontWeight="bold">
+									Post
+								</Heading>
+								<Button
+									className="close-panel-btn"
+									size="sm"
+									onClick={() => setReplyModalOpen(false)}
+								>
+									✕
+								</Button>
+							</Flex>
+
+							<Box
+								border="2px solid"
+								borderColor={themeColors[selectedPost.theme] || themeColors.stress}
+								borderRadius="10px"
+								p={4}
+								mb={4}
+							>
+								<Flex justify="space-between" align="flex-start" mb={2}>
+									<Flex align="center" gap={2}>
+										{selectedPost.creator_role && (
+											<Image
+												src={
+													selectedPost.creator_role === "expert"
+														? expertAvatarIcon
+														: userAvatarIcon
+												}
+												alt={selectedPost.creator_role}
+												w="20px"
+												h="20px"
+											/>
+										)}
+										<Text fontWeight="bold" color="#472c1b" fontSize="md">
+											{selectedPost.creator_name}
+										</Text>
+									</Flex>
+									<Box
+										bg={themeColors[selectedPost.theme] || themeColors.stress}
+										px={3}
+										py={1}
+										fontSize="xs"
+										borderRadius="full"
+										color="white"
+										fontWeight="bold"
+									>
+										{selectedPost.theme
+											? selectedPost.theme.charAt(0).toUpperCase() + selectedPost.theme.slice(1)
+											: "General"}
+									</Box>
+								</Flex>
+								<Text color="#472c1b">{selectedPost.body}</Text>
+							</Box>
+
+
+
+							{repliesLoading ? (
+								<Flex justify="center" py={4}>
+									<Spinner size="md" color="#472c1b" />
+								</Flex>
+							) : replies.length === 0 ? (
+								<Text color="#472c1b" textAlign="center" py={4} fontSize="sm">
+									No replies yet. Be the first to reply!
+								</Text>
+							) : (
+								<Box mb={4} maxH="300px" overflowY="auto">
+									{replies.map((reply) => (
+										<Box
+											key={reply.id}
+											borderBottom="1px solid"
+											borderColor="#e0d5c1"
+											py={3}
+										>
+											<Flex align="center" gap={2} mb={1}>
+												<Image
+													src={userAvatarIcon}
+													alt="User"
+													w="18px"
+													h="18px"
+												/>
+												<Text fontWeight="bold" color="#472c1b" fontSize="sm">
+													{reply.creator_name}
+												</Text>
+												<Text color="#8a7a6a" fontSize="xs">
+													{new Date(reply.created_at).toLocaleDateString("en-US", {
+														month: "short",
+														day: "numeric",
+													})}
+												</Text>
+											</Flex>
+											<Text color="#472c1b" fontSize="sm" pl="26px">
+												{reply.body}
+											</Text>
+										</Box>
+									))}
+								</Box>
+							)}
+
+							{user && (
+								<form onSubmit={handleAddReply}>
+									<div
+										style={{
+											display: "flex",
+											flexDirection: "column",
+											gap: "12px",
+										}}
+									>
+										<Textarea
+											placeholder="Write your reply..."
+											value={replyBody}
+											onChange={(e) => setReplyBody(e.target.value)}
+											rows={3}
+											border="2px solid #472c1b"
+											borderRadius="8px"
+											_focus={{ borderColor: "#472c1b" }}
+											required
+										/>
+										<Flex align="center" gap={3}>
+											<Box
+												as="button"
+												type="button"
+												w="44px"
+												h="24px"
+												borderRadius="full"
+												bg={replyAnonymous ? "#472c1b" : "gray.300"}
+												position="relative"
+												transition="background 0.2s"
+												border="none"
+												cursor="pointer"
+												onClick={() => setReplyAnonymous((prev) => !prev)}
+												_focus={{ outline: "none" }}
+												_hover={{ opacity: 0.8 }}
+											>
+												<Box
+													w="20px"
+													h="20px"
+													borderRadius="full"
+													bg="white"
+													position="absolute"
+													top="2px"
+													left={replyAnonymous ? "22px" : "2px"}
+													transition="left 0.2s"
+													boxShadow="sm"
+												/>
+											</Box>
+											<Text
+												color="#472c1b"
+												fontWeight="medium"
+												fontSize="sm"
+												cursor="pointer"
+												onClick={() => setReplyAnonymous((prev) => !prev)}
+											>
+												Reply anonymously
+											</Text>
+										</Flex>
+										<Button
+											type="submit"
+											bg="#472c1b"
+											color="#fefae0"
+											fontWeight="bold"
+											py={2}
+											borderRadius="8px"
+											_hover={{ opacity: 0.9 }}
+											disabled={replySubmitting || !replyBody.trim()}
+										>
+											{replySubmitting ? "Sending..." : "Send reply"}
+										</Button>
+									</div>
+								</form>
+							)}
+
+							{!user && (
+								<Text color="#8a7a6a" textAlign="center" fontSize="sm">
+									Log in to reply to this post.
+								</Text>
+							)}
+						</Box>
 					</Box>
 				</Box>
 			)}
