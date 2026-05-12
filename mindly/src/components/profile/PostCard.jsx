@@ -1,4 +1,5 @@
 import { Box, Flex, HStack, Text, Badge } from "@chakra-ui/react";
+import "./profile.css";
 
 const themeColors = {
 	stress: "#C27A6B",
@@ -15,35 +16,20 @@ function PostCard({ post }) {
 		post.body.slice(0, 60) + (post.body.length > 60 ? "..." : "");
 
 	return (
-		<Box
-			p={5}
-			bg="white"
-			borderRadius="lg"
-			boxShadow="sm"
-			transition="all 0.2s"
-			_hover={{ boxShadow: "md" }}
-		>
+		<Box className="post-card">
 			<Flex align="flex-start" justify="space-between" mb={2}>
-				<Text fontWeight="bold" color="#283618" fontSize="md" noOfLines={1}>
+				<Text className="post-card-title" noOfLines={1}>
 					{title}
 				</Text>
 				{post.theme && (
 					<Badge
 						bg={themeColors[post.theme] || "#dda15e"}
-						color="white"
-						fontSize="xs"
-						px={2}
-						py={0.5}
-						borderRadius="full"
-						textTransform="capitalize"
-						flexShrink={0}
-						ml={3}
+						className="post-card-badge"
 					>
 						{post.theme}
 					</Badge>
 				)}
 			</Flex>
-			
 		</Box>
 	);
 }
