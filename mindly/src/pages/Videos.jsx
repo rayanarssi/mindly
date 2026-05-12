@@ -26,6 +26,7 @@ import { useVideoFavorites } from "../hooks/useVideoFavorites";
 import { useAuth } from "../library/supabase/AuthContext";
 import { supabase } from "../library/supabase/supabaseClient";
 import { useNavigate, Link } from "react-router-dom";
+import { toaster } from "../library/toaster";
 
 const themeColors = {
 	stress: "#C27A6B",
@@ -150,7 +151,11 @@ function Videos() {
 				video_time: "",
 			});
 			setSelectedFile(null);
-			alert("Video added successfully!");
+			toaster.create({
+				title: "Success",
+				description: "Video successfully loaded",
+				type: "success",
+			});
 		} catch (err) {
 			setSubmitError(err.message || "Failed to add video. Please try again.");
 		} finally {
@@ -244,10 +249,17 @@ function Videos() {
 												right={3}
 												zIndex={3}
 												cursor="pointer"
-												onClick={(e) => {
+												onClick={async (e) => {
 													e.preventDefault();
 													e.stopPropagation();
-													toggleFavorite(video.id);
+													const result = await toggleFavorite(video.id);
+													if (result?.action === "favorited") {
+														toaster.create({
+															title: "Success",
+															description: "Video added to favorites",
+															type: "success",
+														});
+													}
 												}}
 color={
 	favoritedVideos.has(video.id)

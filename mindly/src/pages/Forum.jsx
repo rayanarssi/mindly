@@ -28,6 +28,7 @@ import { useReplies } from "../hooks/useReplies";
 import { useAuth } from "../library/supabase/AuthContext";
 import { useState } from "react";
 import "../ui/forum.css";
+import { toaster } from "../library/toaster";
 
 const themeColors = {
 	stress: "#C27A6B",
@@ -81,6 +82,11 @@ function Forum() {
 			setReplyAnonymous(false);
 			setReplyModalOpen(false);
 			refetch();
+			toaster.create({
+				title: "Success",
+				description: "Reply successfully posted",
+				type: "success",
+			});
 		}
 	};
 
@@ -112,6 +118,11 @@ function Forum() {
 			setNewQuestion({ body: "", theme: "stress" });
 			setIsAnonymous(false);
 			refetch();
+			toaster.create({
+				title: "Success",
+				description: "Post successfully posted",
+				type: "success",
+			});
 		} catch (err) {
 			console.error("Error posting question:", err);
 		} finally {

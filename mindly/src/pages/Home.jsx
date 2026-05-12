@@ -28,6 +28,7 @@ import ClockHome from "../assets/Homepage/clock_home.svg";
 import "../ui/home.css";
 import { useVideosByTheme } from "../hooks/useVideos";
 import { useVideoFavorites } from "../hooks/useVideoFavorites";
+import { toaster } from "../library/toaster";
 
 const themeColors = {
 	stress: "#C27A6B",
@@ -215,10 +216,17 @@ function Home() {
 												right={3}
 												zIndex={3}
 												cursor="pointer"
-												onClick={(e) => {
+												onClick={async (e) => {
 													e.preventDefault();
 													e.stopPropagation();
-													toggleFavorite(video.id);
+													const result = await toggleFavorite(video.id);
+													if (result?.action === "favorited") {
+														toaster.create({
+															title: "Success",
+															description: "Video added to favorites",
+															type: "success",
+														});
+													}
 												}}
 												color={
 													favoritedVideos.has(video.id)

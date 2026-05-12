@@ -10,6 +10,7 @@ import {
 } from "@chakra-ui/react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
+import { toaster } from "../library/toaster";
 import { useVideo, useRelatedVideos } from "../hooks/useVideos";
 import { useVideoFavorites } from "../hooks/useVideoFavorites";
 import StressPlay from "../assets/Homepage/Stress_play_home.svg";
@@ -120,7 +121,16 @@ function VideoDetail() {
 									<Flex align="center" gap={3}>
 										<Box
 											as="button"
-											onClick={() => toggleFavorite(video.id)}
+											onClick={async () => {
+												const result = await toggleFavorite(video.id);
+												if (result?.action === "favorited") {
+													toaster.create({
+														title: "Success",
+														description: "Video added to favorites",
+														type: "success",
+													});
+												}
+											}}
 color={
 	favoritedVideos.has(video.id)
 		? "#472c1b"
@@ -211,10 +221,17 @@ _hover={{ color: "#472c1b" }}
 														right={3}
 														zIndex={3}
 														cursor="pointer"
-														onClick={(e) => {
+														onClick={async (e) => {
 															e.preventDefault();
 															e.stopPropagation();
-															toggleFavorite(relVideo.id);
+															const result = await toggleFavorite(relVideo.id);
+															if (result?.action === "favorited") {
+																toaster.create({
+																	title: "Success",
+																	description: "Video added to favorites",
+																	type: "success",
+																});
+															}
 														}}
 														color={
 															favoritedVideos.has(relVideo.id)
