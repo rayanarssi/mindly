@@ -27,7 +27,7 @@ function ExpertVerification() {
 		setUploading(true);
 		try {
 			const fileExt = file.name.split(".").pop();
-			const fileName = `${user.id}_verification.${fileExt}`;
+			const fileName = `${user.id}/verification.${fileExt}`;
 
 			const { error: uploadError } = await supabase.storage
 				.from("verification-docs")
@@ -47,7 +47,11 @@ function ExpertVerification() {
 			navigate("/", { state: { registered: true, expertPending: true } });
 		} catch (error) {
 			console.error("Error uploading document:", error);
-			alert("Failed to upload document. Please try again.");
+			if (error.message?.includes("Bucket not found")) {
+				alert("Storage bucket 'verification-docs' does not exist. Please run the SQL script in supabase/create_verification_bucket.sql in your Supabase Dashboard SQL Editor.");
+			} else {
+				alert("Failed to upload document. Please try again.");
+			}
 		} finally {
 			setUploading(false);
 		}
