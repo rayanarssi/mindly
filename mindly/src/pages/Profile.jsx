@@ -11,10 +11,12 @@ import {
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../library/supabase/AuthContext";
 import { supabase } from "../library/supabase/supabaseClient";
+import { useVideoFavorites } from "../hooks/useVideoFavorites";
 import ProfileHeader from "../components/profile/ProfileHeader";
 import VideoRow from "../components/profile/VideoRow";
 import PostCard from "../components/profile/PostCard";
 import backArrow from "../assets/Login/back_arrow.svg";
+import "../components/profile/profile.css";
 
 function Profile() {
 	const navigate = useNavigate();
@@ -28,6 +30,14 @@ function Profile() {
 	const [loadingPosts, setLoadingPosts] = useState(false);
 
 	const isExpert = userProfile?.role === "expert";
+
+	const favoriteIds = favorites.map((f) => f.id);
+	const { toggleFavorite } = useVideoFavorites(favoriteIds);
+
+	const handleToggleFavorite = async (videoId) => {
+		await toggleFavorite(videoId);
+		setFavorites((prev) => prev.filter((v) => v.id !== videoId));
+	};
 
 	useEffect(() => {
 		if (!authLoading && !user) {
@@ -166,8 +176,8 @@ function Profile() {
 
 	if (authLoading) {
 		return (
-			<Flex minH="100vh" bg="#fefae0" align="center" justify="center">
-				<Spinner size="xl" color="#dda15e" />
+			<Flex className="profile-loading">
+				<Spinner size="xl" />
 			</Flex>
 		);
 	}
@@ -177,130 +187,100 @@ function Profile() {
 	const userTab = isExpert ? "my-videos" : "my-favorites";
 
 	return (
-		<Box minH="100vh" bg="#fefae0" py={10}>
-			<Box maxW="90vw" mx="auto">
-				<Box as="button" onClick={() => navigate("/")} mb={4}>
-					<Box as="img" src={backArrow} alt="Back" />
-				</Box>
+		<Box className="profile-page">
+			<Box
+				as="button"
+				onClick={() => navigate("/")}
+				className="back-arrow"
+			>
+				<Box as="img" src={backArrow} alt="Back" />
+			</Box>
+			<Box className="profile-container">
 				<ProfileHeader
 					user={user}
 					userProfile={userProfile}
 					onSignOut={handleSignOut}
 				/>
 
-				<Box mt={8}>
+				<Box className="profile-tabs-wrapper">
 					<Tabs.Root defaultValue={userTab}>
-						<Tabs.List
-							borderBottom="2px solid"
-							borderColor="#e2d5c0"
-						>
+						<Tabs.List className="profile-tab-list">
 							{isExpert ? (
-								<Tabs.Trigger
-									value="my-videos"
-									css={{
-										py: "3",
-										px: "1",
-										mr: "6",
-										fontWeight: "medium",
-										color: "gray.500",
-										marginBottom: "-2px",
-										borderBottom: "2px solid transparent",
-										"&[data-selected]": {
-											color: "#283618",
-											borderBottomColor: "#dda15e",
-										},
-									}}
-								>
+								<Tabs.Trigger value="my-videos" className="profile-tab-trigger">
 									My Videos
 								</Tabs.Trigger>
 							) : (
 								<Tabs.Trigger
 									value="my-favorites"
-									css={{
-										py: "3",
-										px: "1",
-										mr: "6",
-										fontWeight: "medium",
-										color: "gray.500",
-										marginBottom: "-2px",
-										borderBottom: "2px solid transparent",
-										"&[data-selected]": {
-											color: "#283618",
-											borderBottomColor: "#dda15e",
-										},
-									}}
+									className="profile-tab-trigger"
 								>
 									My Favorites
 								</Tabs.Trigger>
 							)}
-							<Tabs.Trigger
-								value="my-posts"
-								css={{
-									py: "3",
-									px: "1",
-									fontWeight: "medium",
-									color: "gray.500",
-									marginBottom: "-2px",
-									borderBottom: "2px solid transparent",
-									"&[data-selected]": {
-										color: "#283618",
-										borderBottomColor: "#dda15e",
-									},
-								}}
-							>
+							<Tabs.Trigger value="my-posts" className="profile-tab-trigger">
 								My Posts
 							</Tabs.Trigger>
 						</Tabs.List>
 
 						{isExpert ? (
-							<Tabs.Content value="my-videos" pt={6}>
+							<Tabs.Content value="my-videos" className="profile-tab-content">
 								{loadingVideos ? (
-									<Flex justify="center" py={10}>
-										<Spinner size="lg" color="#dda15e" />
+									<Flex className="profile-loading-content profile-loading-videos">
+										<Spinner size="lg" />
 									</Flex>
 								) : expertVideos.length === 0 ? (
-									<Text color="gray.400" textAlign="center" py={10} fontSize="sm">
+									<Text className="profile-empty-text">
 										No videos uploaded yet
 									</Text>
 								) : (
-									<VStack gap={3} align="stretch">
+									<VStack className="profile-video-list">
 										{expertVideos.map((video) => (
-											<VideoRow key={video.id} video={video} showHeart={false} showCreator={false} />
+											<VideoRow
+												key={video.id}
+												video={video}
+												showHeart={false}
+												showCreator={false}
+											/>
 										))}
 									</VStack>
 								)}
 							</Tabs.Content>
 						) : (
-							<Tabs.Content value="my-favorites" pt={6}>
+							<Tabs.Content
+								value="my-favorites"
+								className="profile-tab-content"
+							>
 								{loadingFavorites ? (
-									<Flex justify="center" py={10}>
-										<Spinner size="lg" color="#dda15e" />
+									<Flex className="profile-loading-content">
+										<Spinner size="lg" />
 									</Flex>
 								) : favorites.length === 0 ? (
-									<Text color="gray.400" textAlign="center" py={10} fontSize="sm">
+									<Text className="profile-empty-text">
 										No favorite videos yet
 									</Text>
 								) : (
-									<VStack gap={3} align="stretch">
+									<VStack className="profile-video-list">
 										{favorites.map((video) => (
-											<VideoRow key={video.id} video={video} />
+											<VideoRow
+												key={video.id}
+												video={video}
+												onToggleFavorite={handleToggleFavorite}
+											/>
 										))}
 									</VStack>
 								)}
 							</Tabs.Content>
 						)}
 
-						<Tabs.Content value="my-posts" pt={6}>
+						<Tabs.Content value="my-posts" className="profile-tab-content">
 							{loadingPosts ? (
-								<Flex justify="center" py={10}>
-									<Spinner size="lg" color="#dda15e" />
+								<Flex className="profile-loading-content">
+									<Spinner size="lg" />
 								</Flex>
 							) : posts.length === 0 ? (
-								<Text color="gray.400" textAlign="center" py={10} fontSize="sm">
-									No posts created yet
-								</Text>
+								<Text className="profile-empty-text">No posts created yet</Text>
 							) : (
-								<VStack gap={3} align="stretch">
+								<VStack className="profile-video-list">
 									{posts.map((post) => (
 										<PostCard key={post.id} post={post} />
 									))}

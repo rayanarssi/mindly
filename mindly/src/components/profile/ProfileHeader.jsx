@@ -29,11 +29,7 @@ function ProfileHeader({ user, userProfile, onSignOut }) {
 				as="img"
 				src={getAvatarSrc()}
 				alt="Profile"
-				w="80px"
-				h="80px"
-				borderRadius="full"
-				bg="#fefae0"
-				p={1.5}
+				className="profile-avatar"
 			/>
 			<VStack align={{ base: "center", md: "start" }} gap={1}>
 				<HStack gap={3}>
