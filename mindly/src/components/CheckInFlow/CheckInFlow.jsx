@@ -89,15 +89,6 @@ const categoryColors = {
 	motivation: "#0C4767",
 };
 
-const feedbackMessages = {
-	stress:
-		"It sounds like stress is taking a toll on you. Learning how to manage it can help you feel more in control.",
-	focus:
-		"It seems like staying focused is a challenge for you. Small changes to your environment and habits can make a big difference.",
-	motivation:
-		"It looks like motivation is the main hurdle. Let's find ways to get you moving again!",
-};
-
 function CheckInFlow() {
 	const { user, userProfile } = useAuth();
 	const [hasCompletedCheckIn, setHasCompletedCheckIn] = useState(null);
@@ -109,7 +100,9 @@ function CheckInFlow() {
 	useEffect(() => {
 		const checkExistingCheckIn = async () => {
 			if (user && userProfile && userProfile.role === "user") {
-				const localCompleted = localStorage.getItem(`mindly_checkin_${user.id}`);
+				const localCompleted = localStorage.getItem(
+					`mindly_checkin_${user.id}`,
+				);
 				if (localCompleted) {
 					setHasCompletedCheckIn(true);
 					return;
@@ -119,9 +112,9 @@ function CheckInFlow() {
 					.from("checkins")
 					.select("id")
 					.eq("user_id", user.id)
-					.single();
+					.maybeSingle();
 
-				if (error && error.code !== "PGRST116") {
+				if (error) {
 					console.error("Error checking check-in:", error);
 				}
 
@@ -173,8 +166,6 @@ function CheckInFlow() {
 				stress_score: stressScore,
 				focus_score: focusScore,
 				motivation_score: motivationScore,
-				dominant_theme: mainIssue,
-				dominant_score: mainIssue === "stress" ? stressScore : mainIssue === "focus" ? focusScore : motivationScore,
 			});
 
 			if (error) {
@@ -198,7 +189,7 @@ function CheckInFlow() {
 				count++;
 			}
 		});
-		return count > 0 ? Math.round((total / (count * 4)) * 100) : 0;
+		return count > 0 ? Math.round(total / count) : 1;
 	};
 
 	const getMainIssue = () => {
@@ -216,8 +207,21 @@ function CheckInFlow() {
 		return scores[0].category;
 	};
 
+	const calculateCategoryPercentage = (category) => {
+		const categoryQuestions = questions.filter((q) => q.category === category);
+		let total = 0;
+		let count = 0;
+		categoryQuestions.forEach((q) => {
+			if (answers[q.id] !== undefined) {
+				total += answers[q.id];
+				count++;
+			}
+		});
+		return count > 0 ? Math.round((total / (count * 4)) * 100) : 0;
+	};
+
 	const getScoreForTab = (category) => {
-		return calculateCategoryScore(category);
+		return calculateCategoryPercentage(category);
 	};
 
 	if (
@@ -293,10 +297,9 @@ function CheckInFlow() {
 					<Box className="checkin-results">
 						<Heading className="checkin-results-title">Your Results</Heading>
 						<Text className="checkin-results-subtitle">
-							Based on your answers, we have an idea of how you are doing. <br /> This
-							is not a diagnosis, but a snapshot to help you.
+							Based on your answers, we have an idea of how you are doing.{" "}
+							<br /> This is not a diagnosis, but a snapshot to help you.
 						</Text>
-
 						<Box className="checkin-tabs">
 							<Button
 								className={`checkin-tab ${activeTab === "stress" ? "active" : ""}`}
@@ -341,10 +344,6 @@ function CheckInFlow() {
 								</Text>
 							</Box>
 						)}
-
-						<Text className="checkin-feedback">
-							{feedbackMessages[getMainIssue()]}
-						</Text>
 
 						<Button className="checkin-cta-button" onClick={handleClose}>
 							Watch videos about {getMainIssue()}
