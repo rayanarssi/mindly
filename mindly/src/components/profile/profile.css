@@ -1,0 +1,26 @@
+.btn-logout {
+	background: #47241b;
+	border: 2px solid #47241b;
+	color: #fefae0;
+	font-size: 1rem;
+	padding: 20px;
+	border-radius: 10px;
+	cursor: pointer;
+}
+
+.profile-header {
+	border: 2px solid #47241b;
+	border-radius: 10px;
+}
+
+.header-name {
+	color: #47241b;
+	font-size: 1.7rem;
+	font-weight: bold;
+}
+
+.email-header {
+	color: #47241b;
+	font-size: 0.9rem;
+	margin-top: -5px;
+}
