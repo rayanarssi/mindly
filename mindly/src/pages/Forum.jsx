@@ -322,7 +322,13 @@ function Forum() {
 												cursor={user ? "pointer" : "default"}
 												onClick={async () => {
 													if (!user) return;
-													await toggleLike(post.id);
+													const result = await toggleLike(post.id);
+													if (result?.action === "liked") {
+														toaster.create({
+															title: "Post liked",
+															type: "success",
+														});
+													}
 													refetch();
 												}}
 												_hover={user ? { opacity: 0.8 } : {}}
