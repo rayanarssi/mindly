@@ -20,11 +20,13 @@ import focusForum from "../assets/Forum/focus_forum.svg";
 import motivationForum from "../assets/Forum/motivation_forum.svg";
 import likeForum from "../assets/Forum/like_forum.svg";
 import commentForum from "../assets/Forum/comment_forum.svg";
+import reportForum from "../assets/Forum/report_forum.svg";
 import userAvatarIcon from "../assets/Login/user_icon_brown.svg";
 import expertAvatarIcon from "../assets/Login/expert_icon_brown.svg";
 import { useForumPosts } from "../hooks/useForumPosts";
 import { useLikes } from "../hooks/useLikes";
 import { useReplies } from "../hooks/useReplies";
+import { useReport } from "../hooks/useReport";
 import { useAuth } from "../library/supabase/AuthContext";
 import { useState } from "react";
 import "../ui/forum.css";
@@ -60,6 +62,12 @@ function Forum() {
 		fetchReplies,
 	} = useReplies(selectedPost?.id);
 
+	const { submitReport, submitting: reportSubmitting } = useReport();
+	const [reportModalOpen, setReportModalOpen] = useState(false);
+	const [selectedReportPost, setSelectedReportPost] = useState(null);
+	const [reportReason, setReportReason] = useState("");
+	const [reportDescription, setReportDescription] = useState("");
+
 	const handleOpenReplyModal = (post) => {
 		setSelectedPost(post);
 		setReplyBody("");
@@ -86,6 +94,38 @@ function Forum() {
 				title: "Success",
 				description: "Reply successfully posted",
 				type: "success",
+			});
+		}
+	};
+
+	const handleOpenReportModal = (post) => {
+		setSelectedReportPost(post);
+		setReportReason("");
+		setReportDescription("");
+		setReportModalOpen(true);
+	};
+
+	const handleSubmitReport = async (e) => {
+		e.preventDefault();
+		if (!reportReason || !user || reportSubmitting) return;
+		const { error } = await submitReport({
+			postId: selectedReportPost.id,
+			reason: reportReason,
+			description: reportDescription,
+		});
+		if (!error) {
+			setReportModalOpen(false);
+			setSelectedReportPost(null);
+			toaster.create({
+				title: "Report submitted",
+				description: "Thank you for helping keep our community safe.",
+				type: "success",
+			});
+		} else {
+			toaster.create({
+				title: "Error",
+				description: "Failed to submit report. Please try again.",
+				type: "error",
 			});
 		}
 	};
@@ -345,6 +385,20 @@ function Forum() {
 												<Text color="white" fontSize="sm" fontWeight="bold">
 													{post.likes_count || 0} likes
 												</Text>
+											</Flex>
+											<Flex
+												align="center"
+												gap={2}
+												cursor={user ? "pointer" : "default"}
+												onClick={() => handleOpenReportModal(post)}
+												_hover={user ? { opacity: 0.8 } : {}}
+											>
+												<Image
+													src={reportForum}
+													alt="Report"
+													w="16px"
+													h="16px"
+												/>
 											</Flex>
 											<Flex
 												align="center"
@@ -710,6 +764,137 @@ function Forum() {
 								</Text>
 							)}
 						</Box>
+					</Box>
+				</Box>
+			)}
+			{reportModalOpen && selectedReportPost && (
+				<Box
+					position="fixed"
+					top="0"
+					left="0"
+					right="0"
+					bottom="0"
+					bg="rgba(0,0,0,0.5)"
+					display="flex"
+					alignItems="center"
+					justifyContent="center"
+					zIndex="9999"
+				>
+					<Box
+						bg="#fefae0"
+						p={6}
+						borderRadius="12px"
+						maxW="500px"
+						width="90%"
+						maxH="90vh"
+						overflowY="auto"
+					>
+						<Flex justify="space-between" align="center" mb={4}>
+							<Heading fontSize="24px" color="#472c1b" fontWeight="bold">
+								Report post
+							</Heading>
+							<Button
+								className="close-panel-btn"
+								size="sm"
+								onClick={() => setReportModalOpen(false)}
+							>
+								✕
+							</Button>
+						</Flex>
+
+						<Box
+							border="2px solid"
+							borderColor={themeColors[selectedReportPost.theme] || themeColors.stress}
+							borderRadius="10px"
+							p={4}
+							mb={4}
+						>
+							<Flex justify="space-between" align="flex-start" mb={2}>
+								<Flex align="center" gap={2}>
+									<Text fontWeight="bold" color="#472c1b" fontSize="md">
+										{selectedReportPost.creator_name}
+									</Text>
+								</Flex>
+								<Box
+									bg={themeColors[selectedReportPost.theme] || themeColors.stress}
+									px={3}
+									py={1}
+									fontSize="xs"
+									borderRadius="full"
+									color="white"
+									fontWeight="bold"
+								>
+									{selectedReportPost.theme
+										? selectedReportPost.theme.charAt(0).toUpperCase() + selectedReportPost.theme.slice(1)
+										: "General"}
+								</Box>
+							</Flex>
+							<Text color="#472c1b">{selectedReportPost.body}</Text>
+						</Box>
+
+						<form onSubmit={handleSubmitReport}>
+							<div
+								style={{
+									display: "flex",
+									flexDirection: "column",
+									gap: "16px",
+								}}
+							>
+								<div>
+									<Text color="#472c1b" fontWeight="bold" mb={1}>
+										Reason for reporting
+									</Text>
+									<select
+										value={reportReason}
+										onChange={(e) => setReportReason(e.target.value)}
+										required
+										style={{
+											width: "100%",
+											padding: "8px",
+											borderRadius: "8px",
+											border: "2px solid #472c1b",
+											backgroundColor: "#fefae0",
+											color: "#472c1b",
+											fontWeight: "500",
+											outline: "none",
+										}}
+									>
+										<option value="">Select a reason...</option>
+										<option value="inappropriate_language">Inappropriate language</option>
+										<option value="personal_information">Sharing personal information</option>
+										<option value="harassment">Harassment or bullying</option>
+										<option value="spam">Spam or misleading content</option>
+										<option value="other">Other</option>
+									</select>
+								</div>
+								<div>
+									<Text color="#472c1b" fontWeight="bold" mb={1}>
+										Additional details (optional)
+									</Text>
+									<Textarea
+										placeholder="Provide any additional context..."
+										value={reportDescription}
+										onChange={(e) => setReportDescription(e.target.value)}
+										rows={3}
+										border="2px solid #472c1b"
+										borderRadius="8px"
+										_focus={{ borderColor: "#472c1b" }}
+									/>
+								</div>
+								<Button
+									type="submit"
+									bg="#472c1b"
+									color="#fefae0"
+									fontWeight="bold"
+									py={2}
+									borderRadius="8px"
+									_hover={{ opacity: 0.9 }}
+									disabled={reportSubmitting || !reportReason}
+								>
+									{reportSubmitting ? "Submitting..." : "Submit report"}
+								</Button>
+							</div>
+						</form>
 					</Box>
 				</Box>
 			)}
