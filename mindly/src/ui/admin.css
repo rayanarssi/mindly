@@ -3,12 +3,6 @@
 	min-height: 100vh;
 }
 
-.admin-container {
-	width: 90vw;
-	margin: 10vh auto 0;
-	padding: 2rem 0;
-}
-
 .admin-header {
 	display: flex;
 	justify-content: space-between;
@@ -16,6 +10,13 @@
 	margin-bottom: 2rem;
 	flex-wrap: wrap;
 	gap: 1rem;
+	padding-top: 4rem;
+}
+
+.admin-container {
+	width: 90vw;
+	margin: 0 auto;
+	padding-bottom: 2rem;
 }
 
 .admin-heading {
@@ -25,8 +26,68 @@
 	position: relative;
 }
 
+.stat-card {
+	background: #fefae0;
+	border: 2px solid #472c1b;
+	border-radius: 12px;
+	text-align: center;
+	overflow: hidden;
+}
 
+.stat-number {
+	font-size: 2.5rem;
+	font-weight: bold;
+	color: #472c1b;
+}
 
+.stat-label-box {
+	position: absolute;
+	bottom: 14px;
+	left: 50%;
+	transform: translateX(-50%);
+	z-index: 1;
+	color: #fefae0;
+	font-size: 0.9rem;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+}
 
+.btn-keep {
+	background: #6e8f85;
+	color: #fefae0;
+	font-weight: bold;
+	padding: 0.5rem 1.5rem;
+	border-radius: 8px;
+	border: 2px solid #6e8f85;
+	cursor: pointer;
+	transition: all 0.2s;
+}
 
+.btn-delete {
+	background: #c27a6b;
+	color: #fefae0;
+	font-weight: bold;
+	padding: 0.5rem 1.5rem;
+	border-radius: 8px;
+	border: 2px solid #c27a6b;
+	cursor: pointer;
+	transition: all 0.2s;
+}
 
+.reports-section {
+	margin-top: 1rem;
+}
+
+.reports-heading {
+	font-family: "Just Another Hand", cursive;
+	font-size: 32px;
+	color: #472c1b;
+	margin-bottom: 1rem;
+}
+
+.reports-empty {
+	color: #8a7a6a;
+	text-align: center;
+	padding: 2rem 0;
+	font-size: 1.1rem;
+}
