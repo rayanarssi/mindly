@@ -1,0 +1,32 @@
+.admin-page {
+	background: #fefae0;
+	min-height: 100vh;
+}
+
+.admin-container {
+	width: 90vw;
+	margin: 10vh auto 0;
+	padding: 2rem 0;
+}
+
+.admin-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 2rem;
+	flex-wrap: wrap;
+	gap: 1rem;
+}
+
+.admin-heading {
+	font-family: "Just Another Hand", cursive;
+	font-size: 42px;
+	color: #472c1b;
+	position: relative;
+}
+
+
+
+
+
+

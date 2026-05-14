@@ -12,6 +12,7 @@ import GameLevels from "./pages/GameLevels";
 import FocusGame from "./pages/FocusGame";
 import BreathingGame from "./pages/BreathingGame";
 import Forum from "./pages/Forum";
+import Admin from "./pages/admin/Admin";
 
 function App() {
 	return (
@@ -29,6 +30,7 @@ function App() {
 				<Route path="/games/stress/play" element={<BreathingGame />} />
 				<Route path="/games/:gameId/play" element={<FocusGame />} />
 				<Route path="/forum" element={<Forum />} />
+				<Route path="/admin" element={<Admin />} />
 			</Routes>
 		</AuthProvider>
 	);
