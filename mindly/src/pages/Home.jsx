@@ -160,7 +160,8 @@ function Home() {
 				backgroundPosition="center"
 				position="relative"
 				mt={-350}
-				py={400}
+				pt={400}
+				pb={100}
 				zIndex={1}
 			>
 				<Container maxW="90vw" mt={-10}>

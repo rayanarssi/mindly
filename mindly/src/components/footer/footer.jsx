@@ -5,8 +5,8 @@ import bgImg from "../../assets/Footer/Footer.png";
 function Footer() {
 	return (
 		<Box
-			color="white"
-			py={40}
+			pt={60}
+			pb={40}
 			backgroundImage={`url(${bgImg})`}
 			backgroundSize="cover"
 			backgroundPosition="center"

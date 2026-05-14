@@ -15,7 +15,6 @@ import {
 } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/navbar/Navbar";
-import Footer from "../components/footer/footer";
 
 const toaster = createToaster({});
 
@@ -209,7 +208,6 @@ function Games() {
 					</VStack>
 				</Box>
 			</Box>
-			<Footer />
 		</Box>
 	);
 }
