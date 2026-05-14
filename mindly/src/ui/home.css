@@ -28,6 +28,14 @@
 	background-color: #472c1b;
 }
 
+.home-button2 {
+	font-size: 16px;
+	color: #472c1b;
+	border: 2px solid #472c1b;
+	border-radius: 10px;
+	background-color: #fefae0;
+}
+
 .title_action {
 	font-size: 1.5rem;
 	color: #fefae0;

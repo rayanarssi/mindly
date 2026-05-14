@@ -72,9 +72,15 @@ function Home() {
 						Stress, distraction, and mental fog all have a cause. <br />
 						Take a moment to understand what's behind it.
 					</Text>
-					<Button className="home-button" as={Link} to="/videos" size="lg">
-						Watch Videos
-					</Button>
+					<Flex gap={4} mt={4} flexWrap="wrap" justify="center">
+						<Button className="home-button" as={Link} to="/videos" size="lg">
+							Watch Videos
+						</Button>
+						<Button className="home-button2" as={Link} to="/forum" size="lg">
+							Ask a Question
+						</Button>
+					</Flex>
+					
 				</Flex>
 			</Box>
 
