@@ -1,9 +1,9 @@
 import { Box, Text, Button, VStack, HStack, Flex } from "@chakra-ui/react";
 import backArrow from "../../assets/Login/back_arrow.svg";
 import usePatternRecall from "../../hooks/usePatternRecall";
-import "../../ui/games.css";
+import "../../ui/exercices.css";
 
-function PatternRecall({ gameState, onBack }) {
+function PatternRecall({ exerciceState, onBack }) {
 	const {
 		level,
 		config,
@@ -16,17 +16,17 @@ function PatternRecall({ gameState, onBack }) {
 		sequence,
 		handleButtonClick,
 		retry,
-		resetGame,
+		resetExercice,
 		goToNextLevel,
 		hasNextLevel,
 		LEVELS,
-	} = gameState;
+	} = exerciceState;
 
 	// Expert mode: subtle distraction animation
 	const isExpert = level === "expert";
 
 		return (
-		<Box className="pattern-recall-game">
+		<Box className="pattern-recall-exercice">
 			<VStack gap={6} align="center">
 				{/* Header info */}
 				<Flex
@@ -58,7 +58,7 @@ function PatternRecall({ gameState, onBack }) {
 
 				{/* Message area */}
 				<Box
-					className={`game-message ${status}`}
+					className={`exercice-message ${status}`}
 					p={4}
 					borderRadius="10px"
 					minW="300px"
@@ -69,7 +69,7 @@ function PatternRecall({ gameState, onBack }) {
 					</Text>
 				</Box>
 
-				{/* Game buttons grid */}
+				{/* Exercice buttons grid */}
 				{status !== "complete" && (
 					<Flex
 						className={`buttons-grid ${isExpert ? "expert-mode" : ""}`}
@@ -85,7 +85,7 @@ function PatternRecall({ gameState, onBack }) {
 							return (
 								<Box
 									key={btn.id}
-									className={`game-button ${isHighlighted ? "highlighted" : ""} ${isDisabled ? "disabled" : ""}`}
+									className={`exercice-button ${isHighlighted ? "highlighted" : ""} ${isDisabled ? "disabled" : ""}`}
 									bg={btn.color}
 									onClick={() => handleButtonClick(btn.id)}
 									cursor={isDisabled ? "not-allowed" : "pointer"}
@@ -124,7 +124,7 @@ function PatternRecall({ gameState, onBack }) {
 				{/* Wrong answer: retry button */}
 				{status === "wrong" && (
 					<Button
-						className="game-card-btn stress-btn"
+						className="exercice-card-btn stress-btn"
 						size="lg"
 						onClick={retry}
 					>
@@ -137,7 +137,7 @@ function PatternRecall({ gameState, onBack }) {
 					<VStack gap={4}>
 						{hasNextLevel() && (
 							<Button
-								className="game-card-btn focus-btn"
+								className="exercice-card-btn focus-btn"
 								size="lg"
 								onClick={goToNextLevel}
 							>
@@ -145,9 +145,9 @@ function PatternRecall({ gameState, onBack }) {
 							</Button>
 						)}
 						<Button
-							className="game-card-btn focus-btn"
+							className="exercice-card-btn focus-btn"
 							size="lg"
-							onClick={resetGame}
+							onClick={resetExercice}
 						>
 							Back to Levels
 						</Button>

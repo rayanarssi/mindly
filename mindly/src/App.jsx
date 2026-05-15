@@ -7,10 +7,10 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import ExpertVerification from "./pages/ExpertVerification";
 import Profile from "./pages/Profile";
-import Games from "./pages/Games";
-import GameLevels from "./pages/GameLevels";
-import FocusGame from "./pages/FocusGame";
-import BreathingGame from "./pages/BreathingGame";
+import Exercices from "./pages/Exercices";
+import ExerciceLevels from "./pages/ExerciceLevels";
+import FocusExercice from "./pages/FocusExercice";
+import BreathingExercice from "./pages/BreathingExercice";
 import Forum from "./pages/Forum";
 import Admin from "./pages/admin/Admin";
 
@@ -25,10 +25,10 @@ function App() {
 				<Route path="/register" element={<Register />} />
 				<Route path="/expert-verification" element={<ExpertVerification />} />
 				<Route path="/profile" element={<Profile />} />
-				<Route path="/games" element={<Games />} />
-				<Route path="/games/:gameId" element={<GameLevels />} />
-				<Route path="/games/stress/play" element={<BreathingGame />} />
-				<Route path="/games/:gameId/play" element={<FocusGame />} />
+				<Route path="/exercices" element={<Exercices />} />
+				<Route path="/exercices/:exerciceId" element={<ExerciceLevels />} />
+				<Route path="/exercices/stress/play" element={<BreathingExercice />} />
+				<Route path="/exercices/:exercId/play" element={<FocusExercice />} />
 				<Route path="/forum" element={<Forum />} />
 				<Route path="/admin" element={<Admin />} />
 			</Routes>

@@ -1,9 +1,9 @@
 import { Box, Text, Button, VStack, HStack, Flex, Circle } from "@chakra-ui/react";
 import backArrow from "../../assets/Login/back_arrow.svg";
 import useBreathingBalance from "../../hooks/useBreathingBalance";
-import "../../ui/games.css";
+import "../../ui/exercices.css";
 
-function BreathingBalance({ gameState, onBack }) {
+function BreathingBalance({ exerciceState, onBack }) {
 	const {
 		level,
 		config,
@@ -12,14 +12,14 @@ function BreathingBalance({ gameState, onBack }) {
 		phase,
 		message,
 		retry,
-		resetGame,
+		resetExercice,
 		goToNextLevel,
 		hasNextLevel,
 		progress,
-	} = gameState;
+	} = exerciceState;
 
 	return (
-		<Box className="breathing-balance-game">
+		<Box className="breathing-balance-exercice">
 			<VStack gap={6} align="center">
 				<Flex
 					width="100%"
@@ -49,7 +49,7 @@ function BreathingBalance({ gameState, onBack }) {
 				</Flex>
 
 				<Box
-					className={`game-message ${status}`}
+					className={`exercice-message ${status}`}
 					p={4}
 					borderRadius="10px"
 					minW="300px"
@@ -80,7 +80,7 @@ function BreathingBalance({ gameState, onBack }) {
 
 				{status === "wrong" && (
 					<Button
-						className="game-card-btn stress-btn"
+						className="exercice-card-btn stress-btn"
 						size="lg"
 						onClick={retry}
 					>
@@ -92,7 +92,7 @@ function BreathingBalance({ gameState, onBack }) {
 					<VStack gap={4}>
 						{hasNextLevel() && (
 							<Button
-								className="game-card-btn stress-btn"
+								className="exercice-card-btn stress-btn"
 								size="lg"
 								onClick={goToNextLevel}
 							>
@@ -100,9 +100,9 @@ function BreathingBalance({ gameState, onBack }) {
 							</Button>
 						)}
 						<Button
-							className="game-card-btn stress-btn"
+							className="exercice-card-btn stress-btn"
 							size="lg"
-							onClick={resetGame}
+							onClick={resetExercice}
 						>
 							Back to Levels
 						</Button>

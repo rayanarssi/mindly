@@ -8,43 +8,43 @@ import {
 	Flex,
 } from "@chakra-ui/react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import BreathingBalance from "../components/games/BreathingBalance";
+import BreathingBalance from "../components/exercices/BreathingBalance";
 import useBreathingBalance from "../hooks/useBreathingBalance";
-import { getLevelConfig } from "../services/gameLevels";
+import { getLevelConfig } from "../services/exerciceLevels";
 
-import "../ui/games.css";
+import "../ui/exercices.css";
 
-function BreathingGame() {
+function BreathingExercice() {
 	const navigate = useNavigate();
 	const [searchParams] = useSearchParams();
 	const levelId = searchParams.get("level");
-	const gameState = useBreathingBalance();
+	const exerciceState = useBreathingBalance();
 
-	const showGame = gameState.level !== null;
+	const showExercice = exerciceState.level !== null;
 
-	if (!showGame && levelId) {
+	if (!showExercice && levelId) {
 		const levelConfig = getLevelConfig("stress", levelId);
 		if (levelConfig) {
-			gameState.selectLevel(levelId);
+			exerciceState.selectLevel(levelId);
 		}
 	}
 
 	return (
-		<Box className="games-page">
+		<Box className="exercices-page">
 			<Box
-				className="games-container"
+				className="exercices-container"
 				display="flex"
 				flexDirection="column"
 				justifyContent="center"
 				alignItems="center"
 				minH="calc(100vh - 100px)"
 			>
-				{showGame ? (
+				{showExercice ? (
 					<BreathingBalance
-						gameState={gameState}
+						exerciceState={exerciceState}
 						onBack={() => {
-							gameState.resetGame();
-							navigate("/games/stress");
+							exerciceState.resetExercice();
+							navigate("/exercices/stress");
 						}}
 					/>
 				) : (
@@ -53,7 +53,7 @@ function BreathingGame() {
 							<Box
 								as="button"
 								className="back-arrow"
-								onClick={() => navigate("/games")}
+								onClick={() => navigate("/exercices")}
 							>
 								<Box
 									as="img"
@@ -62,7 +62,7 @@ function BreathingGame() {
 								/>
 							</Box>
 							<VStack gap={8} align="center" mt={8}>
-								<Heading className="games-title" textAlign="center">
+								<Heading className="exercices-title" textAlign="center">
 									Breathing Balance
 								</Heading>
 							</VStack>
@@ -74,4 +74,4 @@ function BreathingGame() {
 	);
 }
 
-export default BreathingGame;
+export default BreathingExercice;

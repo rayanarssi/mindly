@@ -18,15 +18,15 @@ import Navbar from "../components/navbar/Navbar";
 
 const toaster = createToaster({});
 
-import "../ui/games.css";
+import "../ui/exercices.css";
 
-function Games() {
+function Exercices() {
 	const navigate = useNavigate();
 
 	return (
 		<Box>
 			<Navbar />
-			<Box className="games-page">
+			<Box className="exercices-page">
 				<Toaster toaster={toaster}>
 					{(toast) => (
 						<ToastRoot>
@@ -36,26 +36,26 @@ function Games() {
 						</ToastRoot>
 					)}
 				</Toaster>
-				<Box className="games-container">
-					<VStack gap={8} className="games-content" align="flex-start">
-						<Heading className="games-title"> Mini Games</Heading>
+				<Box className="exercices-container">
+					<VStack gap={8} className="exercices-content" align="flex-start">
+						<Heading className="exercices-title"> Mini Exercices</Heading>
 
-						{/* Game Cards Grid */}
+						{/* Exercice Cards Grid */}
 						<Flex
-							className="games-grid"
+							className="exercices-grid"
 							direction={{ base: "column", md: "row" }}
 							gap={6}
 							justify="center"
 							align="stretch"
 						>
-							{/* Focus Game Card */}
-							<Box className="game-card focus-card" position="relative" p={6}>
+							{/* Focus Exercice Card */}
+							<Box className="exercice-card focus-card" position="relative" p={6}>
 								<Box position="absolute" top={4} right={4}>
-									<Box className="game-theme-badge focus-badge">Focus</Box>
+									<Box className="exercice-theme-badge focus-badge">Focus</Box>
 								</Box>
 								<VStack gap={3} align="flex-start" mt={8}>
-									<Text className="game-card-subtitle">Pattern Recall</Text>
-									<Text className="game-card-desc" mb={2}>
+									<Text className="exercice-card-subtitle">Pattern Recall</Text>
+									<Text className="exercice-card-desc" mb={2}>
 										Train your memory by recalling sequences colors,
 										and patterns in the correct order.
 									</Text>
@@ -63,7 +63,7 @@ function Games() {
 										gap={1}
 										align="flex-start"
 										mb={2}
-										className="game-card-features"
+										className="exercice-card-features"
 									>
 										<HStack gap={2}>
 											<Text fontSize="sm" color="#472c1b">
@@ -91,30 +91,30 @@ function Games() {
 										</HStack>
 									</VStack>
 									<Button
-										className="game-card-btn focus-btn"
+										className="exercice-card-btn focus-btn"
 										size="sm"
-										onClick={() => navigate("/games/focus")}
+										onClick={() => navigate("/exercices/focus")}
 									>
 										Play
 									</Button>
 								</VStack>
 							</Box>
 
-							{/* Stress Game Card */}
-							<Box className="game-card stress-card" position="relative" p={6}>
+							{/* Stress Exercice Card */}
+							<Box className="exercice-card stress-card" position="relative" p={6}>
 								<Box position="absolute" top={4} right={4}>
-									<Box className="game-theme-badge stress-badge">Stress</Box>
+									<Box className="exercice-theme-badge stress-badge">Stress</Box>
 								</Box>
 								<VStack gap={3} align="flex-start" mt={8}>
-									<Text className="game-card-subtitle">Breathing Balance</Text>
-									<Text className="game-card-desc" mb={2}>
+									<Text className="exercice-card-subtitle">Breathing Balance</Text>
+									<Text className="exercice-card-desc" mb={2}>
 										Regain control through rhythm. Learn to stay calm by controlling your breathing.
 									</Text>
 									<VStack
 										gap={1}
 										align="flex-start"
 										mb={2}
-										className="game-card-features"
+										className="exercice-card-features"
 									>
 										<HStack gap={2}>
 											<Text fontSize="sm" color="#666">
@@ -142,29 +142,29 @@ function Games() {
 										</HStack>
 									</VStack>
 									<Button
-										className="game-card-btn stress-btn"
+										className="exercice-card-btn stress-btn"
 										size="sm"
-										onClick={() => navigate("/games/stress")}
+										onClick={() => navigate("/exercices/stress")}
 									>
 										Play
 									</Button>
 								</VStack>
 							</Box>
 
-							{/* Motivation Game Card */}
+							{/* Motivation Exercice Card */}
 							<Box
-								className="game-card motivation-card"
+								className="exercice-card motivation-card"
 								position="relative"
 								p={6}
 							>
 								<Box position="absolute" top={4} right={4}>
-									<Box className="game-theme-badge motivation-badge">
+									<Box className="exercice-theme-badge motivation-badge">
 										Motivation
 									</Box>
 								</Box>
 								<VStack gap={3} align="flex-start" mt={8}>
-									<Text className="game-card-subtitle">Resist</Text>
-									<Text className="game-card-desc" mb={2}>
+									<Text className="exercice-card-subtitle">Resist</Text>
+									<Text className="exercice-card-desc" mb={2}>
 										Stay focused on your task while resisting distractions that
 										try to pull you away.
 									</Text>
@@ -172,7 +172,7 @@ function Games() {
 										gap={1}
 										align="flex-start"
 										mb={2}
-										className="game-card-features"
+										className="exercice-card-features"
 									>
 										<HStack gap={2}>
 											<Text fontSize="sm" color="#666">
@@ -199,7 +199,7 @@ function Games() {
 											</Text>
 										</HStack>
 									</VStack>
-									<Button className="game-card-btn motivation-btn" size="sm">
+									<Button className="exercice-card-btn motivation-btn" size="sm">
 										Play
 									</Button>
 								</VStack>
@@ -212,4 +212,4 @@ function Games() {
 	);
 }
 
-export default Games;
+export default Exercices;

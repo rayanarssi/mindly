@@ -120,7 +120,7 @@ export default function usePatternRecall() {
 		[status, playerInput, sequence, startRound],
 	);
 
-	// Select level and start game
+	// Select level and start exercice
 	const selectLevel = useCallback(
 		(selectedLevel) => {
 			setLevel(selectedLevel);
@@ -157,7 +157,7 @@ export default function usePatternRecall() {
 	}, [level]);
 
 	// Reset to level selection
-	const resetGame = useCallback(() => {
+	const resetExercice = useCallback(() => {
 		if (timeoutRef.current) clearTimeout(timeoutRef.current);
 		setLevel(null);
 		setRound(1);
@@ -181,7 +181,7 @@ export default function usePatternRecall() {
 		selectLevel,
 		handleButtonClick,
 		retry,
-		resetGame,
+		resetExercice,
 		goToNextLevel,
 		hasNextLevel,
 		LEVELS,

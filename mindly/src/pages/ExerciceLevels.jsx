@@ -1,27 +1,27 @@
 import { Box, Heading, Text, Button, VStack, HStack } from "@chakra-ui/react";
 import { useNavigate, useParams } from "react-router-dom";
-import { getGameLevels } from "../services/gameLevels";
+import { getExerciceLevels } from "../services/exerciceLevels";
 import backArrow from "../assets/Login/back_arrow.svg";
-import "../ui/games.css";
+import "../ui/exercices.css";
 
-function GameLevels() {
+function ExerciceLevels() {
   const navigate = useNavigate();
-  const { gameId } = useParams();
-  const gameData = getGameLevels(gameId);
+  const { exerciceId } = useParams();
+  const exerciceData = getExerciceLevels(exerciceId);
 
-  if (!gameData) {
-    navigate("/games");
+  if (!exerciceData) {
+    navigate("/exercices");
     return null;
   }
 
   const handleSelectLevel = (levelId) => {
-    navigate(`/games/${gameId}/play?level=${levelId}`);
+    navigate(`/exercices/${exerciceId}/play?level=${levelId}`);
   };
 
-  const levels = Object.values(gameData.levels);
+  const levels = Object.values(exerciceData.levels);
 
   const getBtnClass = () => {
-    switch (gameData.theme) {
+    switch (exerciceData.theme) {
       case "Focus": return "focus-btn";
       case "Stress": return "stress-btn";
       case "Motivation": return "motivation-btn";
@@ -34,18 +34,18 @@ function GameLevels() {
       <Box
         as="button"
         className="back-arrow"
-        onClick={() => navigate("/games")}
+        onClick={() => navigate("/exercices")}
       >
         <Box as="img" src={backArrow} alt="Back" />
       </Box>
       <VStack className="level-selection-content" gap={8} align="center">
-        <Heading className="games-title" textAlign="center">
-          {gameData.name}
+        <Heading className="exercices-title" textAlign="center">
+          {exerciceData.name}
         </Heading>
         <Text fontSize="lg" color="#472c1b" textAlign="center" maxW="600px">
-          {gameData.theme === "Focus" && "Remember the sequence of colored buttons and repeat it back. Each round gets longer!"}
-          {gameData.theme === "Stress" && "Learn to manage pressure by keeping your stress level within a calm zone."}
-          {gameData.theme === "Motivation" && "Stay focused on your task while resisting distractions that try to pull you away."}
+          {exerciceData.theme === "Focus" && "Remember the sequence of colored buttons and repeat it back. Each round gets longer!"}
+          {exerciceData.theme === "Stress" && "Learn to manage pressure by keeping your stress level within a calm zone."}
+          {exerciceData.theme === "Motivation" && "Stay focused on your task while resisting distractions that try to pull you away."}
         </Text>
 
         <HStack
@@ -57,7 +57,7 @@ function GameLevels() {
           {levels.map((level) => (
             <Box
               key={level.id}
-              className="game-card"
+              className="exercice-card"
               borderColor="#472c1b"
               p={6}
               flex="1"
@@ -77,7 +77,7 @@ function GameLevels() {
                   {level.description}
                 </Text>
                 <Button
-                  className={`game-card-btn ${getBtnClass()}`}
+                  className={`exercice-card-btn ${getBtnClass()}`}
                   backgroundColor="#472c1b"
                   size="sm"
                   onClick={() => handleSelectLevel(level.id)}
@@ -93,4 +93,4 @@ function GameLevels() {
   );
 }
 
-export default GameLevels;
+export default ExerciceLevels;

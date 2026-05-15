@@ -8,36 +8,36 @@ import {
 	Flex,
 } from "@chakra-ui/react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import PatternRecall from "../components/games/PatternRecall";
+import PatternRecall from "../components/exercices/PatternRecall";
 import usePatternRecall from "../hooks/usePatternRecall";
-import { getLevelConfig } from "../services/gameLevels";
+import { getLevelConfig } from "../services/exerciceLevels";
 
-import "../ui/games.css";
+import "../ui/exercices.css";
 
-function FocusGame() {
+function FocusExercice() {
 	const navigate = useNavigate();
 	const [searchParams] = useSearchParams();
 	const levelId = searchParams.get("level");
-	const gameState = usePatternRecall();
+	const exerciceState = usePatternRecall();
 
-	const showGame = gameState.level !== null;
+	const showExercice = exerciceState.level !== null;
 
-	if (!showGame && levelId) {
+	if (!showExercice && levelId) {
 		const levelConfig = getLevelConfig("focus", levelId);
 		if (levelConfig) {
-			gameState.selectLevel(levelId);
+			exerciceState.selectLevel(levelId);
 		}
 	}
 
 	return (
-		<Box className="games-page">
-			<Box className="games-container">
-				{showGame ? (
+		<Box className="exercices-page">
+			<Box className="exercices-container">
+				{showExercice ? (
 					<PatternRecall
-						gameState={gameState}
+						exerciceState={exerciceState}
 						onBack={() => {
-							gameState.resetGame();
-							navigate("/games/focus");
+							exerciceState.resetExercice();
+							navigate("/exercices/focus");
 						}}
 					/>
 				) : (
@@ -46,12 +46,12 @@ function FocusGame() {
 							<Box
 								as="button"
 								className="back-arrow"
-								onClick={() => navigate("/games")}
+								onClick={() => navigate("/exercices")}
 							>
 								<Box as="img" src="/src/assets/Login/back_arrow.svg" alt="Back" />
 							</Box>
 							<VStack gap={8} align="center">
-								<Heading className="games-title" textAlign="center">
+								<Heading className="exercices-title" textAlign="center">
 									Pattern Recall
 								</Heading>
 								<Text fontSize="lg" color="#472c1b" textAlign="center" maxW="600px">
@@ -66,4 +66,4 @@ function FocusGame() {
 	);
 }
 
-export default FocusGame;
+export default FocusExercice;

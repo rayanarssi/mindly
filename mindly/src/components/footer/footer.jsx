@@ -83,11 +83,11 @@ function Footer() {
 					</Link>
 					<Link
 						as={RouterLink}
-						to="/games"
+						to="/exercices"
 						color="#fefae0"
 						_hover={{ color: "white" }}
 					>
-						Games
+						Exercices
 					</Link>
 				</VStack>
 

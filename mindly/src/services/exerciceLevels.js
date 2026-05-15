@@ -1,4 +1,4 @@
-const GAME_LEVELS = {
+const EXERCICE_LEVELS = {
 	focus: {
 		id: "focus",
 		name: "Pattern Recall",
@@ -104,24 +104,24 @@ const GAME_LEVELS = {
 	},
 };
 
-export function getGameLevels(gameId) {
-	return GAME_LEVELS[gameId] || null;
+export function getExerciceLevels(exerciceId) {
+	return EXERCICE_LEVELS[exerciceId] || null;
 }
 
-export function getLevelConfig(gameId, levelId) {
-	const game = GAME_LEVELS[gameId];
-	if (!game) return null;
-	return game.levels[levelId] || null;
+export function getLevelConfig(exerciceId, levelId) {
+	const exercice = EXERCICE_LEVELS[exerciceId];
+	if (!exercice) return null;
+	return exercice.levels[levelId] || null;
 }
 
-export function getAllGames() {
-	return Object.values(GAME_LEVELS);
+export function getAllExercices() {
+	return Object.values(EXERCICE_LEVELS);
 }
 
-export function getGameLevelIds(gameId) {
-	const game = GAME_LEVELS[gameId];
-	if (!game) return [];
-	return Object.keys(game.levels);
+export function getExerciceLevelIds(exerciceId) {
+	const exercice = EXERCICE_LEVELS[exerciceId];
+	if (!exercice) return [];
+	return Object.keys(exercice.levels);
 }
 
-export default GAME_LEVELS;
+export default EXERCICE_LEVELS;

@@ -1,5 +1,5 @@
 import { useState, useCallback, useEffect, useRef } from "react";
-import { getGameLevelIds, getLevelConfig } from "../services/gameLevels";
+import { getExerciceLevelIds, getLevelConfig } from "../services/exerciceLevels";
 
 export default function useBreathingBalance() {
 	const [level, setLevel] = useState(null);
@@ -9,7 +9,7 @@ export default function useBreathingBalance() {
 	const [message, setMessage] = useState("Select a level to begin");
 	const [progress, setProgress] = useState(0);
 	const config = level ? getLevelConfig("stress", level) : null;
-	const levelIds = getGameLevelIds("stress");
+	const levelIds = getExerciceLevelIds("stress");
 	const timerRef = useRef(null);
 
 	const selectLevel = useCallback((levelId) => {
@@ -69,7 +69,7 @@ export default function useBreathingBalance() {
 		setProgress(0);
 	}, []);
 
-	const resetGame = useCallback(() => {
+	const resetExercice = useCallback(() => {
 		setLevel(null);
 		setRound(1);
 		setStatus("idle");
@@ -101,7 +101,7 @@ export default function useBreathingBalance() {
 		progress,
 		selectLevel,
 		retry,
-		resetGame,
+		resetExercice,
 		goToNextLevel,
 		hasNextLevel,
 		LEVELS: levelIds,
