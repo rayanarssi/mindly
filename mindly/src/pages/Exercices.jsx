@@ -38,7 +38,7 @@ function Exercices() {
 				</Toaster>
 				<Box className="exercices-container">
 					<VStack gap={8} className="exercices-content" align="flex-start">
-						<Heading className="exercices-title"> Mini Exercices</Heading>
+						<Heading className="exercices-title"> Exercices</Heading>
 
 						{/* Exercice Cards Grid */}
 						<Flex
