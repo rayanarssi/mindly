@@ -49,15 +49,19 @@ function Exercices() {
 							align="stretch"
 						>
 							{/* Focus Exercice Card */}
-							<Box className="exercice-card focus-card" position="relative" p={6}>
+							<Box
+								className="exercice-card focus-card"
+								position="relative"
+								p={6}
+							>
 								<Box position="absolute" top={4} right={4}>
 									<Box className="exercice-theme-badge focus-badge">Focus</Box>
 								</Box>
 								<VStack gap={3} align="flex-start" mt={8}>
 									<Text className="exercice-card-subtitle">Pattern Recall</Text>
 									<Text className="exercice-card-desc" mb={2}>
-										Train your memory by recalling sequences colors,
-										and patterns in the correct order.
+										Train your memory by recalling sequences colors, and
+										patterns in the correct order.
 									</Text>
 									<VStack
 										gap={1}
@@ -101,14 +105,23 @@ function Exercices() {
 							</Box>
 
 							{/* Stress Exercice Card */}
-							<Box className="exercice-card stress-card" position="relative" p={6}>
+							<Box
+								className="exercice-card stress-card"
+								position="relative"
+								p={6}
+							>
 								<Box position="absolute" top={4} right={4}>
-									<Box className="exercice-theme-badge stress-badge">Stress</Box>
+									<Box className="exercice-theme-badge stress-badge">
+										Stress
+									</Box>
 								</Box>
 								<VStack gap={3} align="flex-start" mt={8}>
-									<Text className="exercice-card-subtitle">Breathing Balance</Text>
+									<Text className="exercice-card-subtitle">
+										Breathing Balance
+									</Text>
 									<Text className="exercice-card-desc" mb={2}>
-										Regain control through rhythm. Learn to stay calm by controlling your breathing.
+										Regain control through rhythm. Learn to stay calm by
+										controlling your breathing.
 									</Text>
 									<VStack
 										gap={1}
@@ -117,26 +130,26 @@ function Exercices() {
 										className="exercice-card-features"
 									>
 										<HStack gap={2}>
-											<Text fontSize="sm" color="#666">
+											<Text fontSize="sm" color="#472c1b">
 												•
 											</Text>
-											<Text fontSize="sm" color="#666">
+											<Text fontSize="sm" color="#472c1b">
 												Stress regulation through breathing
 											</Text>
 										</HStack>
 										<HStack gap={2}>
-											<Text fontSize="sm" color="#666">
+											<Text fontSize="sm" color="#472c1b">
 												•
 											</Text>
-											<Text fontSize="sm" color="#666">
+											<Text fontSize="sm" color="#472c1b">
 												Focus and rhythm control
 											</Text>
 										</HStack>
 										<HStack gap={2}>
-											<Text fontSize="sm" color="#666">
+											<Text fontSize="sm" color="#472c1b">
 												•
 											</Text>
-											<Text fontSize="sm" color="#666">
+											<Text fontSize="sm" color="#472c1b">
 												Staying calm under pressure
 											</Text>
 										</HStack>
@@ -175,31 +188,34 @@ function Exercices() {
 										className="exercice-card-features"
 									>
 										<HStack gap={2}>
-											<Text fontSize="sm" color="#666">
+											<Text fontSize="sm" color="#472c1b">
 												•
 											</Text>
-											<Text fontSize="sm" color="#666">
+											<Text fontSize="sm" color="#472c1b">
 												Fight distractions
 											</Text>
 										</HStack>
 										<HStack gap={2}>
-											<Text fontSize="sm" color="#666">
+											<Text fontSize="sm" color="#472c1b">
 												•
 											</Text>
-											<Text fontSize="sm" color="#666">
+											<Text fontSize="sm" color="#472c1b">
 												Build self-control
 											</Text>
 										</HStack>
 										<HStack gap={2}>
-											<Text fontSize="sm" color="#666">
+											<Text fontSize="sm" color="#472c1b">
 												•
 											</Text>
-											<Text fontSize="sm" color="#666">
+											<Text fontSize="sm" color="#472c1b">
 												Stay consistent over time
 											</Text>
 										</HStack>
 									</VStack>
-									<Button className="exercice-card-btn motivation-btn" size="sm">
+									<Button
+										className="exercice-card-btn motivation-btn"
+										size="sm"
+									>
 										Play
 									</Button>
 								</VStack>
