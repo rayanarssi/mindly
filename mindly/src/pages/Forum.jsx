@@ -412,7 +412,7 @@ function Forum() {
 														showLoginToast("report a post");
 														return;
 													}
-													handleOpenReplyModal(post);
+													handleOpenReportModal(post);
 												}}
 												_hover={user ? { opacity: 0.8 } : {}}
 											>
