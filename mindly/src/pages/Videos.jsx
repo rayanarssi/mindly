@@ -56,6 +56,14 @@ const themeOptions = [
 function Videos() {
 	const { videos, loading, error } = useVideos(50);
 	const { userProfile, user } = useAuth();
+	const showLoginToast = () => {
+		toaster.create({
+			title: "Login required",
+			description: "You need to log in to add videos to favorites.",
+			type: "warning",
+		});
+	};
+
 	const navigate = useNavigate();
 	const [search, setSearch] = useState("");
 	const [filter, setFilter] = useState("all");
@@ -233,55 +241,57 @@ function Videos() {
 											position="relative"
 											_hover={{ transform: "scale(1.02)", transition: "0.2s" }}
 										>
-										<Box
-											className="video_thumbnail"
-											bg={themeColor}
-											position="relative"
-											zIndex={0}
-											h="250px"
-											display="flex"
-											alignItems="center"
-											justifyContent="center"
-										>
 											<Box
-												position="absolute"
-												top={3}
-												right={3}
-												zIndex={3}
-												cursor="pointer"
-												onClick={async (e) => {
-													e.preventDefault();
-													e.stopPropagation();
-													const result = await toggleFavorite(video.id);
-													if (result?.action === "favorited") {
-														toaster.create({
-															title: "Success",
-															description: "Video added to favorites",
-															type: "success",
-														});
-													}
-												}}
-color={
-	favoritedVideos.has(video.id)
-		? "#fefae0"
-		: "white"
-}
-fontSize="22px"
-filter={
-	favoritedVideos.has(video.id)
-		? "none"
-		: "drop-shadow(0 1px 2px rgba(0,0,0,0.5))"
-}
+												className="video_thumbnail"
+												bg={themeColor}
+												position="relative"
+												zIndex={0}
+												h="250px"
+												display="flex"
+												alignItems="center"
+												justifyContent="center"
 											>
-												{favoritedVideos.has(video.id) ? (
-													<FaHeart />
-												) : (
-													<FaRegHeart />
-												)}
-											</Box>
-											<Box className="theme_icon" zIndex={1}>
-												<Image src={ThemeIcon} alt="Play" w="80px" h="80px" />
-											</Box>
+												<Box
+													position="absolute"
+													top={3}
+													right={3}
+													zIndex={3}
+													cursor="pointer"
+													onClick={async (e) => {
+														e.preventDefault();
+														e.stopPropagation();
+														if (!user) {
+															showLoginToast();
+															return;
+														}
+														const result = await toggleFavorite(video.id);
+														if (result?.action === "favorited") {
+															toaster.create({
+																title: "Success",
+																description: "Video added to favorites",
+																type: "success",
+															});
+														}
+													}}
+													color={
+														favoritedVideos.has(video.id) ? "#fefae0" : "white"
+													}
+													fontSize="22px"
+													filter={
+														favoritedVideos.has(video.id)
+															? "none"
+															: "drop-shadow(0 1px 2px rgba(0,0,0,0.5))"
+													}
+												>
+													{favoritedVideos.has(video.id) ? (
+														<FaHeart />
+													) : (
+														<FaRegHeart />
+													)}
+												</Box>
+												<Box className="theme_icon" zIndex={1}>
+													<Image src={ThemeIcon} alt="Play" w="80px" h="80px" />
+												</Box>
 												<Box
 													className="video_minute"
 													zIndex={2}

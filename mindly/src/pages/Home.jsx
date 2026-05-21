@@ -29,6 +29,7 @@ import "../ui/home.css";
 import { useVideosByTheme } from "../hooks/useVideos";
 import { useVideoFavorites } from "../hooks/useVideoFavorites";
 import { toaster } from "../library/toaster";
+import { useAuth } from "../library/supabase/AuthContext";
 
 const themeColors = {
 	stress: "#C27A6B",
@@ -46,6 +47,16 @@ function Home() {
 	const { videos, loading, error } = useVideosByTheme();
 	const videoIds = videos.map((v) => v.id);
 	const { favoritedVideos, toggleFavorite } = useVideoFavorites(videoIds);
+	const { user } = useAuth();
+
+	const showLoginToast = () => {
+		toaster.create({
+			title: "Login required",
+			description: "You need to log in to add videos to favorites.",
+			type: "warning",
+		});
+	};
+
 	return (
 		<Box>
 			<CheckInFlow />
@@ -228,6 +239,11 @@ function Home() {
 													onClick={async (e) => {
 														e.preventDefault();
 														e.stopPropagation();
+														if (!user) {
+															showLoginToast();
+															return;
+														}
+
 														const result = await toggleFavorite(video.id);
 														if (result?.action === "favorited") {
 															toaster.create({

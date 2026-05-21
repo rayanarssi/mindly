@@ -68,6 +68,14 @@ function Forum() {
 	const [reportReason, setReportReason] = useState("");
 	const [reportDescription, setReportDescription] = useState("");
 
+	const showLoginToast = (action) => {
+		toaster.create({
+			title: "Login required",
+			description: `You need to log in to ${action}.`,
+			type: "warning",
+		});
+	};
+
 	const handleOpenReplyModal = (post) => {
 		setSelectedPost(post);
 		setReplyBody("");
@@ -256,7 +264,13 @@ function Forum() {
 						borderRadius="10px"
 						fontWeight="bold"
 						fontSize="md"
-						onClick={() => setAskModalOpen(true)}
+						onClick={() => {
+							if (!user) {
+								showLoginToast("ask a question");
+								return;
+							}
+							setAskModalOpen(true);
+						}}
 					>
 						+ Ask a question
 					</Button>
@@ -361,7 +375,10 @@ function Forum() {
 												gap={2}
 												cursor={user ? "pointer" : "default"}
 												onClick={async () => {
-													if (!user) return;
+													if (!user) {
+														showLoginToast("like a post");
+														return;
+													}
 													const result = await toggleLike(post.id);
 													if (result?.action === "liked") {
 														toaster.create({
@@ -390,7 +407,13 @@ function Forum() {
 												align="center"
 												gap={2}
 												cursor={user ? "pointer" : "default"}
-												onClick={() => handleOpenReportModal(post)}
+												onClick={() => {
+													if (!user) {
+														showLoginToast("report a post");
+														return;
+													}
+													handleOpenReplyModal(post);
+												}}
 												_hover={user ? { opacity: 0.8 } : {}}
 											>
 												<Image
@@ -404,7 +427,13 @@ function Forum() {
 												align="center"
 												gap={2}
 												cursor={user ? "pointer" : "default"}
-												onClick={() => handleOpenReplyModal(post)}
+												onClick={() => {
+													if (!user) {
+														showLoginToast("reply to a post");
+														return;
+													}
+													handleOpenReplyModal(post);
+												}}
 												_hover={user ? { opacity: 0.8 } : {}}
 											>
 												<Image
@@ -449,7 +478,7 @@ function Forum() {
 						overflowY="auto"
 					>
 						<Flex justify="space-between" align="center" mb={4}>
-							<Heading  className="heading-ask-question" color="#472c1b">
+							<Heading className="heading-ask-question" color="#472c1b">
 								Ask a question
 							</Heading>
 							<Button
@@ -601,7 +630,9 @@ function Forum() {
 
 							<Box
 								border="2px solid"
-								borderColor={themeColors[selectedPost.theme] || themeColors.stress}
+								borderColor={
+									themeColors[selectedPost.theme] || themeColors.stress
+								}
 								borderRadius="10px"
 								p={4}
 								mb={4}
@@ -634,14 +665,13 @@ function Forum() {
 										fontWeight="bold"
 									>
 										{selectedPost.theme
-											? selectedPost.theme.charAt(0).toUpperCase() + selectedPost.theme.slice(1)
+											? selectedPost.theme.charAt(0).toUpperCase() +
+												selectedPost.theme.slice(1)
 											: "General"}
 									</Box>
 								</Flex>
 								<Text color="#472c1b">{selectedPost.body}</Text>
 							</Box>
-
-
 
 							{repliesLoading ? (
 								<Flex justify="center" py={4}>
@@ -671,10 +701,13 @@ function Forum() {
 													{reply.creator_name}
 												</Text>
 												<Text color="#8a7a6a" fontSize="xs">
-													{new Date(reply.created_at).toLocaleDateString("en-US", {
-														month: "short",
-														day: "numeric",
-													})}
+													{new Date(reply.created_at).toLocaleDateString(
+														"en-US",
+														{
+															month: "short",
+															day: "numeric",
+														},
+													)}
 												</Text>
 											</Flex>
 											<Text color="#472c1b" fontSize="sm" pl="26px">
@@ -804,7 +837,9 @@ function Forum() {
 
 						<Box
 							border="2px solid"
-							borderColor={themeColors[selectedReportPost.theme] || themeColors.stress}
+							borderColor={
+								themeColors[selectedReportPost.theme] || themeColors.stress
+							}
 							borderRadius="10px"
 							p={4}
 							mb={4}
@@ -816,7 +851,9 @@ function Forum() {
 									</Text>
 								</Flex>
 								<Box
-									bg={themeColors[selectedReportPost.theme] || themeColors.stress}
+									bg={
+										themeColors[selectedReportPost.theme] || themeColors.stress
+									}
 									px={3}
 									py={1}
 									fontSize="xs"
@@ -825,7 +862,8 @@ function Forum() {
 									fontWeight="bold"
 								>
 									{selectedReportPost.theme
-										? selectedReportPost.theme.charAt(0).toUpperCase() + selectedReportPost.theme.slice(1)
+										? selectedReportPost.theme.charAt(0).toUpperCase() +
+											selectedReportPost.theme.slice(1)
 										: "General"}
 								</Box>
 							</Flex>
@@ -860,8 +898,12 @@ function Forum() {
 										}}
 									>
 										<option value="">Select a reason...</option>
-										<option value="inappropriate_language">Inappropriate language</option>
-										<option value="personal_information">Sharing personal information</option>
+										<option value="inappropriate_language">
+											Inappropriate language
+										</option>
+										<option value="personal_information">
+											Sharing personal information
+										</option>
 										<option value="harassment">Harassment or bullying</option>
 										<option value="spam">Spam or misleading content</option>
 										<option value="other">Other</option>
