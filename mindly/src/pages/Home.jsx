@@ -80,7 +80,6 @@ function Home() {
 							Ask a Question
 						</Button>
 					</Flex>
-					
 				</Flex>
 			</Box>
 
@@ -92,6 +91,9 @@ function Home() {
 				position="relative"
 				mt="-200px"
 				zIndex={2}
+				maxWidth={1133}
+				width="100%"
+				marginInline="auto"
 			>
 				<Container maxW="70vw">
 					<SimpleGrid columns={{ base: 1, md: 3 }} gap={8}>
@@ -156,7 +158,7 @@ function Home() {
 			<Box
 				minH="100vh"
 				backgroundImage={`url(${Beige})`}
-				backgroundSize="cover"
+				backgroundSize="contain"
 				backgroundPosition="center"
 				position="relative"
 				mt={-350}
@@ -207,105 +209,108 @@ function Home() {
 											position="relative"
 											_hover={{ transform: "scale(1.02)", transition: "0.2s" }}
 										>
-										<Box
-											className="video_thumbnail"
-											bg={themeColor}
-											position="relative"
-											zIndex={0}
-											h="250px"
-											display="flex"
-											alignItems="center"
-											justifyContent="center"
-										>
 											<Box
-												position="absolute"
-												top={3}
-												right={3}
-												zIndex={3}
-												cursor="pointer"
-												onClick={async (e) => {
-													e.preventDefault();
-													e.stopPropagation();
-													const result = await toggleFavorite(video.id);
-													if (result?.action === "favorited") {
-														toaster.create({
-															title: "Success",
-															description: "Video added to favorites",
-															type: "success",
-														});
-													}
-												}}
-												color={
-													favoritedVideos.has(video.id)
-														? "#fefae0"
-														: "white"
-												}
-												fontSize="22px"
-												filter={
-													favoritedVideos.has(video.id)
-														? "none"
-														: "drop-shadow(0 1px 2px rgba(0,0,0,0.5))"
-												}
-											>
-												{favoritedVideos.has(video.id) ? (
-													<FaHeart />
-												) : (
-													<FaRegHeart />
-												)}
-											</Box>
-											<Box className="theme_icon" zIndex={1}>
-												<Image src={ThemeIcon} alt="Play" w="80px" h="80px" />
-											</Box>
-											<Box
-												className="video_minute"
-												zIndex={2}
+												className="video_thumbnail"
+												bg={themeColor}
+												position="relative"
+												zIndex={0}
+												h="250px"
 												display="flex"
 												alignItems="center"
-												gap={1}
-											>
-												<Image src={ClockHome} alt="Clock" w="18px" h="18px" />
-												{video.video_time} min
-											</Box>
-
-											<Box
-												position="absolute"
-												bottom={-4}
-												left={0}
-												right={0}
-												display="flex"
 												justifyContent="center"
-												zIndex={1}
 											>
-												<Image
-													src={WhiteHome}
-													alt="White Home"
-													w="100%"
-													maxW="425px"
-													h="80px"
-													mb={-55}
-												/>
+												<Box
+													position="absolute"
+													top={3}
+													right={3}
+													zIndex={3}
+													cursor="pointer"
+													onClick={async (e) => {
+														e.preventDefault();
+														e.stopPropagation();
+														const result = await toggleFavorite(video.id);
+														if (result?.action === "favorited") {
+															toaster.create({
+																title: "Success",
+																description: "Video added to favorites",
+																type: "success",
+															});
+														}
+													}}
+													color={
+														favoritedVideos.has(video.id) ? "#fefae0" : "white"
+													}
+													fontSize="22px"
+													filter={
+														favoritedVideos.has(video.id)
+															? "none"
+															: "drop-shadow(0 1px 2px rgba(0,0,0,0.5))"
+													}
+												>
+													{favoritedVideos.has(video.id) ? (
+														<FaHeart />
+													) : (
+														<FaRegHeart />
+													)}
+												</Box>
+												<Box className="theme_icon" zIndex={1}>
+													<Image src={ThemeIcon} alt="Play" w="80px" h="80px" />
+												</Box>
+												<Box
+													className="video_minute"
+													zIndex={2}
+													display="flex"
+													alignItems="center"
+													gap={1}
+												>
+													<Image
+														src={ClockHome}
+														alt="Clock"
+														w="18px"
+														h="18px"
+													/>
+													{video.video_time} min
+												</Box>
+
+												<Box
+													position="absolute"
+													bottom={-4}
+													left={0}
+													right={0}
+													display="flex"
+													justifyContent="center"
+													zIndex={1}
+												>
+													<Image
+														src={WhiteHome}
+														alt="White Home"
+														w="100%"
+														maxW="425px"
+														h="80px"
+														mb={-55}
+													/>
+												</Box>
+											</Box>
+											<Box p={5} position="relative" zIndex={2}>
+												<Box
+													className="theme_videos"
+													bg={themeColor}
+													px={3}
+													py={1}
+													fontSize="sm"
+													mb={2}
+												>
+													{video.theme.charAt(0).toUpperCase() +
+														video.theme.slice(1)}
+												</Box>
+												<Text color="#472c1b" fontWeight="bold" mb={1}>
+													{video.title}
+												</Text>
+												<Text color="#472c1b" fontSize="sm">
+													{video.creator_name}
+												</Text>
 											</Box>
 										</Box>
-										<Box p={5} position="relative" zIndex={2}>
-											<Box
-												className="theme_videos"
-												bg={themeColor}
-												px={3}
-												py={1}
-												fontSize="sm"
-												mb={2}
-											>
-												{video.theme.charAt(0).toUpperCase() +
-													video.theme.slice(1)}
-											</Box>
-											<Text color="#472c1b" fontWeight="bold" mb={1}>
-												{video.title}
-											</Text>
-											<Text color="#472c1b" fontSize="sm">
-												{video.creator_name}
-											</Text>
-										</Box>
-									</Box>
 									</Link>
 								);
 							})
