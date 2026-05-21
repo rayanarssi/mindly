@@ -72,6 +72,10 @@
 	margin-top: 3px;
 }
 
+.login-link-here {
+	cursor: pointer;
+}
+
 .input-label {
 	color: #472c1b;
 	font-weight: 600;

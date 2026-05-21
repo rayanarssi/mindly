@@ -90,7 +90,11 @@ function Login() {
 
 					<Text className="register-link">
 						Don't have an account yet?{" "}
-						<Box as="button" onClick={() => navigate("/register")}>
+						<Box
+							className="register-link-here"
+							as="button"
+							onClick={() => navigate("/register")}
+						>
 							Register here
 						</Box>
 					</Text>

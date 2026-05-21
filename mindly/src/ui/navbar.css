@@ -1,7 +1,16 @@
 .nav-button {
 	font-size: 16px;
 	color: #fefae0;
-	background-color: transparent;
+	text-decoration: none;
+	padding: 8px 10px;
+	border-radius: 10px;
+	display: inline-block;
+}
+
+.active-nav {
+	text-decoration: underline;
+		text-underline-offset: 6px;
+
 }
 
 .admin-btn {
@@ -17,13 +26,4 @@
 	color: #472c1b;
 	border-radius: 10px;
 	background-color: #fefae0;
-}
-
-.nav-username {
-	font-weight: 600;
-	font-size: 14px;
-}
-
-.nav-username:hover {
-	text-decoration: underline;
 }

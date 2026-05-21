@@ -1,5 +1,5 @@
 import { Box, Flex, Button, Avatar, Text } from "@chakra-ui/react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../../library/supabase/AuthContext";
 import logoImg from "../../assets/Nav/Logo.svg";
 import navbarBg from "../../assets/Nav/Navbar.svg";
@@ -32,16 +32,34 @@ function Navbar() {
 					<Box as="img" src={logoImg} alt="Mindly" h="40px" />
 				</Box>
 
-				<Flex gap={4} align="center">
-					<Button className="nav-button" as={Link} to="/videos">
+				<Flex gap={6} align="center">
+					<NavLink
+						as={NavLink}
+						to="/videos"
+						className={({ isActive }) =>
+							isActive ? "nav-button active-nav" : "nav-button"
+						}
+					>
 						Videos
-					</Button>
-					<Button className="nav-button" as={Link} to="/forum">
+					</NavLink>
+					<NavLink
+						as={NavLink}
+						to="/forum"
+						className={({ isActive }) =>
+							isActive ? "nav-button active-nav" : "nav-button"
+						}
+					>
 						Forum
-					</Button>
-					<Button className="nav-button" as={Link} to="/exercices">
+					</NavLink>
+					<NavLink
+						as={NavLink}
+						to="/exercices"
+						className={({ isActive }) =>
+							isActive ? "nav-button active-nav" : "nav-button"
+						}
+					>
 						Exercices
-					</Button>
+					</NavLink>
 				</Flex>
 
 				{user ? (

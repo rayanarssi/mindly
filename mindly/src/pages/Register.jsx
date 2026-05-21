@@ -144,7 +144,7 @@ function Register() {
 
 							<Text className="login-link">
 								Already have an account?{" "}
-								<Box as="button" onClick={() => navigate("/login")}>
+								<Box className="login-link-here" as="button" onClick={() => navigate("/login")}>
 									Log in
 								</Box>
 							</Text>

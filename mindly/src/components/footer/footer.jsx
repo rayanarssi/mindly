@@ -37,25 +37,19 @@ function Footer() {
 					</Text>
 					<Link
 						as={RouterLink}
-						to="/stress"
 						color="#fefae0"
-						_hover={{ color: "white" }}
 					>
 						Stress
 					</Link>
 					<Link
 						as={RouterLink}
-						to="/focus"
 						color="#fefae0"
-						_hover={{ color: "white" }}
 					>
 						Focus
 					</Link>
 					<Link
 						as={RouterLink}
-						to="/motivation"
 						color="#fefae0"
-						_hover={{ color: "white" }}
 					>
 						Motivation
 					</Link>

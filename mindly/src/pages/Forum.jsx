@@ -373,7 +373,7 @@ function Forum() {
 											<Flex
 												align="center"
 												gap={2}
-												cursor={user ? "pointer" : "default"}
+												cursor="pointer"
 												onClick={async () => {
 													if (!user) {
 														showLoginToast("like a post");
@@ -406,7 +406,7 @@ function Forum() {
 											<Flex
 												align="center"
 												gap={2}
-												cursor={user ? "pointer" : "default"}
+												cursor="pointer"
 												onClick={() => {
 													if (!user) {
 														showLoginToast("report a post");
@@ -426,7 +426,7 @@ function Forum() {
 											<Flex
 												align="center"
 												gap={2}
-												cursor={user ? "pointer" : "default"}
+												cursor="pointer"
 												onClick={() => {
 													if (!user) {
 														showLoginToast("reply to a post");
