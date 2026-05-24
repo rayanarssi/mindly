@@ -11,6 +11,7 @@ import {
 	SimpleGrid,
 	Button,
 	Textarea,
+	Tooltip,
 } from "@chakra-ui/react";
 import { supabase } from "../library/supabase/supabaseClient";
 import brownForum from "../assets/Forum/brown_forum.svg";
@@ -31,7 +32,6 @@ import { useAuth } from "../library/supabase/AuthContext";
 import { useState } from "react";
 import "../ui/forum.css";
 import { toaster } from "../library/toaster";
-
 const themeColors = {
 	stress: "#C27A6B",
 	focus: "#6E8F85",
@@ -403,26 +403,32 @@ function Forum() {
 													{post.likes_count || 0} likes
 												</Text>
 											</Flex>
-											<Flex
-												align="center"
-												gap={2}
-												cursor="pointer"
-												onClick={() => {
-													if (!user) {
-														showLoginToast("report a post");
-														return;
-													}
-													handleOpenReportModal(post);
-												}}
-												_hover={user ? { opacity: 0.8 } : {}}
-											>
-												<Image
-													src={reportForum}
-													alt="Report"
-													w="16px"
-													h="16px"
-												/>
-											</Flex>
+
+											<Box className="report-tooltip-wrapper">
+												<Flex
+													align="center"
+													gap={2}
+													cursor="pointer"
+													onClick={() => {
+														if (!user) {
+															showLoginToast("report a post");
+															return;
+														}
+														handleOpenReportModal(post);
+													}}
+													_hover={user ? { opacity: 0.8 } : {}}
+												>
+													<Image
+														src={reportForum}
+														alt="Report"
+														w="16px"
+														h="16px"
+													/>
+												</Flex>
+
+												<Box className="report-tooltip">Report this post</Box>
+											</Box>
+
 											<Flex
 												align="center"
 												gap={2}

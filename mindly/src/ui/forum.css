@@ -33,7 +33,6 @@
 .forum-filter-group {
 	display: flex;
 	align-items: center;
-	
 }
 
 .forum-select {
@@ -84,4 +83,31 @@
 	font-size: 24px;
 	font-weight: bold;
 	color: #472c1b;
+}
+
+.report-tooltip-wrapper {
+	position: relative;
+	display: inline-flex;
+	align-items: center;
+}
+
+.report-tooltip {
+	position: absolute;
+	bottom: 28px;
+	left: 50%;
+	transform: translateX(-50%);
+	background-color: #472c1b;
+	color: #fefae0;
+	padding: 6px 10px;
+	border-radius: 8px;
+	font-size: 12px;
+	white-space: nowrap;
+	opacity: 0;
+	pointer-events: none;
+	transition: opacity 0.2s ease;
+	z-index: 10;
+}
+
+.report-tooltip-wrapper:hover .report-tooltip {
+	opacity: 1;
 }
