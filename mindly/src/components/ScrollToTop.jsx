@@ -1,10 +1,25 @@
+import { useEffect, useState } from "react";
 import { Image } from "@chakra-ui/react";
 import arrowUp from "../assets/arrow_up.svg";
 
 function ScrollToTop() {
+	const [isScrollable, setIsScrollable] = useState(false);
+
+	useEffect(() => {
+		const checkScrollable = () => {
+			setIsScrollable(document.documentElement.scrollHeight > window.innerHeight);
+		};
+
+		checkScrollable();
+		window.addEventListener("resize", checkScrollable);
+		return () => window.removeEventListener("resize", checkScrollable);
+	}, []);
+
 	const scrollToTop = () => {
 		window.scrollTo({ top: 0, behavior: "smooth" });
 	};
+
+	if (!isScrollable) return null;
 
 	return (
 		<Image

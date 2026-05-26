@@ -7,6 +7,7 @@ import VideoDetail from "./pages/VideoDetail";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import ExpertVerification from "./pages/ExpertVerification";
+import PendingApproval from "./pages/PendingApproval";
 import Profile from "./pages/Profile";
 import Exercices from "./pages/Exercices";
 import ExerciceLevels from "./pages/ExerciceLevels";
@@ -26,6 +27,7 @@ function App() {
 				<Route path="/login" element={<Login />} />
 				<Route path="/register" element={<Register />} />
 				<Route path="/expert-verification" element={<ExpertVerification />} />
+				<Route path="/pending-approval" element={<PendingApproval />} />
 				<Route path="/profile" element={<Profile />} />
 				<Route path="/exercices" element={<Exercices />} />
 				<Route path="/exercices/:exerciceId" element={<ExerciceLevels />} />

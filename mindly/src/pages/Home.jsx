@@ -12,7 +12,7 @@ import {
 	Image,
 	Container,
 } from "@chakra-ui/react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 import bgHome from "../assets/Homepage/BG_Home.png";
 import actionBrown from "../assets/Homepage/Action_brown.png";
@@ -30,6 +30,7 @@ import { useVideosByTheme } from "../hooks/useVideos";
 import { useVideoFavorites } from "../hooks/useVideoFavorites";
 import { toaster } from "../library/toaster";
 import { useAuth } from "../library/supabase/AuthContext";
+import { supabase } from "../library/supabase/supabaseClient";
 
 const themeColors = {
 	stress: "#C27A6B",
@@ -47,7 +48,26 @@ function Home() {
 	const { videos, loading, error } = useVideosByTheme();
 	const videoIds = videos.map((v) => v.id);
 	const { favoritedVideos, toggleFavorite } = useVideoFavorites(videoIds);
-	const { user } = useAuth();
+	const { user, userProfile } = useAuth();
+	const navigate = useNavigate();
+
+	useEffect(() => {
+		if (!user) return;
+
+		const checkStatus = async () => {
+			const { data } = await supabase
+				.from("profiles")
+				.select("role, status")
+				.eq("id", user.id)
+				.single();
+
+			if (data?.role === "expert" && data?.status === 2) {
+				navigate("/pending-approval");
+			}
+		};
+
+		checkStatus();
+	}, [user, navigate]);
 
 	const showLoginToast = () => {
 		toaster.create({

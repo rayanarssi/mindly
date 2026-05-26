@@ -40,11 +40,11 @@ function ExpertVerification() {
 				.getPublicUrl(fileName);
 
 			await supabase
-				.from("users")
-				.update({ verification_doc: publicUrl, verification_status: "pending" })
+				.from("profiles")
+				.update({ verification_doc: publicUrl })
 				.eq("id", user.id);
 
-			navigate("/", { state: { registered: true, expertPending: true } });
+			navigate("/pending-approval");
 		} catch (error) {
 			console.error("Error uploading document:", error);
 			if (error.message?.includes("Bucket not found")) {
@@ -122,11 +122,7 @@ function ExpertVerification() {
 						</VStack>
 					</form>
 
-					<Text className="register-link" mt={4}>
-						<Box as="button" onClick={() => navigate("/")}>
-							Skip for now (you can verify later)
-						</Box>
-					</Text>
+					
 				</Box>
 			</Box>
 		</Box>
