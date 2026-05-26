@@ -35,13 +35,9 @@ function ExpertVerification() {
 
 			if (uploadError) throw uploadError;
 
-			const { data: { publicUrl } } = supabase.storage
-				.from("verification-docs")
-				.getPublicUrl(fileName);
-
 			await supabase
 				.from("profiles")
-				.update({ verification_doc: publicUrl })
+				.update({ verification_doc: fileName })
 				.eq("id", user.id);
 
 			navigate("/pending-approval");

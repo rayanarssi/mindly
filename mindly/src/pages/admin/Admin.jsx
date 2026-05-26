@@ -10,6 +10,7 @@ import {
 	Flex,
 	Image,
 	Tabs,
+	Menu,
 } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "../../library/supabase/supabaseClient";
@@ -25,14 +26,10 @@ const statusLabels = {
 	2: "Pending",
 	3: "Verified",
 	4: "Declined",
+	5: "Deleted",
 };
 
-const statusColors = {
-	1: "#6e8f85",
-	2: "#c27a6b",
-	3: "#0C4767",
-	4: "#a1a1aa",
-};
+
 
 function Admin() {
 	const navigate = useNavigate();
@@ -51,6 +48,7 @@ function Admin() {
 
 	const [allUsers, setAllUsers] = useState([]);
 	const [loadingUsers, setLoadingUsers] = useState(false);
+	const [confirmUserDelete, setConfirmUserDelete] = useState({ open: false, userId: null, userName: "" });
 
 	useEffect(() => {
 		checkAdminSession();
@@ -139,13 +137,14 @@ function Admin() {
 	};
 
 	const handleApproveExpert = async (userId) => {
-		const { error } = await supabase
+		const { data, error } = await supabase
 			.from("profiles")
 			.update({ status: 3 })
-			.eq("id", userId);
+			.eq("id", userId)
+			.select();
 
-		if (error) {
-			toaster.create({ title: "Error", description: "Failed to approve expert.", type: "error" });
+		if (error || !data || data.length === 0) {
+			toaster.create({ title: "Error", description: "Failed to approve expert. Make sure RLS policies allow admin updates.", type: "error" });
 			return;
 		}
 
@@ -154,18 +153,58 @@ function Admin() {
 	};
 
 	const handleDeclineExpert = async (userId) => {
-		const { error } = await supabase
+		const { data, error } = await supabase
 			.from("profiles")
 			.update({ status: 4 })
-			.eq("id", userId);
+			.eq("id", userId)
+			.select();
 
-		if (error) {
-			toaster.create({ title: "Error", description: "Failed to decline expert.", type: "error" });
+		if (error || !data || data.length === 0) {
+			toaster.create({ title: "Error", description: "Failed to decline expert. Make sure RLS policies allow admin updates.", type: "error" });
 			return;
 		}
 
 		setAllUsers((prev) => prev.map((u) => (u.id === userId ? { ...u, status: 4 } : u)));
 		toaster.create({ title: "Expert declined", description: "The expert account has been declined.", type: "info" });
+	};
+
+	const handleViewDocument = async (filePath) => {
+		if (!filePath) return;
+
+		let path = filePath;
+		if (path.startsWith("http")) {
+			const parts = path.split("/verification-docs/");
+			if (parts.length > 1) path = parts[1];
+		}
+
+		const { data } = await supabase.storage
+			.from("verification-docs")
+			.createSignedUrl(path, 60);
+
+		if (data?.signedUrl) {
+			window.open(data.signedUrl, "_blank");
+		} else {
+			toaster.create({ title: "Error", description: "Could not open document.", type: "error" });
+		}
+	};
+
+	const handleDeleteUser = async (userId) => {
+		if (userId === adminUser.id) {
+			toaster.create({ title: "Error", description: "You cannot delete your own account.", type: "error" });
+			setConfirmUserDelete({ open: false, userId: null, userName: "" });
+			return;
+		}
+
+		const { data, error } = await supabase.from("profiles").update({ status: 5 }).eq("id", userId).select();
+
+		if (error || !data || data.length === 0) {
+			toaster.create({ title: "Error", description: "Failed to delete user. Make sure RLS policies allow admin updates.", type: "error" });
+			return;
+		}
+
+		setAllUsers((prev) => prev.filter((u) => u.id !== userId));
+		setConfirmUserDelete({ open: false, userId: null, userName: "" });
+		toaster.create({ title: "User deleted", description: "The user can no longer log in.", type: "success" });
 	};
 
 	const handleDismissReport = async (postId) => {
@@ -431,59 +470,78 @@ function Admin() {
 													<td className="admin-user-name">{u.name || "—"}</td>
 													<td>{u.email || "—"}</td>
 													<td>
-														<Text
-															as="span"
-															className="admin-role-badge"
-															bg={u.role === "admin" ? "#0C4767" : u.role === "expert" ? "#6e8f85" : "#c27a6b"}
-														>
+														<Text color="#472c1b" textTransform="capitalize">
 															{u.role}
 														</Text>
 													</td>
 													<td>
-														<Text
-															as="span"
-															className="admin-status-badge"
-															bg={statusColors[u.status] || "#a1a1aa"}
-														>
+														<Text color="#472c1b">
 															{statusLabels[u.status] || "Unknown"}
 														</Text>
 													</td>
 													<td>
-														{u.role === "expert" && u.status === 2 ? (
-															<Flex gap={2} wrap="wrap">
-																{u.verification_doc ? (
-																	<Button
-																		as="a"
-																		href={u.verification_doc}
-																		target="_blank"
-																		rel="noopener noreferrer"
-																		className="admin-btn-view"
+														<Menu.Root>
+															<Menu.Trigger asChild>
+																<Button
+																	bg="#472c1b"
+																	color="#fefae0"
+																	fontWeight="bold"
+																	fontSize="sm"
+																	px={4}
+																	py={1}
+																	borderRadius="8px"
+																	border="none"
+																	cursor="pointer"
+																	minH="auto"
+																	h="auto"
+																	lineHeight="1.4"
+																>
+																	Actions
+																</Button>
+															</Menu.Trigger>
+															<Menu.Positioner>
+																<Menu.Content bg="#fefae0" border="2px solid" borderColor="#472c1b" minW="160px">
+																	{u.role === "expert" && u.status === 2 && u.verification_doc && (
+																		<Menu.Item
+																			value="view-doc"
+																			color="#472c1b"
+																			_hover={{ bg: "#f5f0d5" }}
+																			onClick={() => handleViewDocument(u.verification_doc)}
+																		>
+																			View Document
+																		</Menu.Item>
+																	)}
+																	{u.role === "expert" && u.status === 2 && (
+																		<>
+																			<Menu.Item
+																				value="approve"
+																				color="#472c1b"
+																				_hover={{ bg: "#f5f0d5" }}
+																				onClick={() => handleApproveExpert(u.id)}
+																			>
+																				Approve user
+																			</Menu.Item>
+																			<Menu.Item
+																				value="decline"
+																				color="#472c1b"
+																				_hover={{ bg: "#f5f0d5" }}
+																				onClick={() => handleDeclineExpert(u.id)}
+																			>
+																				Decline user
+																			</Menu.Item>
+																		</>
+																	)}
+																	<Menu.Item
+																		value="delete"
+																		color="#c27a6b"
+																		_hover={{ bg: "#f5f0d5" }}
+																		onClick={() => setConfirmUserDelete({ open: true, userId: u.id, userName: u.name })}
 																	>
-																		View Document
-																	</Button>
-																) : (
-																	<Text fontSize="sm" color="#a1a1aa" fontStyle="italic">
-																		No document
-																	</Text>
-																)}
-																<Button
-																	className="admin-btn-approve"
-																	onClick={() => handleApproveExpert(u.id)}
-																>
-																	Approve
-																</Button>
-																<Button
-																	className="admin-btn-decline"
-																	onClick={() => handleDeclineExpert(u.id)}
-																>
-																	Decline
-																</Button>
-															</Flex>
-														) : (
-															<Text fontSize="sm" color="#a1a1aa" fontStyle="italic">
-																—
-															</Text>
-														)}
+																		Delete user
+																	</Menu.Item>
+																</Menu.Content>
+															</Menu.Positioner>
+														</Menu.Root>
 													</td>
 												</tr>
 											))}
@@ -593,6 +651,51 @@ function Admin() {
 								onClick={handleConfirmAction}
 							>
 								{confirmModal.action === "delete" ? "Delete" : "Keep"}
+							</Button>
+						</Flex>
+					</Box>
+				</Box>
+			)}
+
+			{confirmUserDelete.open && (
+				<Box
+					position="fixed"
+					top="0"
+					left="0"
+					right="0"
+					bottom="0"
+					bg="rgba(0,0,0,0.5)"
+					display="flex"
+					alignItems="center"
+					justifyContent="center"
+					zIndex="9999"
+				>
+					<Box bg="#fefae0" p={6} borderRadius="12px" maxW="400px" width="90%">
+						<Heading fontSize="22px" color="#472c1b" mb={3}>
+							Delete this user?
+						</Heading>
+						<Text color="#472c1b" mb={4}>
+							This will permanently delete <strong>{confirmUserDelete.userName}</strong> and their profile data.
+						</Text>
+						<Flex gap={3} justify="flex-end">
+							<Button
+								bg="gray.400"
+								color="white"
+								fontWeight="bold"
+								px={4}
+								py={2}
+								borderRadius="8px"
+								border="none"
+								cursor="pointer"
+								onClick={() => setConfirmUserDelete({ open: false, userId: null, userName: "" })}
+							>
+								Cancel
+							</Button>
+							<Button
+								className="btn-delete"
+								onClick={() => handleDeleteUser(confirmUserDelete.userId)}
+							>
+								Delete
 							</Button>
 						</Flex>
 					</Box>

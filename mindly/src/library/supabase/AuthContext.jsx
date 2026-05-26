@@ -34,7 +34,6 @@ export function AuthProvider({ children }) {
 	}, []);
 
 	const fetchUserProfile = async (userId) => {
-		// Fetch profile in background without blocking
 		supabase
 			.from("profiles")
 			.select("*")
@@ -42,6 +41,13 @@ export function AuthProvider({ children }) {
 			.maybeSingle()
 			.then(({ data, error }) => {
 				if (!error && data) {
+					if (data.status === 5) {
+						supabase.auth.signOut().then(() => {
+							setUser(null);
+							setUserProfile(null);
+						});
+						return;
+					}
 					setUserProfile(data);
 				}
 			})
@@ -102,6 +108,19 @@ export function AuthProvider({ children }) {
 		if (error) throw error;
 
 		if (data.user) {
+			const { data: profile } = await supabase
+				.from("profiles")
+				.select("status")
+				.eq("id", data.user.id)
+				.single();
+
+			if (profile?.status === 5) {
+				await supabase.auth.signOut();
+				setUser(null);
+				setUserProfile(null);
+				throw new Error("This account has been deleted.");
+			}
+
 			await fetchUserProfile(data.user.id);
 		}
 
