@@ -1,5 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./library/supabase/AuthContext";
+import ScrollToTop from "./components/ScrollToTop";
 import Home from "./pages/Home";
 import Videos from "./pages/Videos";
 import VideoDetail from "./pages/VideoDetail";
@@ -17,6 +18,7 @@ import Admin from "./pages/admin/Admin";
 function App() {
 	return (
 		<AuthProvider>
+			<ScrollToTop />
 			<Routes>
 				<Route path="/" element={<Home />} />
 				<Route path="/videos" element={<Videos />} />
