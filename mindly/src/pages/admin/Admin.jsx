@@ -557,7 +557,7 @@ function Admin() {
 									<Text className="reports-empty">No reports to review.</Text>
 								) : (
 									reports.map((report) => {
-										const uniqueKey = `${report.post_id}-${report.reported_by}`;
+										const uniqueKey = report.id;
 										return (
 											<Box key={uniqueKey} bg="#fefae0" border="2px solid" borderColor="#472c1b" borderRadius="12px" p={5} mb={4} boxShadow="lg">
 												<Flex justify="space-between" align="center" mb={3} gap={4}>
