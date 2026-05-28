@@ -8,7 +8,7 @@ import "../ui/login.css";
 
 function PendingApproval() {
 	const navigate = useNavigate();
-	const { user, loading: authLoading } = useAuth();
+	const { user, loading: authLoading, signOut } = useAuth();
 	const [status, setStatus] = useState(null);
 	const [checking, setChecking] = useState(true);
 
@@ -74,7 +74,13 @@ function PendingApproval() {
 								Your account verification has been declined. Please contact
 								support for more information.
 							</Text>
-							<Button className="login-button" onClick={() => navigate("/")}>
+							<Button
+								className="login-button"
+								onClick={async () => {
+									await signOut();
+									navigate("/");
+								}}
+							>
 								Go to Home
 							</Button>
 						</>
