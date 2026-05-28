@@ -164,6 +164,19 @@
 	font-size: 1rem;
 }
 
+.dominant-theme-badge {
+	display: inline-block;
+	padding: 0.25rem 0.75rem;
+	border-radius: 9999px;
+}
+
+.dominant-theme-text {
+	color: white;
+	font-size: 0.8rem;
+	font-weight: 600;
+	text-transform: capitalize;
+}
+
 .post-card-badge {
 	color: white;
 	font-size: 0.75rem;

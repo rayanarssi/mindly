@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
-import { Box, Button, Text, Heading, Flex, Progress } from "@chakra-ui/react";
+import { Box, Button, Text, Heading, Flex } from "@chakra-ui/react";
 import { useAuth } from "../../library/supabase/AuthContext";
 import { supabase } from "../../library/supabase/supabaseClient";
+import { toaster } from "../../library/toaster";
 import "./checkin.css";
 
 const questions = [
@@ -161,20 +162,30 @@ function CheckInFlow() {
 			const motivationScore = calculateCategoryScore("motivation");
 			const mainIssue = getMainIssue();
 
-			const { data, error } = await supabase.from("checkins").insert({
+			const { error } = await supabase.from("checkins").insert({
 				user_id: user.id,
 				stress_score: stressScore,
 				focus_score: focusScore,
 				motivation_score: motivationScore,
-			});
+			}).select();
 
 			if (error) {
 				console.error("Error saving check-in:", error);
+				toaster.create({
+					title: "Error saving check-in",
+					description: "Your results were saved locally.",
+					type: "warning",
+				});
 			} else {
-				console.log("Check-in saved:", data);
+				toaster.create({
+					title: "Check-in saved!",
+					description: `Your main focus: ${categoryLabels[mainIssue]}`,
+					type: "success",
+				});
 			}
 
 			localStorage.setItem(`mindly_checkin_${user.id}`, "true");
+			localStorage.setItem(`mindly_main_issue_${user.id}`, mainIssue);
 		}
 		setScreen("closed");
 	};

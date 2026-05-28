@@ -11,7 +11,19 @@ import userAvatarIcon from "../../assets/Login/user_icon_brown.svg";
 import expertAvatarIcon from "../../assets/Login/expert_icon_brown.svg";
 import "./profile.css";
 
-function ProfileHeader({ user, userProfile, onSignOut }) {
+const themeColors = {
+	stress: "#C27A6B",
+	focus: "#6E8F85",
+	motivation: "#0C4767",
+};
+
+const themeLabels = {
+	stress: "Stress",
+	focus: "Focus",
+	motivation: "Motivation",
+};
+
+function ProfileHeader({ user, userProfile, onSignOut, dominantTheme }) {
 	const getAvatarSrc = () => {
 		if (!userProfile) return userAvatarIcon;
 		return userProfile.role === "expert" ? expertAvatarIcon : userAvatarIcon;
@@ -19,7 +31,7 @@ function ProfileHeader({ user, userProfile, onSignOut }) {
 
 	return (
 		<Flex
-		className="profile-header"
+			className="profile-header"
 			direction={{ base: "column", md: "row" }}
 			align="center"
 			gap={{ base: 4, md: 6 }}
@@ -33,9 +45,14 @@ function ProfileHeader({ user, userProfile, onSignOut }) {
 			/>
 			<VStack align={{ base: "center", md: "start" }} gap={1}>
 				<HStack gap={3}>
-					<Text className="header-name"  >
-						{userProfile?.name || "User"}
-					</Text>
+					<Text className="header-name">{userProfile?.name || "User"}</Text>
+					{dominantTheme && (
+						<Box className="dominant-theme-badge" bg={themeColors[dominantTheme]}>
+							<Text className="dominant-theme-text">
+								{themeLabels[dominantTheme]}
+							</Text>
+						</Box>
+					)}
 				</HStack>
 				<Text className="email-header">
 					{userProfile?.email || user?.email}

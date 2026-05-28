@@ -28,6 +28,7 @@ function Profile() {
 	const [loadingFavorites, setLoadingFavorites] = useState(false);
 	const [loadingVideos, setLoadingVideos] = useState(false);
 	const [loadingPosts, setLoadingPosts] = useState(false);
+	const [dominantTheme, setDominantTheme] = useState(null);
 
 	const isExpert = userProfile?.role === "expert";
 
@@ -47,6 +48,32 @@ function Profile() {
 
 	useEffect(() => {
 		if (!user) return;
+
+		const fetchCheckin = async () => {
+			const storedMainIssue = localStorage.getItem(
+				`mindly_main_issue_${user.id}`,
+			);
+
+			const { data } = await supabase
+				.from("checkins")
+				.select("stress_score, focus_score, motivation_score")
+				.eq("user_id", user.id)
+				.order("id", { ascending: false })
+				.limit(1)
+				.maybeSingle();
+
+			if (data) {
+				const scores = [
+					{ theme: "stress", score: data.stress_score },
+					{ theme: "focus", score: data.focus_score },
+					{ theme: "motivation", score: data.motivation_score },
+				];
+				scores.sort((a, b) => b.score - a.score);
+				setDominantTheme(scores[0].theme);
+			} else if (storedMainIssue) {
+				setDominantTheme(storedMainIssue);
+			}
+		};
 
 		const fetchFavorites = async () => {
 			setLoadingFavorites(true);
@@ -161,6 +188,7 @@ function Profile() {
 			setLoadingPosts(false);
 		};
 
+		fetchCheckin();
 		fetchFavorites();
 		fetchExpertVideos();
 		fetchPosts();
@@ -200,6 +228,7 @@ function Profile() {
 					user={user}
 					userProfile={userProfile}
 					onSignOut={handleSignOut}
+					dominantTheme={dominantTheme}
 				/>
 
 				<Box className="profile-tabs-wrapper">
