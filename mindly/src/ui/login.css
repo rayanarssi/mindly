@@ -102,3 +102,15 @@
 	background-color: #472c1b;
 	margin-top: 8px;
 }
+
+.progress-title  {
+	font-size: 1.8rem;
+	color: #472c1b;
+	text-align: center;
+}
+
+.declined-title {
+	font-size: 1.8rem;
+	color: #472c1b;
+	text-align: center;
+}

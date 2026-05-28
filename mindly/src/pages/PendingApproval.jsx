@@ -67,7 +67,7 @@ function PendingApproval() {
 				<Box className="login-card" textAlign="center" py={10}>
 					{status === 4 ? (
 						<>
-							<Heading className="login-title" color="#c27a6b" mb={4}>
+							<Heading className="declined-title" mb={4}>
 								Verification Declined
 							</Heading>
 							<Text color="#472c1b" opacity={0.8} mb={6}>
@@ -95,7 +95,7 @@ function PendingApproval() {
 								mx="auto"
 								mb={6}
 							/>
-							<Heading className="login-title" mb={4}>
+							<Heading className="progress-title" mb={4}>
 								Verification in Progress
 							</Heading>
 							<Text color="#472c1b" opacity={0.8} mb={6} maxW="400px" mx="auto">
@@ -103,9 +103,7 @@ function PendingApproval() {
 								access all features. You will be notified once your account has
 								been approved.
 							</Text>
-							<Button className="login-button" onClick={() => navigate("/")}>
-								Go to Home
-							</Button>
+						
 						</>
 					)}
 				</Box>
