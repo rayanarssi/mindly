@@ -10,7 +10,8 @@ That is why Mindly focuses on three main themes:
 
 The goal of the platform is to help users better understand what they are feeling and experiencing, without giving diagnoses or replacing therapy.
 
-
-## Supabase (Backend & Database)
+## Ai Conversation
 
 [SQL Error Fix - Like and Unlike](https://chatgpt.com/share/69fb6a97-6f74-83eb-b9c5-ca999a51e50b).
+[Login Toast Integration](https://chatgpt.com/share/6a1951a3-5c38-83eb-b364-cf60dcad7c0b)
+[Background Fix](https://chatgpt.com/share/6a195239-72c8-83eb-944c-5308fea16fcd)

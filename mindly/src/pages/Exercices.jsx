@@ -43,10 +43,11 @@ function Exercices() {
 						{/* Exercice Cards Grid */}
 						<Flex
 							className="exercices-grid"
-							direction={{ base: "column", md: "row" }}
+							direction={{ base: "column", lg: "row" }}
 							gap={6}
 							justify="center"
 							align="stretch"
+							wrap="wrap"
 						>
 							{/* Focus Exercice Card */}
 							<Box
@@ -164,7 +165,7 @@ function Exercices() {
 								</VStack>
 							</Box>
 
-							{/* Motivation Exercice Card */}
+							{/* Motivation/Mood Match Exercice Card */}
 							<Box
 								className="exercice-card motivation-card"
 								position="relative"
@@ -176,10 +177,9 @@ function Exercices() {
 									</Box>
 								</Box>
 								<VStack gap={3} align="flex-start" mt={8}>
-									<Text className="exercice-card-subtitle">Resist</Text>
+									<Text className="exercice-card-subtitle">Mood Match</Text>
 									<Text className="exercice-card-desc" mb={2}>
-										Stay focused on your task while resisting distractions that
-										try to pull you away.
+										Discover how different moods respond to different kinds of support.
 									</Text>
 									<VStack
 										gap={1}
@@ -192,7 +192,7 @@ function Exercices() {
 												•
 											</Text>
 											<Text fontSize="sm" color="#472c1b">
-												Fight distractions
+												Emotional awareness
 											</Text>
 										</HStack>
 										<HStack gap={2}>
@@ -200,7 +200,7 @@ function Exercices() {
 												•
 											</Text>
 											<Text fontSize="sm" color="#472c1b">
-												Build self-control
+												No scores or timer
 											</Text>
 										</HStack>
 										<HStack gap={2}>
@@ -208,13 +208,14 @@ function Exercices() {
 												•
 											</Text>
 											<Text fontSize="sm" color="#472c1b">
-												Stay consistent over time
+												Build helpful habits
 											</Text>
 										</HStack>
 									</VStack>
 									<Button
 										className="exercice-card-btn motivation-btn"
 										size="sm"
+										onClick={() => navigate("/exercices/mood-match/play")}
 									>
 										Play
 									</Button>

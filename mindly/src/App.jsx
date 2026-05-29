@@ -13,6 +13,7 @@ import Exercices from "./pages/Exercices";
 import ExerciceLevels from "./pages/ExerciceLevels";
 import FocusExercice from "./pages/FocusExercice";
 import BreathingExercice from "./pages/BreathingExercice";
+import MoodMatchExercice from "./pages/MoodMatchExercice";
 import Forum from "./pages/Forum";
 import Admin from "./pages/admin/Admin";
 
@@ -33,6 +34,7 @@ function App() {
 				<Route path="/exercices/:exerciceId" element={<ExerciceLevels />} />
 				<Route path="/exercices/stress/play" element={<BreathingExercice />} />
 				<Route path="/exercices/:exercId/play" element={<FocusExercice />} />
+				<Route path="/exercices/mood-match/play" element={<MoodMatchExercice />} />
 				<Route path="/forum" element={<Forum />} />
 				<Route path="/admin" element={<Admin />} />
 			</Routes>
