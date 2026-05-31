@@ -1,4 +1,4 @@
-# 🧠 Mindly
+# Mindly
 
 **A digital wellbeing platform built with React and Vite, designed to help students and young adults manage stress, focus, and motivation.**
 This project explores dynamic UI components, authentication flows and Supabase backend integration.
@@ -84,3 +84,9 @@ npm run build
 [SQL Error Fix - Like and Unlike](https://chatgpt.com/share/69fb6a97-6f74-83eb-b9c5-ca999a51e50b).
 [Login Toast Integration](https://chatgpt.com/share/6a1951a3-5c38-83eb-b364-cf60dcad7c0b)
 [Background Fix](https://chatgpt.com/share/6a195239-72c8-83eb-944c-5308fea16fcd)
+[Forum reply modal bug fix](https://claude.ai/share/9d0572bf-b120-4752-b06a-b124d5d994d3)
+[Expert pending approval flow](https://claude.ai/share/f5a97936-f207-478b-abf0-b62668e954ce)
+[Dailycheck-in saaving to Supabase](https://claude.ai/share/204d3c49-48ce-4357-9647-ae46760970b5)
+[Admin Panel - handle reported posts](https://claude.ai/share/2ed37c57-4cc8-4d0e-89a3-c9dc3973167f)
+[Video favorites RLS policy error](https://claude.ai/share/360148f0-c0eb-4cb6-8fb5-6a7537908e95)
+[Patern Recall difficulty levels](https://claude.ai/share/c4d37936-318d-4fd8-86df-826a84ca73c5)
