@@ -8,6 +8,7 @@ const LEVELS = {
 		speed: 600,
 		label: "Intermediate",
 		rounds: 5,
+		color: "#c27a6b",
 	},
 	expert: { startLength: 5, speed: 550, label: "Expert", rounds: 5 },
 };
@@ -16,12 +17,12 @@ const MAX_ROUNDS = 5;
 
 // 6 colored buttons
 const BUTTONS = [
-	{ id: 0, color: "#e74c3c", label: "Red" },
-	{ id: 1, color: "#3498db", label: "Blue" },
-	{ id: 2, color: "#2ecc71", label: "Green" },
-	{ id: 3, color: "#f1c40f", label: "Yellow" },
-	{ id: 4, color: "#9b59b6", label: "Purple" },
-	{ id: 5, color: "#e67e22", label: "Orange" },
+	{ id: 0, color: "#c27a6b", label: "Terracotta" },
+	{ id: 1, color: "#0c4767", label: "Deep Blue" },
+	{ id: 2, color: "#6e8f85", label: "Sage Green" },
+	{ id: 3, color: "#d4a853", label: "Gold" },
+	{ id: 4, color: "#8b7a9e", label: "Mauve" },
+	{ id: 5, color: "#a38c6b", label: "Warm Tan" },
 ];
 
 function generateSequence(length) {
