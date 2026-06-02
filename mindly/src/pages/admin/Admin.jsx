@@ -22,11 +22,11 @@ import "../../ui/admin.css";
 import "../../components/profile/profile.css";
 
 const statusLabels = {
-	1: "🟢 Active",
-	2: "🟠 Pending",
-	3: "🔵 Verified",
-	4: "🔴 Declined",
-	5: "⚫ Deleted",
+	1: "Active",
+	2: "Pending",
+	3: "Verified",
+	4: "Declined",
+	5: "Deleted",
 };
 
 
