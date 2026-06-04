@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import {
 	Box,
 	Heading,
@@ -36,6 +37,11 @@ const themeIcons = {
 function VideoDetail() {
 	const { id } = useParams();
 	const navigate = useNavigate();
+
+	useEffect(() => {
+		window.scrollTo({ top: 0, behavior: "instant" });
+	}, [id]);
+
 	const { video, loading, error } = useVideo(id);
 	const { videos: relatedVideos, loading: relatedLoading } = useRelatedVideos(
 		video?.theme,

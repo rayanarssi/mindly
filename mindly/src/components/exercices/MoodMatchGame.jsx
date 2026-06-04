@@ -26,7 +26,7 @@ const MOOD_MATCHES = [
 		correctAction: "Take a short break",
 		actionIcon: "☕",
 		message:
-			"Rest is not a reward for finishing work — it is a requirement for doing good work. A short pause can recharge you.",
+			"Rest is not a reward for finishing work, it is a requirement for doing good work. A short pause can recharge you.",
 	},
 	{
 		feeling: "I feel unmotivated",
@@ -34,7 +34,7 @@ const MOOD_MATCHES = [
 		correctAction: "Start with 5 minutes",
 		actionIcon: "⏱️",
 		message:
-			"Starting is often the hardest part. Commit to just 5 minutes — momentum will carry you the rest of the way.",
+			"Starting is often the hardest part. Commit to just 5 minutes, momentum will carry you the rest of the way.",
 	},
 	{
 		feeling: "I feel unsure of myself",

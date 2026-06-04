@@ -5,9 +5,13 @@ export function useVideos(limit = 3) {
 	const [videos, setVideos] = useState([]);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState(null);
+	const [refreshKey, setRefreshKey] = useState(0);
+
+	const refresh = () => setRefreshKey((k) => k + 1);
 
 	useEffect(() => {
 		const fetchVideos = async () => {
+			setLoading(true);
 			const { data: videosData, error: videosError } = await supabase
 				.from("videos")
 				.select("id, title, created_by, video_url, theme, video_time")
@@ -53,9 +57,9 @@ export function useVideos(limit = 3) {
 		};
 
 		fetchVideos();
-	}, [limit]);
+	}, [limit, refreshKey]);
 
-	return { videos, loading, error };
+	return { videos, loading, error, refresh };
 }
 
 export function useVideo(id) {
@@ -107,9 +111,13 @@ export function useVideosByTheme() {
 	const [videos, setVideos] = useState([]);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState(null);
+	const [refreshKey, setRefreshKey] = useState(0);
+
+	const refresh = () => setRefreshKey((k) => k + 1);
 
 	useEffect(() => {
 		const fetchVideos = async () => {
+			setLoading(true);
 			const themes = ["stress", "focus", "motivation"];
 			const results = await Promise.all(
 				themes.map((theme) =>
@@ -153,9 +161,9 @@ export function useVideosByTheme() {
 		};
 
 		fetchVideos();
-	}, []);
+	}, [refreshKey]);
 
-	return { videos, loading, error };
+	return { videos, loading, error, refresh };
 }
 
 export function useRelatedVideos(theme, currentVideoId, limit = 3) {

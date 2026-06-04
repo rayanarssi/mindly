@@ -54,7 +54,7 @@ const themeOptions = [
 ];
 
 function Videos() {
-	const { videos, loading, error } = useVideos(50);
+	const { videos, loading, error, refresh } = useVideos(50);
 	const { userProfile, user } = useAuth();
 	const showLoginToast = () => {
 		toaster.create({
@@ -151,6 +151,7 @@ function Videos() {
 
 			if (insertError) throw insertError;
 
+			refresh();
 			setIsModalOpen(false);
 			setNewVideo({
 				title: "",

@@ -45,7 +45,7 @@ const themeIcons = {
 };
 
 function Home() {
-	const { videos, loading, error } = useVideosByTheme();
+	const { videos, loading, error, refresh } = useVideosByTheme();
 	const videoIds = videos.map((v) => v.id);
 	const { favoritedVideos, toggleFavorite } = useVideoFavorites(videoIds);
 	const { user, userProfile } = useAuth();
