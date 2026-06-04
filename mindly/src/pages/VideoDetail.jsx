@@ -14,6 +14,7 @@ import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { toaster } from "../library/toaster";
 import { useVideo, useRelatedVideos } from "../hooks/useVideos";
 import { useVideoFavorites } from "../hooks/useVideoFavorites";
+import { useAuth } from "../library/supabase/AuthContext";
 import StressPlay from "../assets/Homepage/Stress_play_home.svg";
 import FocusPlay from "../assets/Homepage/Focus_play_home.svg";
 import MotivationPlay from "../assets/Homepage/Motivation_play_home.svg";
@@ -37,6 +38,16 @@ const themeIcons = {
 function VideoDetail() {
 	const { id } = useParams();
 	const navigate = useNavigate();
+	const { user, userProfile } = useAuth();
+	const isExpert = userProfile?.role === "expert";
+
+	const showLoginToast = () => {
+		toaster.create({
+			title: "Login required",
+			description: "You need to log in to add videos to favorites.",
+			type: "warning",
+		});
+	};
 
 	useEffect(() => {
 		window.scrollTo({ top: 0, behavior: "instant" });
@@ -125,35 +136,41 @@ function VideoDetail() {
 										{video.title}
 									</Heading>
 									<Flex align="center" gap={3}>
-										<Box
-											as="button"
-											onClick={async () => {
-												const result = await toggleFavorite(video.id);
-												if (result?.action === "favorited") {
-													toaster.create({
-														title: "Success",
-														description: "Video added to favorites",
-														type: "success",
-													});
+										{!isExpert && (
+											<Box
+												as="button"
+												onClick={async () => {
+													if (!user) {
+														showLoginToast();
+														return;
+													}
+													const result = await toggleFavorite(video.id);
+													if (result?.action === "favorited") {
+														toaster.create({
+															title: "Success",
+															description: "Video added to favorites",
+															type: "success",
+														});
+													}
+												}}
+												color={
+													favoritedVideos.has(video.id)
+														? "#472c1b"
+														: "#472c1b"
 												}
-											}}
-color={
-	favoritedVideos.has(video.id)
-		? "#472c1b"
-		: "#472c1b"
-}
-fontSize="22px"
-cursor="pointer"
-display="flex"
-alignItems="center"
-_hover={{ color: "#472c1b" }}
-										>
-											{favoritedVideos.has(video.id) ? (
-												<FaHeart />
-											) : (
-												<FaRegHeart />
-											)}
-										</Box>
+												fontSize="22px"
+												cursor="pointer"
+												display="flex"
+												alignItems="center"
+												_hover={{ color: "#472c1b" }}
+											>
+												{favoritedVideos.has(video.id) ? (
+													<FaHeart />
+												) : (
+													<FaRegHeart />
+												)}
+											</Box>
+										)}
 										<Box
 											className="theme_videos"
 											bg={themeColor}
@@ -221,42 +238,48 @@ _hover={{ color: "#472c1b" }}
 													alignItems="center"
 													justifyContent="center"
 												>
-													<Box
-														position="absolute"
-														top={3}
-														right={3}
-														zIndex={3}
-														cursor="pointer"
-														onClick={async (e) => {
-															e.preventDefault();
-															e.stopPropagation();
-															const result = await toggleFavorite(relVideo.id);
-															if (result?.action === "favorited") {
-																toaster.create({
-																	title: "Success",
-																	description: "Video added to favorites",
-																	type: "success",
-																});
+													{!isExpert && (
+														<Box
+															position="absolute"
+															top={3}
+															right={3}
+															zIndex={3}
+															cursor="pointer"
+															onClick={async (e) => {
+																e.preventDefault();
+																e.stopPropagation();
+																if (!user) {
+																	showLoginToast();
+																	return;
+																}
+																const result = await toggleFavorite(relVideo.id);
+																if (result?.action === "favorited") {
+																	toaster.create({
+																		title: "Success",
+																		description: "Video added to favorites",
+																		type: "success",
+																	});
+																}
+															}}
+															color={
+																favoritedVideos.has(relVideo.id)
+																	? "#fefae0"
+																	: "white"
 															}
-														}}
-														color={
-															favoritedVideos.has(relVideo.id)
-																? "#fefae0"
-																: "white"
-														}
-														fontSize="22px"
-														filter={
-															favoritedVideos.has(relVideo.id)
-																? "none"
-																: "drop-shadow(0 1px 2px rgba(0,0,0,0.5))"
-														}
-													>
-														{favoritedVideos.has(relVideo.id) ? (
-															<FaHeart />
-														) : (
-															<FaRegHeart />
-														)}
-													</Box>
+															fontSize="22px"
+															filter={
+																favoritedVideos.has(relVideo.id)
+																	? "none"
+																	: "drop-shadow(0 1px 2px rgba(0,0,0,0.5))"
+															}
+														>
+															{favoritedVideos.has(relVideo.id) ? (
+																<FaHeart />
+															) : (
+																<FaRegHeart />
+															)}
+														</Box>
+													)}
 													<Box className="theme_icon" zIndex={1}>
 														<Image
 															src={RelThemeIcon}

@@ -49,6 +49,7 @@ function Home() {
 	const videoIds = videos.map((v) => v.id);
 	const { favoritedVideos, toggleFavorite } = useVideoFavorites(videoIds);
 	const { user, userProfile } = useAuth();
+	const isExpert = userProfile?.role === "expert";
 	const navigate = useNavigate();
 
 	useEffect(() => {
@@ -250,45 +251,47 @@ function Home() {
 												alignItems="center"
 												justifyContent="center"
 											>
-												<Box
-													position="absolute"
-													top={3}
-													right={3}
-													zIndex={3}
-													cursor="pointer"
-													onClick={async (e) => {
-														e.preventDefault();
-														e.stopPropagation();
-														if (!user) {
-															showLoginToast();
-															return;
-														}
+												{!isExpert && (
+													<Box
+														position="absolute"
+														top={3}
+														right={3}
+														zIndex={3}
+														cursor="pointer"
+														onClick={async (e) => {
+															e.preventDefault();
+															e.stopPropagation();
+															if (!user) {
+																showLoginToast();
+																return;
+															}
 
-														const result = await toggleFavorite(video.id);
-														if (result?.action === "favorited") {
-															toaster.create({
-																title: "Success",
-																description: "Video added to favorites",
-																type: "success",
-															});
+															const result = await toggleFavorite(video.id);
+															if (result?.action === "favorited") {
+																toaster.create({
+																	title: "Success",
+																	description: "Video added to favorites",
+																	type: "success",
+																});
+															}
+														}}
+														color={
+															favoritedVideos.has(video.id) ? "#fefae0" : "white"
 														}
-													}}
-													color={
-														favoritedVideos.has(video.id) ? "#fefae0" : "white"
-													}
-													fontSize="22px"
-													filter={
-														favoritedVideos.has(video.id)
-															? "none"
-															: "drop-shadow(0 1px 2px rgba(0,0,0,0.5))"
-													}
-												>
-													{favoritedVideos.has(video.id) ? (
-														<FaHeart />
-													) : (
-														<FaRegHeart />
-													)}
-												</Box>
+														fontSize="22px"
+														filter={
+															favoritedVideos.has(video.id)
+																? "none"
+																: "drop-shadow(0 1px 2px rgba(0,0,0,0.5))"
+														}
+													>
+														{favoritedVideos.has(video.id) ? (
+															<FaHeart />
+														) : (
+															<FaRegHeart />
+														)}
+													</Box>
+												)}
 												<Box className="theme_icon" zIndex={1}>
 													<Image src={ThemeIcon} alt="Play" w="80px" h="80px" />
 												</Box>
