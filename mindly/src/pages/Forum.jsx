@@ -197,7 +197,7 @@ function Forum() {
 				backgroundSize="cover"
 				backgroundPosition="center"
 				backgroundRepeat="no-repeat"
-				py={38}
+				py={39}
 				position="relative"
 			>
 				<Container maxW="90vw">
@@ -213,7 +213,6 @@ function Forum() {
 						<Text
 							className="community-guidelines-text"
 							color="#fefae0"
-							maxW="1000px"
 						>
 							Community guidelines: Be respectful to others. Do not share
 							personal information. Help us keep this space safe and supportive
